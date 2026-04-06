@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/Logo";
+import Link from "next/link";
 
 // Register the useGSAP hook
 gsap.registerPlugin(useGSAP);
@@ -132,7 +133,7 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
         ease: "expo.inOut",
         filter: "brightness(1.5) blur(0.5px)",
       })
-      .to(logoRef.current, {
+      .to(logoTl.target || logoRef.current, {
         filter: "brightness(1) blur(0px)",
         duration: 0.6,
         ease: "power2.out"
@@ -191,7 +192,7 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
 
       {/* The Logo */}
       <div ref={logoRef} className="relative z-10">
-        <Logo className="w-[75vw] max-w-[1400px] h-auto text-white" />
+        <Logo className="w-[75vw] max-w-[1400px] h-auto text-accent" />
       </div>
     </div>
   );

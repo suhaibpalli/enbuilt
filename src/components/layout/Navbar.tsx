@@ -57,7 +57,7 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
           )}
         >
           <Link href="/" className="block group">
-            <Logo className="w-32 h-auto text-text-primary transition-colors group-hover:text-accent" />
+            <Logo className="w-32 h-auto text-accent transition-all duration-300 opacity-90 group-hover:opacity-100 group-hover:scale-105" />
           </Link>
         </div>
 

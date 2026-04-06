@@ -1,25 +1,17 @@
 "use client";
 
-import { use, useRef } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Logo from "@/components/ui/Logo";
 
-// Register ScrollTrigger globally once
+// Register ScrollTrigger once at module level
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function Home({ 
-  params, 
-  searchParams 
-}: { 
-  params: Promise<any>; 
-  searchParams: Promise<any>; 
-}) {
-  const _params = use(params);
-  const _searchParams = use(searchParams);
+export default function Home() {
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
