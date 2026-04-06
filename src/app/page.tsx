@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import HeroSection from "@/components/sections/HeroSection";
+import ProjectsGrid from "@/components/sections/ProjectsGrid";
 
 export default function Home() {
   return (
@@ -42,26 +43,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Simple Grid Placeholder for continuity */}
-      <section className="py-40 px-6 relative z-10 bg-bg-primary">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex justify-between items-end mb-16">
-            <h3 className="font-display text-5xl text-text-primary uppercase tracking-tight">Selected Works</h3>
-            <span className="font-condensed text-text-secondary text-sm tracking-widest uppercase mb-2">Portfolio / 01-06</span>
-          </div>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="group relative aspect-3/4 bg-bg-secondary border border-border overflow-hidden transition-all hover:border-accent/50">
-                <div className="absolute inset-0 bg-linear-to-t from-bg-primary to-transparent opacity-60" />
-                <div className="absolute bottom-8 left-8">
-                  <span className="font-condensed text-accent text-[10px] tracking-widest uppercase mb-2 block font-bold">Structure {i}</span>
-                  <span className="font-display text-2xl text-text-primary uppercase tracking-tight">Monolith 0{i}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ENBUILT Architectural Grid */}
+      <ProjectsGrid />
     </main>
   );
 }

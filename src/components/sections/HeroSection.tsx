@@ -516,7 +516,7 @@ export default function HeroSection({
         <div
           ref={projectTagRef}
           className="absolute bottom-12 left-6 opacity-0 md:left-20"
-y        >
+        >
           {/* Red accent vertical line */}
           <div className="mb-4 h-12 w-[2px] bg-accent" />
 
