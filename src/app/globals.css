@@ -1,25 +1,85 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  /* Dark Theme (Default) - Space Charcoal Base */
+  --bg-primary: #11131A;
+  --bg-secondary: #1A1D26;
+  --bg-tertiary: #22263A;
+  --text-primary: #F0F2F5;
+  --text-secondary: #8A8FA8;
+  --text-tertiary: #4A4F66;
+  --accent: #FF3B3B;
+  --accent-muted: #CC2E2E;
+  --accent-glow: rgba(255, 59, 59, 0.15);
+  --border: rgba(240, 242, 245, 0.08);
+  --overlay: rgba(17, 19, 26, 0.85);
+
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="light"] {
+  /* Light Theme - Cool Toned */
+  --bg-primary: #F4F5F7;
+  --bg-secondary: #EAECF0;
+  --bg-tertiary: #FFFFFF;
+  --text-primary: #11131A;
+  --text-secondary: #4A4F66;
+  --text-tertiary: #8A8FA8;
+  --accent: #E02B2B;
+  --accent-muted: #B82222;
+  --accent-glow: rgba(224, 43, 43, 0.10);
+  --border: rgba(17, 19, 26, 0.10);
+  --overlay: rgba(244, 245, 247, 0.90);
+
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+}
+
+@theme {
+  /* Design System Colors */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
+  --color-border: var(--border);
+  --color-overlay: var(--overlay);
+
+  /* Architectural Font Stack */
+  --font-display: var(--font-bebas), sans-serif;
+  --font-condensed: var(--font-barlow), sans-serif;
+  --font-body: var(--font-dm-sans), sans-serif;
+  --font-editorial: var(--font-cormorant), serif;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   margin: 0;
   padding: 0;
   background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Custom Scrollbar for the Space Charcoal theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
