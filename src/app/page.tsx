@@ -93,7 +93,7 @@ export default function Home({
 
         <div className="absolute bottom-12 right-12 hidden lg:block font-mono text-[9px] text-white/20 uppercase tracking-[0.2em] text-right">
           <p>Built for Permanence</p>
-          <p>© 2026 Sanoob Studio</p>
+          <p>© 2026 ENBUILT</p>
         </div>
       </section>
 
