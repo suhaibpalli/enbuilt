@@ -65,16 +65,22 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
         <div className="flex items-center gap-10">
           <div className="hidden md:flex items-center gap-8 font-condensed text-[12px] font-medium tracking-[0.25em] uppercase">
             <Link 
-              href="#projects" 
+              href="/#projects" 
               className="text-text-secondary transition-colors hover:text-accent"
             >
               Structures
             </Link>
             <Link 
-              href="#philosophy" 
+              href="/about#philosophy" 
               className="text-text-secondary transition-colors hover:text-accent"
             >
               Philosophy
+            </Link>
+            <Link 
+              href="/about" 
+              className="text-text-secondary transition-colors hover:text-accent"
+            >
+              The Firm
             </Link>
           </div>
 
