@@ -26,6 +26,7 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
   const glowRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    if (!containerRef.current) return;
     const tl = gsap.timeline({
       onComplete: () => {
         onComplete();
@@ -133,7 +134,7 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
         ease: "expo.inOut",
         filter: "brightness(1.5) blur(0.5px)",
       })
-      .to(logoTl.target || logoRef.current, {
+      .to(logoRef.current, {
         filter: "brightness(1) blur(0px)",
         duration: 0.6,
         ease: "power2.out"

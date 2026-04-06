@@ -33,7 +33,7 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
           : "bg-transparent py-8"
       )}
     >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 md:px-12">
+      <div className="mx-auto flex max-w-[1800px] items-center justify-between px-6 md:px-20">
         {/* Left: Project Numbering (Architectural Accent) */}
         <div className="hidden lg:flex items-center gap-6 font-condensed text-[10px] text-text-secondary uppercase tracking-[0.3em]">
           <div className="flex flex-col">
