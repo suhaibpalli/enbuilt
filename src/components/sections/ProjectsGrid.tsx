@@ -44,6 +44,7 @@ const PROJECTS: Project[] = [
     size: "tall",
     imageSrc: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80&auto=format",
     imageAlt: "The Meridian Tower",
+    href: "/projects/meridian-tower",
   },
   {
     id: 2,
@@ -57,6 +58,7 @@ const PROJECTS: Project[] = [
     size: "square",
     imageSrc: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80&auto=format",
     imageAlt: "Casa Volta Residence",
+    href: "/projects/casa-volta",
   },
   {
     id: 3,
@@ -141,78 +143,102 @@ function ProjectCard({ project, dataIndex }: CardProps) {
 
   const handleMouseEnter = contextSafe(() => {
     // Image scales up slightly
-    gsap.to(imageRef.current, {
-      scale: 1.07,
-      duration: 0.8,
-      ease: "power3.out",
-    });
+    if (imageRef.current) {
+      gsap.to(imageRef.current, {
+        scale: 1.07,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+    }
     // Dark overlay deepens
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.5,
-      ease: "power2.out",
-    });
+    if (overlayRef.current) {
+      gsap.to(overlayRef.current, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
     // Info block slides up
-    gsap.to(infoRef.current, {
-      y: 0,
-      opacity: 1,
-      duration: 0.55,
-      ease: "power3.out",
-    });
+    if (infoRef.current) {
+      gsap.to(infoRef.current, {
+        y: 0,
+        opacity: 1,
+        duration: 0.55,
+        ease: "power3.out",
+      });
+    }
     // Arrow appears
-    gsap.to(arrowRef.current, {
-      opacity: 1,
-      x: 0,
-      duration: 0.4,
-      ease: "power3.out",
-      delay: 0.1,
-    });
+    if (arrowRef.current) {
+      gsap.to(arrowRef.current, {
+        opacity: 1,
+        x: 0,
+        duration: 0.4,
+        ease: "power3.out",
+        delay: 0.1,
+      });
+    }
     // Red accent line expands
-    gsap.to(redLineRef.current, {
-      scaleX: 1,
-      duration: 0.5,
-      ease: "expo.out",
-      delay: 0.05,
-    });
+    if (redLineRef.current) {
+      gsap.to(redLineRef.current, {
+        scaleX: 1,
+        duration: 0.5,
+        ease: "expo.out",
+        delay: 0.05,
+      });
+    }
     // Card border accent
-    gsap.to(cardRef.current, {
-      borderColor: "rgba(255,59,59,0.5)",
-      duration: 0.3,
-    });
+    if (cardRef.current) {
+      gsap.to(cardRef.current, {
+        borderColor: "rgba(255,59,59,0.5)",
+        duration: 0.3,
+      });
+    }
   });
 
   const handleMouseLeave = contextSafe(() => {
-    gsap.to(imageRef.current, {
-      scale: 1,
-      duration: 0.7,
-      ease: "power3.inOut",
-    });
-    gsap.to(overlayRef.current, {
-      opacity: 0,
-      duration: 0.4,
-      ease: "power2.inOut",
-    });
-    gsap.to(infoRef.current, {
-      y: 16,
-      opacity: 0,
-      duration: 0.35,
-      ease: "power2.in",
-    });
-    gsap.to(arrowRef.current, {
-      opacity: 0,
-      x: -8,
-      duration: 0.3,
-      ease: "power2.in",
-    });
-    gsap.to(redLineRef.current, {
-      scaleX: 0,
-      duration: 0.35,
-      ease: "power2.in",
-    });
-    gsap.to(cardRef.current, {
-      borderColor: "rgba(240,242,245,0.08)",
-      duration: 0.3,
-    });
+    if (imageRef.current) {
+      gsap.to(imageRef.current, {
+        scale: 1,
+        duration: 0.7,
+        ease: "power3.inOut",
+      });
+    }
+    if (overlayRef.current) {
+      gsap.to(overlayRef.current, {
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.inOut",
+      });
+    }
+    if (infoRef.current) {
+      gsap.to(infoRef.current, {
+        y: 16,
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.in",
+      });
+    }
+    if (arrowRef.current) {
+      gsap.to(arrowRef.current, {
+        opacity: 0,
+        x: -8,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    }
+    if (redLineRef.current) {
+      gsap.to(redLineRef.current, {
+        scaleX: 0,
+        duration: 0.35,
+        ease: "power2.in",
+      });
+    }
+    if (cardRef.current) {
+      gsap.to(cardRef.current, {
+        borderColor: "rgba(240,242,245,0.08)",
+        duration: 0.3,
+      });
+    }
   });
 
   // Aspect ratio by size
@@ -427,8 +453,10 @@ export default function ProjectsGrid({
       const headLabel = headerRef.current?.querySelector(".section-label");
       const headMeta  = headerRef.current?.querySelector(".section-meta");
 
-      if (headChars?.length) gsap.set(headChars, { yPercent: 105, opacity: 0 });
-      gsap.set([headLabel, headMeta].filter(Boolean), { opacity: 0, y: 16 });
+      const headCharArray = headChars ? Array.from(headChars) : [];
+
+      if (headCharArray.length) gsap.set(headCharArray, { yPercent: 105, opacity: 0 });
+      gsap.set([headLabel, headMeta].filter(Boolean) as Element[], { opacity: 0, y: 16 });
 
       ScrollTrigger.create({
         trigger: headerRef.current,
@@ -436,9 +464,9 @@ export default function ProjectsGrid({
         onEnter: () => {
           const tl = gsap.timeline();
           if (headLabel) tl.to(headLabel, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
-          if (headChars) {
+          if (headCharArray.length) {
             tl.to(
-              headChars,
+              headCharArray,
               {
                 yPercent: 0,
                 opacity: 1,
@@ -455,27 +483,30 @@ export default function ProjectsGrid({
       });
 
       // Filter bar slides down
-      gsap.fromTo(
-        filterRef.current,
-        { opacity: 0, y: -12 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: filterRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
+      if (filterRef.current) {
+        gsap.fromTo(
+          filterRef.current,
+          { opacity: 0, y: -12 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: filterRef.current,
+              start: "top 88%",
+              once: true,
+            },
+          }
+        );
+      }
 
       // Grid cards — stagger reveal with clip-path wipe
       const cards = gridRef.current?.querySelectorAll(".project-card");
-      if (cards) {
+      if (cards && cards.length) {
+        const cardArray = Array.from(cards);
         gsap.fromTo(
-          cards,
+          cardArray,
           {
             clipPath: "inset(100% 0% 0% 0%)",
             opacity: 0,
@@ -507,8 +538,9 @@ export default function ProjectsGrid({
 
     // Quick wipe-out of current cards, then let React re-render new filtered set
     const cards = gridRef.current?.querySelectorAll(".project-card");
-    if (cards) {
-      gsap.to(cards, {
+    if (cards && cards.length) {
+      const cardArray = Array.from(cards);
+      gsap.to(cardArray, {
         opacity: 0,
         y: 20,
         duration: 0.25,
@@ -518,9 +550,10 @@ export default function ProjectsGrid({
           // After state update re-renders, animate new cards in
           requestAnimationFrame(() => {
             const newCards = gridRef.current?.querySelectorAll(".project-card");
-            if (!newCards) return;
+            if (!newCards || !newCards.length) return;
+            const newCardArray = Array.from(newCards);
             gsap.fromTo(
-              newCards,
+              newCardArray,
               { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 },
               {
                 clipPath: "inset(0% 0% 0% 0%)",

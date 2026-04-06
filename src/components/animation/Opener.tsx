@@ -1,14 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/Logo";
-import Link from "next/link";
-
-// Register the useGSAP hook
-gsap.registerPlugin(useGSAP);
 
 type OpenerVariant = "lift" | "blur" | "tiles" | "glow";
 
@@ -36,10 +31,11 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
 
     // 1. Initial State - Setup logo for "sketch" effect
     const logoPaths = logoRef.current?.querySelectorAll(".logo-path");
+    const logoPathArray = logoPaths ? Array.from(logoPaths) : [];
     
-    if (logoPaths && logoPaths.length > 0) {
+    if (logoPathArray.length > 0) {
       // Set initial stroke state for drawing effect
-      tl.set(logoPaths, { 
+      tl.set(logoPathArray, { 
         fillOpacity: 0, 
         stroke: "rgba(255,255,255,0.4)", 
         strokeWidth: 0.5,
@@ -47,22 +43,24 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
         strokeDashoffset: 2000
       });
       
-      tl.set(logoRef.current, { autoAlpha: 1, scale: 0.7 });
+      if (logoRef.current) {
+        tl.set(logoRef.current, { autoAlpha: 1, scale: 0.7 });
+      }
 
       // 2. Sketch Animation (Drawing the logo)
-      tl.to(logoPaths, { 
+      tl.to(logoPathArray, { 
         strokeDashoffset: 0, 
         stagger: { amount: 1.2, from: "start" }, 
         duration: 1.8, 
         ease: "power2.inOut" 
       })
-      .to(logoPaths, { 
+      .to(logoPathArray, { 
         fillOpacity: 1, 
         strokeOpacity: 0, 
         duration: 1, 
         ease: "power1.inOut" 
       }, "-=0.6");
-    } else {
+    } else if (logoRef.current) {
       // Fallback if paths can't be found
       tl.to(logoRef.current, { autoAlpha: 1, duration: 1 });
     }
@@ -71,8 +69,11 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
     const moveLogoAction = animateLogoToNavbar();
 
     if (variant === "lift") {
-      tl.to(leftPanelRef.current, { xPercent: -100, duration: 1.2 }, "+=0.2")
-        .to(rightPanelRef.current, { xPercent: 100, duration: 1.2 }, "<");
+      const panels = [leftPanelRef.current, rightPanelRef.current].filter(Boolean) as Element[];
+      if (panels.length === 2) {
+        tl.to(leftPanelRef.current, { xPercent: -100, duration: 1.2 }, "+=0.2")
+          .to(rightPanelRef.current, { xPercent: 100, duration: 1.2 }, "<");
+      }
       
       if (moveLogoAction) tl.add(moveLogoAction, "<");
     } 
@@ -88,8 +89,9 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
     }
     else if (variant === "tiles") {
       const tiles = tilesContainerRef.current?.querySelectorAll(".opener-tile");
-      if (tiles) {
-        tl.to(tiles, { 
+      const tileArray = tiles ? Array.from(tiles) : [];
+      if (tileArray.length) {
+        tl.to(tileArray, { 
           scale: 0, 
           opacity: 0, 
           stagger: { amount: 0.8, from: "center", grid: [5, 5] },
@@ -100,8 +102,10 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
       if (moveLogoAction) tl.add(moveLogoAction, "<0.2");
     }
     else if (variant === "glow") {
-      tl.to(glowRef.current, { opacity: 0.5, scale: 2, duration: 2 }, "-=1")
-        .to(glowRef.current, { opacity: 0, scale: 4, duration: 1.5 }, "+=0.2");
+      if (glowRef.current) {
+        tl.to(glowRef.current, { opacity: 0.5, scale: 2, duration: 2 }, "-=1")
+          .to(glowRef.current, { opacity: 0, scale: 4, duration: 1.5 }, "+=0.2");
+      }
       
       if (moveLogoAction) tl.add(moveLogoAction, "<");
     }
@@ -121,7 +125,9 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
 
       const logoTl = gsap.timeline({
         onComplete: () => {
-          gsap.set(logoRef.current, { opacity: 0 });
+          if (logoRef.current) {
+            gsap.set(logoRef.current, { opacity: 0 });
+          }
         }
       });
 

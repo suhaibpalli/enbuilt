@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -121,9 +121,11 @@ export default function HeroSection({
       const metaLeft = wrapperRef.current.querySelector(".hero-meta-left");
       const metaRight = wrapperRef.current.querySelector(".hero-meta-right");
 
+      const charArray = Array.from(chars);
+
       // Set initial hidden state
-      if (chars.length) gsap.set(chars, { yPercent: 110, opacity: 0 });
-      gsap.set([taglineEl, descriptorEl, ctaEl, metaLeft, metaRight, scrollCueRef.current].filter(Boolean), {
+      if (charArray.length) gsap.set(charArray, { yPercent: 110, opacity: 0 });
+      gsap.set([taglineEl, descriptorEl, ctaEl, metaLeft, metaRight, scrollCueRef.current].filter(Boolean) as Element[], {
         opacity: 0,
         y: 20,
       });
@@ -131,10 +133,13 @@ export default function HeroSection({
       // Entry timeline — delayed so it starts after the opener hands off
       const entryTl = gsap.timeline({ delay: 0.4 });
 
-      entryTl
-        .to(taglineEl, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" })
-        .to(
-          chars,
+      if (taglineEl) {
+        entryTl.to(taglineEl, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
+      }
+
+      if (charArray.length) {
+        entryTl.to(
+          charArray,
           {
             yPercent: 0,
             opacity: 1,
@@ -143,19 +148,33 @@ export default function HeroSection({
             stagger: { amount: 0.5, from: "start" },
           },
           "-=0.4"
-        )
-        .to(
+        );
+      }
+
+      if (descriptorEl) {
+        entryTl.to(
           descriptorEl,
           { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
           "-=0.5"
-        )
-        .to(ctaEl, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
-        .to(
-          [metaLeft, metaRight],
+        );
+      }
+
+      if (ctaEl) {
+        entryTl.to(ctaEl, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6");
+      }
+
+      const metaEls = [metaLeft, metaRight].filter(Boolean) as Element[];
+      if (metaEls.length) {
+        entryTl.to(
+          metaEls,
           { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.1 },
           "-=0.5"
-        )
-        .to(scrollCueRef.current, { opacity: 1, y: 0, duration: 0.6 }, "-=0.3");
+        );
+      }
+
+      if (scrollCueRef.current) {
+        entryTl.to(scrollCueRef.current, { opacity: 1, y: 0, duration: 0.6 }, "-=0.3");
+      }
 
       // ── 2. Red accent line grows on load ─────────────────────────────────
       if (redLineRef.current) {
@@ -182,10 +201,10 @@ export default function HeroSection({
       // The section is pinned for 200vh of scroll, driving all animations.
 
       mm.add("(min-width: 768px)", () => {
-        // Phase A: Clip-path expand — image reveals left-to-right like a blueprint unfold
-        // Starts at scroll 0%, completes at 40%
         if (!pinRef.current) return;
 
+        // Phase A: Clip-path expand — image reveals left-to-right like a blueprint unfold
+        // Starts at scroll 0%, completes at 40%
         const revealTl = gsap.timeline({
           scrollTrigger: {
             trigger: pinRef.current,
@@ -198,38 +217,46 @@ export default function HeroSection({
         });
 
         // A1: Image clip-path reveal (left → full width)
-        revealTl.fromTo(
-          clipRef.current,
-          { clipPath: "inset(0 100% 0 0)" },
-          {
-            clipPath: "inset(0 0% 0 0)",
-            duration: 0.4,
-            ease: "power2.inOut",
-          }
-        );
+        if (clipRef.current) {
+          revealTl.fromTo(
+            clipRef.current,
+            { clipPath: "inset(0 100% 0 0)" },
+            {
+              clipPath: "inset(0 0% 0 0)",
+              duration: 0.4,
+              ease: "power2.inOut",
+            }
+          );
+        }
 
         // A2: Image slight scale-in as it reveals (premium zoom feel)
-        revealTl.fromTo(
-          imageRef.current,
-          { scale: 1.15 },
-          { scale: 1, duration: 0.4, ease: "power2.out" },
-          "<"
-        );
+        if (imageRef.current) {
+          revealTl.fromTo(
+            imageRef.current,
+            { scale: 1.15 },
+            { scale: 1, duration: 0.4, ease: "power2.out" },
+            "<"
+          );
+        }
 
         // A3: Hero text fades up and out as image takes over
-        revealTl.to(
-          heroRef.current,
-          { opacity: 0, y: -40, duration: 0.2, ease: "power2.in" },
-          0.15
-        );
+        if (heroRef.current) {
+          revealTl.to(
+            heroRef.current,
+            { opacity: 0, y: -40, duration: 0.2, ease: "power2.in" },
+            0.15
+          );
+        }
 
         // A4: Stats slide in from right once image is revealed
-        revealTl.fromTo(
-          statsRef.current,
-          { opacity: 0, x: 40 },
-          { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" },
-          0.4
-        );
+        if (statsRef.current) {
+          revealTl.fromTo(
+            statsRef.current,
+            { opacity: 0, x: 40 },
+            { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" },
+            0.4
+          );
+        }
 
         // A5: Individual stat items stagger in
         revealTl.fromTo(
@@ -240,12 +267,14 @@ export default function HeroSection({
         );
 
         // A6: Featured project tag slides in from left
-        revealTl.fromTo(
-          projectTagRef.current,
-          { opacity: 0, x: -40 },
-          { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" },
-          0.46
-        );
+        if (projectTagRef.current) {
+          revealTl.fromTo(
+            projectTagRef.current,
+            { opacity: 0, x: -40 },
+            { opacity: 1, x: 0, duration: 0.2, ease: "power3.out" },
+            0.46
+          );
+        }
 
         // A7: Image slow parallax / zoom while pinned (depth feeling)
         if (imageRef.current) {
@@ -257,13 +286,15 @@ export default function HeroSection({
           );
         }
 
-        // GSAP context handles cleanup automatically for markers/triggers created within it
-        return () => {};
+        // Cleanup
+        return () => {
+          ScrollTrigger.getAll().forEach((st) => st.kill());
+        };
       });
 
       // Mobile: simplified — no pin, just fade in image on scroll
       mm.add("(max-width: 767px)", () => {
-        if (clipRef.current && pinRef.current) {
+        if (clipRef.current) {
           gsap.fromTo(
             clipRef.current,
             { clipPath: "inset(0 100% 0 0)" },
@@ -271,7 +302,7 @@ export default function HeroSection({
               clipPath: "inset(0 0% 0 0)",
               ease: "power2.out",
               scrollTrigger: {
-                trigger: pinRef.current,
+                trigger: pinRef.current || undefined,
                 start: "top 80%",
                 end: "top 20%",
                 scrub: 1,
@@ -280,9 +311,10 @@ export default function HeroSection({
           );
         }
 
-        if (statsRef.current && projectTagRef.current && pinRef.current) {
+        const elementsToReveal = [statsRef.current, projectTagRef.current].filter(Boolean) as Element[];
+        if (elementsToReveal.length) {
           gsap.fromTo(
-            [statsRef.current, projectTagRef.current],
+            elementsToReveal,
             { opacity: 0, y: 30 },
             {
               opacity: 1,
@@ -290,7 +322,7 @@ export default function HeroSection({
               stagger: 0.15,
               ease: "power3.out",
               scrollTrigger: {
-                trigger: pinRef.current,
+                trigger: pinRef.current || undefined,
                 start: "top 60%",
                 toggleActions: "play none none reverse",
               },
@@ -336,7 +368,7 @@ export default function HeroSection({
       {/* ── Section 1: Initial Hero ───────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative flex min-h-screen flex-col items-start justify-end px-6 pb-20 pt-32 md:px-20 md:pb-24"
+        className="relative flex min-h-screen flex-col items-start justify-end px-6 pb-20 pt-32 md:px-16 md:pb-24"
         aria-label="Hero"
       >
         {/* Drafting grid overlay */}
@@ -350,7 +382,7 @@ export default function HeroSection({
         />
 
         {/* Top-right architectural coords */}
-        <div className="hero-meta-right absolute right-6 top-28 hidden text-right md:block md:right-20">
+        <div className="hero-meta-right absolute right-6 top-28 hidden text-right md:block md:right-16">
           <p className="font-condensed text-[10px] uppercase tracking-[0.4em] text-accent">
             Lat / Long
           </p>
@@ -372,11 +404,11 @@ export default function HeroSection({
           <h1 className="font-display text-[22vw] uppercase leading-[0.82] tracking-[-0.02em] text-text-primary md:text-[17vw] lg:text-[14vw]">
             {/* Line 1 — characters split individually */}
             <span className="block overflow-hidden">
-              <span className="inline-block">{splitIntoChars(headlineTop)}</span>
+              <span>{splitIntoChars(headlineTop)}</span>
             </span>
-            {/* Line 2 — offset right for asymmetric composition + Mars Red accent */}
+            {/* Line 2 — offset right for asymmetric composition */}
             <span className="block overflow-hidden pl-[5vw] md:pl-[8vw]">
-              <span className="inline-block text-accent">{splitIntoChars(headlineBottom)}</span>
+              <span>{splitIntoChars(headlineBottom)}</span>
             </span>
           </h1>
         </div>
@@ -406,13 +438,13 @@ export default function HeroSection({
 
             <button className="group flex items-center gap-3 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-text-primary">
               <span>Our Philosophy</span>
-              <div className="h-px w-8 bg-accent/40 transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
+              <div className="h-[1px] w-8 bg-accent/40 transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
             </button>
           </div>
         </div>
 
         {/* Bottom-left architectural metadata */}
-        <div className="hero-meta-left absolute bottom-8 left-6 md:left-20">
+        <div className="hero-meta-left absolute bottom-8 left-6 md:left-16">
           <p className="font-condensed text-[10px] uppercase tracking-[0.4em] text-text-tertiary">
             Est. 2012 · Chennai, India
           </p>
@@ -421,7 +453,7 @@ export default function HeroSection({
         {/* Scroll cue */}
         <div
           ref={scrollCueRef}
-          className="absolute bottom-8 right-6 flex flex-col items-center gap-2 md:right-20"
+          className="absolute bottom-8 right-6 flex flex-col items-center gap-2 md:right-16"
           aria-hidden="true"
         >
           <p className="font-condensed text-[9px] uppercase tracking-[0.4em] text-text-tertiary">
@@ -478,19 +510,19 @@ export default function HeroSection({
               draggable={false}
             />
             {/* Gradient overlays */}
-            <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-transparent to-transparent opacity-70" />
-            <div className="absolute inset-0 bg-linear-to-r from-bg-primary/60 to-transparent opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-transparent to-transparent opacity-70" />
+            <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/60 to-transparent opacity-50" />
           </div>
 
           {/* Architectural frame lines — top and bottom */}
-          <div className="absolute left-6 right-6 top-8 h-px bg-white/10 md:left-20 md:right-20" />
-          <div className="absolute bottom-8 left-6 right-6 h-px bg-white/10 md:left-20 md:right-20" />
+          <div className="absolute left-6 right-6 top-8 h-[1px] bg-white/10 md:left-16 md:right-16" />
+          <div className="absolute bottom-8 left-6 right-6 h-[1px] bg-white/10 md:left-16 md:right-16" />
         </div>
 
         {/* ── Stats panel — slides in from right after reveal ─────────────── */}
         <div
           ref={statsRef}
-          className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 md:right-20"
+          className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 md:right-16"
         >
           <div className="flex flex-col gap-8">
             {stats.map((stat, i) => (
@@ -515,7 +547,7 @@ export default function HeroSection({
         {/* ── Featured project tag — slides in from left ───────────────────── */}
         <div
           ref={projectTagRef}
-          className="absolute bottom-12 left-6 opacity-0 md:left-20"
+          className="absolute bottom-12 left-6 opacity-0 md:left-16"
         >
           {/* Red accent vertical line */}
           <div className="mb-4 h-12 w-[2px] bg-accent" />
