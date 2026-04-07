@@ -46,13 +46,13 @@ export default function HorizontalPhilosophy() {
 
   useGSAP(
     () => {
-      const panels = containerRef.current?.querySelectorAll(".philosophy-panel");
-      if (!panels?.length || !sectionRef.current || !containerRef.current) return;
+      if (!sectionRef.current || !containerRef.current) return;
 
-      const totalPanels = panels.length;
-      
-      // Horizontal Scroll Animation
-      gsap.to(containerRef.current, {
+      const panels = containerRef.current.querySelectorAll(".philosophy-panel");
+      if (!panels.length) return;
+
+      // ── Main horizontal scroll tween ──────────────────────────────────────
+      const horizontalTween = gsap.to(containerRef.current, {
         x: () => -(containerRef.current!.scrollWidth - window.innerWidth),
         ease: "none",
         scrollTrigger: {
@@ -65,28 +65,32 @@ export default function HorizontalPhilosophy() {
         },
       });
 
-      // Panel content reveals
+      // ── Per-panel reveals — pass containerAnimation correctly ──────────────
       panels.forEach((panel) => {
         const title = panel.querySelector(".panel-title");
-        const img = panel.querySelector(".panel-image");
-        const desc = panel.querySelector(".panel-desc");
+        const desc  = panel.querySelector(".panel-desc");
+        const img   = panel.querySelector(".panel-image");
 
-        gsap.from([title, desc], {
-          y: 50,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: panel,
-            containerAnimation: gsap.getById("horizontal-scroll") || undefined, // Note: using containerAnimation if we had a single tween, but here we'll use a simpler approach
-            start: "left 80%",
-            toggleActions: "play none none reverse",
-            // Since we're using a single large tween for the container, 
-            // we can use the 'horizontal' property or target the scroll position.
-            // A more robust way with GSAP is using the main tween as reference.
-          },
-        });
+        const targets = [title, desc, img].filter(Boolean) as Element[];
+        if (!targets.length) return;
+
+        gsap.fromTo(
+          targets,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: horizontalTween, // ✅ passes the actual tween
+              start: "left 80%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
       });
     },
     { scope: sectionRef }

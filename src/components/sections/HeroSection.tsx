@@ -95,7 +95,6 @@ export default function HeroSection({
   const wrapperRef    = useRef<HTMLDivElement>(null);
   const heroRef       = useRef<HTMLDivElement>(null);
   const pinRef        = useRef<HTMLDivElement>(null);
-  const imageWrapRef  = useRef<HTMLDivElement>(null);
   const imageRef      = useRef<HTMLDivElement>(null);
   const clipRef       = useRef<HTMLDivElement>(null);
   const statsRef      = useRef<HTMLDivElement>(null);

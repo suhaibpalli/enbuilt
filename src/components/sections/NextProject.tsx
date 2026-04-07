@@ -23,8 +23,8 @@ export default function NextProject({ title, slug, imageSrc }: NextProjectProps)
     gsap.to(previewRef.current, {
       opacity: 1,
       scale: 1,
-      y: 0,
-      rotate: -5,
+      y: -20,       // lifts up slightly from below the text
+      rotate: -3,
       duration: 0.6,
       ease: "power3.out",
     });
@@ -33,8 +33,8 @@ export default function NextProject({ title, slug, imageSrc }: NextProjectProps)
   const onMouseLeave = contextSafe(() => {
     gsap.to(previewRef.current, {
       opacity: 0,
-      scale: 0.8,
-      y: 40,
+      scale: 0,
+      y: 0,
       rotate: 0,
       duration: 0.4,
       ease: "power3.in",
@@ -67,8 +67,8 @@ export default function NextProject({ title, slug, imageSrc }: NextProjectProps)
       {/* Floating Preview Card */}
       <div
         ref={previewRef}
-        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[300px] w-[450px] opacity-0 scale-80 -z-10 overflow-hidden border border-white/10 shadow-2xl"
-        style={{ transform: "translateX(-50%) translateY(40px)" }}
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[300px] w-[450px] -z-10 overflow-hidden border border-white/10 shadow-2xl"
+        style={{ opacity: 0, scale: 0 } as React.CSSProperties}
       >
         <Image
           src={imageSrc}

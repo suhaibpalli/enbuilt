@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import Opener from "@/components/animation/Opener";
 import Lenis from "lenis";
 import gsap from "gsap";
@@ -38,15 +39,14 @@ export default function ClientLayout({
 
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
+    // Store the ticker fn so we can remove the exact same reference
+    const tickerFn = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tickerFn);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      gsap.ticker.remove(tickerFn); // ✅ removes the exact fn reference
     };
   }, []);
 
@@ -86,6 +86,8 @@ export default function ClientLayout({
       <main className={`flex-1 transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
         {children}
       </main>
+
+      <Footer />
 
       {/* Variant Switcher - Minimal & Premium */}
       <div className="fixed bottom-6 left-6 z-50 flex gap-1.5 p-1.5 rounded-full border border-border bg-bg-secondary/20 backdrop-blur-md opacity-10 hover:opacity-100 transition-all duration-500">

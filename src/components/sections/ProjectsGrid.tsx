@@ -243,8 +243,8 @@ function ProjectCard({ project, dataIndex }: CardProps) {
 
   // Aspect ratio by size
   const aspectClass = {
-    tall:   "aspect-3/4",
-    wide:   "aspect-16/9",
+    tall:   "aspect-[3/4]",
+    wide:   "aspect-[16/9]",
     square: "aspect-square",
   }[project.size];
 
