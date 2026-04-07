@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/ui/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,23 +43,6 @@ interface HeroSectionProps {
   scrollLabel?: string;
   /** Called when the CTA button is clicked */
   onExploreClick?: () => void;
-}
-
-// ─── Utility: Manual SplitText ─────────────────────────────────────────────────
-// Splits a string into individual character spans so GSAP can animate each one.
-// GSAP SplitText is a Club membership plugin; this covers the same result.
-
-function splitIntoChars(text: string, className?: string): React.ReactNode {
-  return text.split("").map((char, i) => (
-    <span
-      key={i}
-      className={cn("split-char inline-block", className)}
-      aria-hidden={char === " " ? undefined : "true"}
-      style={{ display: char === " " ? "inline" : "inline-block" }}
-    >
-      {char === " " ? "\u00A0" : char}
-    </span>
-  ));
 }
 
 // ─── Default content ───────────────────────────────────────────────────────────
@@ -277,10 +261,9 @@ export default function HeroSection({
 
         // A7: Image slow parallax / zoom while pinned (depth feeling)
         if (imageRef.current) {
-          revealTl.fromTo(
+          revealTl.to(
             imageRef.current,
-            { scale: 1, yPercent: 0 },
-            { scale: 1.08, yPercent: -4, duration: 0.6, ease: "none" },
+            { scale: 1.1, yPercent: 8, duration: 0.6, ease: "none" },
             0.4
           );
         }
@@ -403,11 +386,11 @@ export default function HeroSection({
           <h1 className="font-display text-[22vw] uppercase leading-[0.82] tracking-[-0.02em] text-text-primary md:text-[17vw] lg:text-[14vw]">
             {/* Line 1 — characters split individually */}
             <span className="block overflow-hidden">
-              <span>{splitIntoChars(headlineTop)}</span>
+              <SplitText text={headlineTop} />
             </span>
             {/* Line 2 — offset right for asymmetric composition */}
             <span className="block overflow-hidden pl-[5vw] md:pl-[8vw]">
-              <span>{splitIntoChars(headlineBottom)}</span>
+              <SplitText text={headlineBottom} />
             </span>
           </h1>
         </div>

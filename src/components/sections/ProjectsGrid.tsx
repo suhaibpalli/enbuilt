@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/ui/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -594,11 +595,7 @@ export default function ProjectsGrid({
           {/* Character-split heading */}
           <div className="overflow-hidden" aria-label={sectionTitle}>
             <h2 className="font-display text-[18vw] uppercase leading-[0.85] tracking-tight text-text-primary md:text-[10vw] lg:text-[8vw]">
-              {sectionTitle.split("").map((char, i) => (
-                <span key={i} className="head-char inline-block" aria-hidden="true">
-                  {char === " " ? "\u00A0" : char}
-                </span>
-              ))}
+              <SplitText text={sectionTitle} charClassName="head-char" />
             </h2>
           </div>
         </div>

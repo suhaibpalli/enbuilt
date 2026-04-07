@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/ui/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,19 +18,6 @@ interface ProjectHeroProps {
   area: string;
   typology: string;
   imageSrc: string;
-}
-
-function splitIntoChars(text: string, className?: string): React.ReactNode {
-  return text.split("").map((char, i) => (
-    <span
-      key={i}
-      className={cn("split-char inline-block", className)}
-      aria-hidden={char === " " ? undefined : "true"}
-      style={{ display: char === " " ? "inline" : "inline-block" }}
-    >
-      {char === " " ? "\u00A0" : char}
-    </span>
-  ));
 }
 
 export default function ProjectHero({
@@ -149,7 +137,7 @@ export default function ProjectHero({
             Project Case Study
           </p>
           <h1 className="font-display text-[15vw] uppercase leading-[0.85] tracking-tight text-text-primary md:text-[10vw]">
-            {splitIntoChars(title)}
+            <SplitText text={title} />
           </h1>
           <p className="mt-4 font-editorial text-2xl italic text-text-secondary md:text-4xl max-w-3xl">
             {subtitle}

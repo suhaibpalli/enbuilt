@@ -6,21 +6,9 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/ui/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
-
-function splitIntoChars(text: string, className?: string): React.ReactNode {
-  return text.split("").map((char, i) => (
-    <span
-      key={i}
-      className={cn("split-char inline-block", className)}
-      aria-hidden={char === " " ? undefined : "true"}
-      style={{ display: char === " " ? "inline" : "inline-block" }}
-    >
-      {char === " " ? "\u00A0" : char}
-    </span>
-  ));
-}
 
 export default function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -124,7 +112,7 @@ export default function AboutHero() {
             Established 2012 / Chennai
           </p>
           <h1 className="font-display text-[15vw] uppercase leading-[0.85] tracking-tight text-text-primary md:text-[10vw]">
-            {splitIntoChars("THE FIRM")}
+            <SplitText text="THE FIRM" />
           </h1>
           <p className="mt-6 font-editorial text-2xl italic text-text-secondary md:text-5xl max-w-4xl leading-tight">
             "We build at the intersection of monolithic structural integrity and 

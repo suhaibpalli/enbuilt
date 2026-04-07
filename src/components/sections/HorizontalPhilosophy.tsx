@@ -91,6 +91,23 @@ export default function HorizontalPhilosophy() {
             },
           }
         );
+
+        // ── Panel Image Parallax ──
+        const panelImg = panel.querySelector(".panel-image img");
+        if (panelImg) {
+          gsap.to(panelImg, {
+            x: 40,
+            scale: 1.1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: horizontalTween,
+              start: "left right",
+              end: "right left",
+              scrub: true,
+            },
+          });
+        }
       });
     },
     { scope: sectionRef }

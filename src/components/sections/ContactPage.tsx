@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/ui/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -230,9 +231,7 @@ export default function ContactPage() {
           </p>
           <div className="overflow-hidden" aria-label="Contact us">
             <h1 className="font-display text-[20vw] uppercase leading-[0.85] tracking-tight text-text-primary md:text-[13vw] lg:text-[10vw]">
-              {("CONTACT").split("").map((c, i) => (
-                <span key={i} className="contact-char inline-block" aria-hidden="true">{c}</span>
-              ))}
+              <SplitText text="CONTACT" charClassName="contact-char" />
             </h1>
           </div>
         </div>
