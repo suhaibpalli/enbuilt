@@ -3,14 +3,13 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 
 /**
  * PageTransition
  * A red architectural wipe stripe that plays on every route change.
  * Mounts as a fixed overlay, sweeps across, then retreats — revealing the new page.
  */
-export default function PageTransition({ children }: { children?: React.ReactNode }) {
+export default function PageTransition() {
   const pathname = usePathname();
   const wipeRef  = useRef<HTMLDivElement>(null);
   const isFirst  = useRef(true);
@@ -43,15 +42,11 @@ export default function PageTransition({ children }: { children?: React.ReactNod
   }, [pathname]);
 
   return (
-    <>
-      {/* Wipe stripe — starts hidden off-screen left */}
-      <div
-        ref={wipeRef}
-        className="pointer-events-none fixed inset-0 z-9999 bg-accent"
-        style={{ transform: "translateX(-100%)" }}
-        aria-hidden="true"
-      />
-      {children}
-    </>
+    <div
+      ref={wipeRef}
+      className="pointer-events-none fixed inset-0 z-[9999] bg-accent"
+      style={{ transform: "translateX(-100%)" }}
+      aria-hidden="true"
+    />
   );
 }

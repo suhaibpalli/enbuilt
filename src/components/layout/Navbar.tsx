@@ -38,8 +38,15 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
 
   // Lock body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    // Lenis respects the lenis-stopped class on html element
+    if (isOpen) {
+      document.documentElement.classList.add("lenis-stopped");
+    } else {
+      document.documentElement.classList.remove("lenis-stopped");
+    }
+    return () => {
+      document.documentElement.classList.remove("lenis-stopped");
+    };
   }, [isOpen]);
 
   // ── Mobile menu GSAP animation ──────────────────────────────────────────────
@@ -194,7 +201,7 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
       {/* ── Mobile Full-Screen Overlay ─────────────────────────────────────── */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-45 hidden flex-col bg-bg-primary px-8 pt-32 pb-16"
+        className="fixed inset-0 z-[45] hidden flex-col bg-bg-primary px-8 pt-32 pb-16"
         style={{ clipPath: "inset(0 0 100% 0)" }}
         aria-modal="true"
         role="dialog"

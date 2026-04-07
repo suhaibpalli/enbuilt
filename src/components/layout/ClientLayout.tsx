@@ -84,8 +84,8 @@ export default function ClientLayout({
         />
       )}
 
+      <PageTransition />
       <main className={`flex-1 transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
-        <PageTransition />
         {children}
       </main>
 

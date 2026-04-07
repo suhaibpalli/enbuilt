@@ -408,7 +408,7 @@ export default function ContactPage() {
                   ].map((b) => (
                     <label
                       key={b}
-                      className="group flex cursor-pointer items-center gap-2 border border-border px-4 py-2 font-condensed text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary transition-colors has-checked:border-accent/50 has-checked:bg-accent/5 has-checked:text-accent hover:border-border hover:text-text-primary"
+                      className="group flex cursor-pointer items-center gap-2 border border-border px-4 py-2 font-condensed text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary transition-colors has-[input:checked]:border-accent/50 has-[input:checked]:bg-accent/5 has-[input:checked]:text-accent hover:border-border hover:text-text-primary"
                     >
                       <input
                         type="radio"

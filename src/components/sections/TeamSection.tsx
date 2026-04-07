@@ -76,7 +76,7 @@ function TeamCard({ member }: { member: typeof TEAM[0] }) {
   return (
     <div
       ref={cardRef}
-      className="group relative aspect-3/4 w-full overflow-hidden bg-bg-secondary border border-white/5"
+      className="group relative aspect-[3/4] w-full overflow-hidden bg-bg-secondary border border-white/5"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
