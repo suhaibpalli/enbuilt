@@ -146,19 +146,15 @@ export default function AboutHero() {
       {/* Vertical Blueprint Label */}
       <div className="absolute bottom-10 right-10 hidden md:block">
         <div className="flex flex-col items-center gap-4">
-          <span className="font-condensed text-[10px] uppercase tracking-[0.4em] text-text-tertiary vertical-text">
+          <span
+            className="font-condensed text-[10px] uppercase tracking-[0.4em] text-text-tertiary"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
             EB / 22-04 / ARCH-STUDIO
           </span>
           <div className="h-20 w-px bg-linear-to-b from-accent to-transparent" />
         </div>
       </div>
-
-      <style jsx>{`
-        .vertical-text {
-          writing-mode: vertical-rl;
-          transform: rotate(180deg);
-        }
-      `}</style>
     </section>
   );
 }

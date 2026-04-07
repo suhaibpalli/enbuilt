@@ -98,7 +98,7 @@ function Field({
         )}
 
         {/* Static underline */}
-        <div className="absolute bottom-0 left-0 h-[1px] w-full bg-border" />
+        <div className="absolute bottom-0 left-0 h-px w-full bg-border" />
         {/* Active accent underline — grows on focus */}
         <div
           ref={lineRef}
@@ -125,8 +125,9 @@ function SuccessMessage() {
   useGSAP(
     () => {
       const els = ref.current?.querySelectorAll(".success-el");
+      if (!els?.length) return;
       gsap.fromTo(
-        els,
+        Array.from(els),
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, stagger: 0.15, duration: 0.8, ease: "power3.out" }
       );
@@ -148,7 +149,7 @@ function SuccessMessage() {
       <p className="success-el max-w-md font-body text-lg font-light leading-relaxed text-text-secondary">
         Thank you for reaching out. Someone from our studio will respond within 2 business days.
       </p>
-      <div className="success-el h-[1px] w-32 bg-accent/30" />
+      <div className="success-el h-px w-32 bg-accent/30" />
     </div>
   );
 }
@@ -169,14 +170,18 @@ export default function ContactPage() {
       const chars = headingRef.current?.querySelectorAll(".contact-char");
       const label = headingRef.current?.querySelector(".contact-label");
 
-      gsap.set(chars, { yPercent: 110, opacity: 0 });
-      gsap.set(label, { opacity: 0, y: 16 });
+      if (chars?.length) gsap.set(Array.from(chars), { yPercent: 110, opacity: 0 });
+      if (label) gsap.set(label, { opacity: 0, y: 16 });
 
       const tl = gsap.timeline({ delay: 0.4 });
 
-      tl.to(label, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" })
-        .to(
-          chars,
+      if (label) {
+        tl.to(label, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
+      }
+
+      if (chars?.length) {
+        tl.to(
+          Array.from(chars),
           {
             yPercent: 0,
             opacity: 1,
@@ -186,25 +191,28 @@ export default function ContactPage() {
           },
           "-=0.4"
         );
+      }
 
       // Form slides up
-      gsap.fromTo(
-        formRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          delay: 0.6,
-        }
-      );
+      if (formRef.current) {
+        gsap.fromTo(
+          formRef.current,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            delay: 0.6,
+          }
+        );
+      }
 
       // Info column stagger
       const infoItems = infoRef.current?.querySelectorAll(".info-item");
       if (infoItems?.length) {
         gsap.fromTo(
-          infoItems,
+          Array.from(infoItems),
           { y: 30, opacity: 0 },
           {
             y: 0,
@@ -356,7 +364,7 @@ export default function ContactPage() {
                   required
                   placeholder="Ar. John Smith"
                   error={
-                    formState.errors?.find?.((e: any) => e.field === "name")?.message
+                    (formState.errors as any)?.find?.((e: any) => e.field === "name")?.message
                   }
                 />
                 <Field
@@ -366,7 +374,7 @@ export default function ContactPage() {
                   required
                   placeholder="john@studio.com"
                   error={
-                    formState.errors?.find?.((e: any) => e.field === "email")?.message
+                    (formState.errors as any)?.find?.((e: any) => e.field === "email")?.message
                   }
                 />
               </div>
@@ -400,7 +408,7 @@ export default function ContactPage() {
                   ].map((b) => (
                     <label
                       key={b}
-                      className="group flex cursor-pointer items-center gap-2 border border-border px-4 py-2 font-condensed text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary transition-colors has-[:checked]:border-accent/50 has-[:checked]:bg-accent/5 has-[:checked]:text-accent hover:border-border hover:text-text-primary"
+                      className="group flex cursor-pointer items-center gap-2 border border-border px-4 py-2 font-condensed text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary transition-colors has-checked:border-accent/50 has-checked:bg-accent/5 has-checked:text-accent hover:border-border hover:text-text-primary"
                     >
                       <input
                         type="radio"
@@ -422,7 +430,7 @@ export default function ContactPage() {
                 required
                 placeholder="Describe your vision, site, programme, and any constraints you'd like us to know about..."
                 error={
-                  formState.errors?.find?.((e: any) => e.field === "message")?.message
+                  (formState.errors as any)?.find?.((e: any) => e.field === "message")?.message
                 }
               />
 
@@ -445,7 +453,7 @@ export default function ContactPage() {
               </div>
 
               {/* Global form error */}
-              {formState.errors && formState.errors.length > 0 && (
+              {formState.errors && (formState.errors as any).length > 0 && (
                 <p className="font-condensed text-[11px] uppercase tracking-widest text-accent">
                   Please fix the errors above and try again.
                 </p>

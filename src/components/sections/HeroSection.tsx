@@ -420,7 +420,7 @@ export default function HeroSection({
 
             <button className="group flex items-center gap-3 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-text-primary">
               <span>Our Philosophy</span>
-              <div className="h-[1px] w-8 bg-accent/40 transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
+              <div className="h-px w-8 bg-accent/40 transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
             </button>
           </div>
         </div>
@@ -492,13 +492,13 @@ export default function HeroSection({
               draggable={false}
             />
             {/* Gradient overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-transparent to-transparent opacity-70" />
-            <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/60 to-transparent opacity-50" />
+            <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-transparent to-transparent opacity-70" />
+            <div className="absolute inset-0 bg-linear-to-r from-bg-primary/60 to-transparent opacity-50" />
           </div>
 
           {/* Architectural frame lines — top and bottom */}
-          <div className="absolute left-6 right-6 top-8 h-[1px] bg-white/10 md:left-16 md:right-16" />
-          <div className="absolute bottom-8 left-6 right-6 h-[1px] bg-white/10 md:left-16 md:right-16" />
+          <div className="absolute left-6 right-6 top-8 h-px bg-white/10 md:left-16 md:right-16" />
+          <div className="absolute bottom-8 left-6 right-6 h-px bg-white/10 md:left-16 md:right-16" />
         </div>
 
         {/* ── Stats panel — slides in from right after reveal ─────────────── */}

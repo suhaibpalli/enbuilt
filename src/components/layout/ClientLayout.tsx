@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Opener from "@/components/animation/Opener";
+import PageTransition from "@/components/animation/PageTransition";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -84,6 +85,7 @@ export default function ClientLayout({
       )}
 
       <main className={`flex-1 transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
+        <PageTransition />
         {children}
       </main>
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
+import StatsSection from "@/components/sections/StatsSection";
+import PhilosophyQuote from "@/components/sections/PhilosophyQuote";
 
 export default function Home() {
   return (
@@ -32,18 +33,13 @@ export default function Home() {
         }}
       />
 
-      {/* Philosophy Moment */}
-      <section className="py-40 px-6 border-y border-border bg-bg-secondary/30 relative z-10">
-        <div className="mx-auto max-w-4xl text-center">
-          <span className="font-condensed text-accent text-[12px] uppercase tracking-[0.5em] mb-8 block font-bold">Our Philosophy</span>
-          <h2 className="text-4xl md:text-6xl font-editorial italic text-text-primary leading-tight">
-            "Architecture should speak of its time and place, but yearn for timelessness through structural integrity."
-          </h2>
-          <div className="mt-12 h-px w-24 bg-accent mx-auto" />
-        </div>
-      </section>
+      {/* Cinematic Philosophy Quote */}
+      <PhilosophyQuote />
 
-      {/* ENBUILT Architectural Grid */}
+      {/* Studio Statistics Counter */}
+      <StatsSection />
+
+      {/* ENBUILT Architectural Portfolio Grid */}
       <ProjectsGrid />
     </main>
   );

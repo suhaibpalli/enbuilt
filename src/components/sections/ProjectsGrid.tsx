@@ -73,6 +73,7 @@ const PROJECTS: Project[] = [
     size: "wide",
     imageSrc: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&q=80&auto=format",
     imageAlt: "Lattice Pavilion",
+    href: "/projects/lattice-pavilion",
   },
   {
     id: 4,
@@ -86,6 +87,7 @@ const PROJECTS: Project[] = [
     size: "square",
     imageSrc: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80&auto=format",
     imageAlt: "The Void House",
+    href: "/projects/void-house",
   },
   {
     id: 5,
@@ -99,6 +101,7 @@ const PROJECTS: Project[] = [
     size: "tall",
     imageSrc: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80&auto=format",
     imageAlt: "Forum One HQ",
+    href: "/projects/forum-one",
   },
   {
     id: 6,
@@ -112,6 +115,7 @@ const PROJECTS: Project[] = [
     size: "square",
     imageSrc: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=80&auto=format",
     imageAlt: "Studio Nave Interiors",
+    href: "/projects/studio-nave",
   },
 ];
 
@@ -257,7 +261,7 @@ function ProjectCard({ project, dataIndex }: CardProps) {
       className={cn(
         "project-card group relative block overflow-hidden border border-border bg-bg-secondary",
         "cursor-none select-none outline-none",
-        "will-change-transform",
+        "will-change-transform h-full",
         aspectClass,
         // Wide cards span full width on desktop
         project.size === "wide" && "md:col-span-2"
@@ -647,13 +651,23 @@ export default function ProjectsGrid({
         ))}
       </div>
 
-      {/* ── Project grid ───────────────────────────────────────────────── */}
+      {/* ── Project grid — editorial masonry layout ──────────────────── */}
       <div
         ref={gridRef}
-        className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:gap-6"
+        className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:gap-6"
       >
         {filtered.map((project, i) => (
-          <ProjectCard key={project.id} project={project} dataIndex={i} />
+          <div
+            key={project.id}
+            className={cn(
+              // First card: 2 rows tall on desktop for hero statement
+              i === 0 && "md:row-span-2",
+              // Wide cards span all 3 columns
+              project.size === "wide" && "md:col-span-3",
+            )}
+          >
+            <ProjectCard project={project} dataIndex={i} />
+          </div>
         ))}
       </div>
 

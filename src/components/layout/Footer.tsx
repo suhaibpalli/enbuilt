@@ -200,7 +200,6 @@ export default function Footer() {
         <div
           ref={logoRef}
           className="border-b border-border py-16 md:py-24"
-          style={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
         >
           <Link href="/" aria-label="ENBUILT — home">
             <Logo className="w-full h-auto text-text-primary opacity-[0.07] transition-opacity duration-500 hover:opacity-[0.15]" />
@@ -256,7 +255,7 @@ export default function Footer() {
                       href={link.href}
                       className="group flex items-center gap-3 font-condensed text-sm font-medium uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary"
                     >
-                      <span className="h-[1px] w-0 bg-accent transition-all duration-300 group-hover:w-6" />
+                      <span className="h-px w-0 bg-accent transition-all duration-300 group-hover:w-6" />
                       {link.label}
                     </Link>
                   </li>
@@ -332,7 +331,6 @@ export default function Footer() {
         <div
           ref={bottomRef}
           className="flex flex-col items-start justify-between gap-6 border-t border-border py-8 md:flex-row md:items-center"
-          style={{ opacity: 0 }}
         >
           <div className="flex flex-wrap items-center gap-6">
             <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
