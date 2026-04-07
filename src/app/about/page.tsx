@@ -4,6 +4,8 @@ import AboutHero from "@/components/sections/AboutHero";
 import HorizontalPhilosophy from "@/components/sections/HorizontalPhilosophy";
 import TeamSection from "@/components/sections/TeamSection";
 import AwardsStrip from "@/components/sections/AwardsStrip";
+import ValuesSection from "@/components/sections/ValuesSection";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import Link from "next/link";
 
 export default function AboutPage() {
@@ -15,13 +17,19 @@ export default function AboutPage() {
       {/* ── 02: Awards Marquee ── */}
       <AwardsStrip />
 
-      {/* ── 03: Philosophy (Horizontal Scroll) ── */}
+      {/* ── 03: Core Values & Principal ── */}
+      <ValuesSection />
+
+      {/* ── 04: Philosophy (Horizontal Scroll) ── */}
       <HorizontalPhilosophy />
 
-      {/* ── 04: Team Grid ── */}
+      {/* ── 05: Client Testimonials ── */}
+      <TestimonialsSection />
+
+      {/* ── 06: Team Grid ── */}
       <TeamSection />
 
-      {/* ── 05: Final CTA ── */}
+      {/* ── 07: Final CTA ── */}
       <section className="relative py-40 md:py-60 px-6 md:px-20 text-center bg-bg-secondary border-t border-white/5">
         <div className="max-w-4xl mx-auto">
           <span className="font-condensed text-accent text-[12px] uppercase tracking-[0.5em] font-bold mb-8 block">

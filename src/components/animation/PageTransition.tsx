@@ -44,7 +44,7 @@ export default function PageTransition() {
   return (
     <div
       ref={wipeRef}
-      className="pointer-events-none fixed inset-0 z-[9999] bg-accent"
+      className="pointer-events-none fixed inset-0 z-9999 bg-accent"
       style={{ transform: "translateX(-100%)" }}
       aria-hidden="true"
     />

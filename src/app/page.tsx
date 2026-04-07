@@ -4,6 +4,8 @@ import HeroSection from "@/components/sections/HeroSection";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import StatsSection from "@/components/sections/StatsSection";
 import PhilosophyQuote from "@/components/sections/PhilosophyQuote";
+import ClientsSection from "@/components/sections/ClientsSection";
+import ScrollCube from "@/components/ui/ScrollCube";
 
 export default function Home() {
   return (
@@ -41,6 +43,12 @@ export default function Home() {
 
       {/* ENBUILT Architectural Portfolio Grid */}
       <ProjectsGrid />
+
+      {/* Interactive Architectural Showcase */}
+      <ScrollCube />
+
+      {/* Global Client Marquee */}
+      <ClientsSection />
     </main>
   );
 }

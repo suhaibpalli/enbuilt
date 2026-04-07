@@ -15,10 +15,10 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: "Structures",  href: "/#projects" },
-  { label: "Philosophy",  href: "/about#philosophy" },
-  { label: "The Firm",    href: "/about" },
-  { label: "Contact",     href: "/contact" },
+  { label: "Projects",   href: "/projects" },
+  { label: "Services",   href: "/services" },
+  { label: "The Firm",   href: "/about" },
+  { label: "Contact",    href: "/contact" },
 ];
 
 export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarProps) {
