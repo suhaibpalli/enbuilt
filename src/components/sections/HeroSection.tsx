@@ -267,11 +267,6 @@ export default function HeroSection({
             0.4
           );
         }
-
-        // Cleanup
-        return () => {
-          ScrollTrigger.getAll().forEach((st) => st.kill());
-        };
       });
 
       // Mobile: simplified — no pin, just fade in image on scroll
@@ -563,9 +558,6 @@ export default function HeroSection({
           )
         )}
       </section>
-
-      {/* ── Section 3: Transition buffer (gives scroll room after unpin) ───── */}
-      <div className="h-screen" aria-hidden="true" />
     </div>
   );
 }
