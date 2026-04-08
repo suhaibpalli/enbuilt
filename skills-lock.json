@@ -76,6 +76,11 @@
       "sourceType": "github",
       "computedHash": "9f8d3f268624c4757f4039617942d3e8ddcf420b9295cb943bea3bf9feb37e9d"
     },
+    "pretext": {
+      "source": "asharibali/pretext-skills",
+      "sourceType": "github",
+      "computedHash": "a3fe31408485f1c3d9656d09fa5aad87fd3652b54100be25feff2bdf3f86bfaf"
+    },
     "seo": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
