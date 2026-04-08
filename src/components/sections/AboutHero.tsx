@@ -5,16 +5,20 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
 export default function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const scrambleRef = useRef<HTMLSpanElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   useGSAP(
     () => {
@@ -27,7 +31,8 @@ export default function AboutHero() {
       if (statsChildren.length) gsap.set(statsChildren, { y: 20, opacity: 0 });
 
       // Entrance animation
-      const tl = gsap.timeline({ delay: 0.5 });
+      const tl = gsap.timeline({ id: "hero-timeline", delay: 0.5 });
+      timelineRef.current = tl;
       
       if (charArray.length) {
         tl.to(charArray, {
@@ -52,6 +57,34 @@ export default function AboutHero() {
           "-=0.6"
         );
       }
+
+      // Scramble Text Animation
+      tl.fromTo(scrambleRef.current, 
+        { 
+          text: "",
+        },
+        {
+          scrambleText: {
+            text: '"We build at the intersection of monolithic structural integrity and the visceral human experience of space."',
+            chars: "ABCDEFGHIJKLMN0123456789!@#$%^&*",
+            speed: 1.2,
+            revealDelay: 0.1
+          },
+          duration: 3.5,
+          ease: "none",
+          onComplete: () => {
+            gsap.to(cursorRef.current, { opacity: 0, duration: 0.5 });
+          }
+        }, 0.5);
+
+      // Cursor blinking
+      gsap.to(cursorRef.current, {
+        opacity: 0,
+        repeat: -1,
+        yoyo: true,
+        duration: 0.4,
+        ease: "power2.inOut"
+      });
 
       // Parallax zoom on hero image
       if (imageRef.current) {
@@ -91,6 +124,9 @@ export default function AboutHero() {
     <section
       ref={containerRef}
       className="relative h-screen w-full overflow-hidden bg-bg-primary"
+      onClick={() => {
+        if (timelineRef.current) timelineRef.current.play(0);
+      }}
     >
       {/* Background Image with Parallax */}
       <div ref={imageRef} className="absolute inset-0 h-[120%] w-full">
@@ -115,8 +151,11 @@ export default function AboutHero() {
             <SplitText text="THE FIRM" />
           </h1>
           <p className="mt-6 font-editorial text-2xl italic text-text-secondary md:text-5xl max-w-4xl leading-tight">
-            "We build at the intersection of monolithic structural integrity and 
-            the visceral human experience of space."
+            <span className="sr-only">"We build at the intersection of monolithic structural integrity and the visceral human experience of space."</span>
+            <span aria-hidden="true" className="relative group/scramble">
+              <span ref={scrambleRef}></span>
+              <span ref={cursorRef} className="ml-1 inline-block h-[0.9em] w-[0.1em] translate-y-[0.1em] bg-current opacity-70"></span>
+            </span>
           </p>
         </div>
 

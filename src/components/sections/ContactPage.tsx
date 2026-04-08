@@ -5,10 +5,11 @@ import { useForm, ValidationError } from "@formspree/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { TextPlugin } from "gsap/TextPlugin";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 // ─── Replace with your Formspree form ID ─────────────────────────────────────
 // Get it free at https://formspree.io — takes 30 seconds
@@ -164,9 +165,39 @@ export default function ContactPage() {
   const headingRef = useRef<HTMLDivElement>(null);
   const formRef    = useRef<HTMLDivElement>(null);
   const infoRef    = useRef<HTMLDivElement>(null);
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
+  const btnTl = useRef<gsap.core.Timeline | null>(null);
 
   useGSAP(
     () => {
+      // Create Send Button Timeline
+      if (submitBtnRef.current) {
+        const btn = submitBtnRef.current.querySelector(".btn-text");
+        btnTl.current = gsap.timeline({ paused: true })
+          .to(btn, {
+            duration: 1,
+            text: {
+              value: 'Sending...',
+              type: 'diff'
+            },
+            ease: 'sine.in'
+          })
+          .to(btn, {
+            duration: 0.6,
+            text: {
+              value: 'Sending',
+              type: 'diff'
+            },
+            ease: 'sine.inOut',
+            repeat: 4,
+            yoyo: true
+          })
+          .to(btn, {
+            text: 'Sent!',
+            ease: 'none'
+          }, "+=0.5");
+      }
+
       const chars = headingRef.current?.querySelectorAll(".contact-char");
       const label = headingRef.current?.querySelector(".contact-label");
 
@@ -227,6 +258,12 @@ export default function ContactPage() {
     },
     { scope: pageRef }
   );
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    btnTl.current?.play(0);
+    await submit(e);
+  };
 
   return (
     <main ref={pageRef} className="min-h-screen w-full bg-bg-primary pt-32 pb-24 md:pt-40 md:pb-32">
@@ -321,7 +358,7 @@ export default function ContactPage() {
             <SuccessMessage />
           ) : (
             <form
-              onSubmit={submit}
+              onSubmit={handleSubmit}
               noValidate
               className="flex flex-col gap-12"
             >
@@ -437,12 +474,13 @@ export default function ContactPage() {
               {/* Submit */}
               <div className="flex items-center gap-8">
                 <button
+                  ref={submitBtnRef}
                   type="submit"
                   disabled={formState.submitting}
                   className="group relative overflow-hidden bg-accent px-12 py-5 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-transform hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <span className="relative z-10">
-                    {formState.submitting ? "Sending…" : "Send Message"}
+                  <span className="btn-text relative z-10">
+                    Send Message
                   </span>
                   <span className="absolute inset-0 -translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
                 </button>
