@@ -444,7 +444,7 @@ export default function ProjectsListPage() {
   useGSAP(
     () => {
       gsap.fromTo(
-        pageRef.current?.querySelectorAll(".header-el"),
+        ".header-el",
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, stagger: 0.1, duration: 0.7, ease: "power3.out", delay: 0.3 }
       );
