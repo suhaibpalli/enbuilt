@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ProjectCategory } from "./types";
 import { CATEGORIES } from "./projects-data";
@@ -11,6 +11,8 @@ interface ProjectFilterProps {
 }
 
 export function ProjectFilter({ activeCategory, onFilter }: ProjectFilterProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div
       className="mb-16 flex flex-wrap gap-3 border-b border-border/50 pb-10"
@@ -20,10 +22,10 @@ export function ProjectFilter({ activeCategory, onFilter }: ProjectFilterProps) 
       {CATEGORIES.map((cat, i) => (
         <motion.button
           key={cat}
-          initial={{ opacity: 0, y: 10 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: i * 0.05 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.4, delay: shouldReduceMotion ? 0 : i * 0.05 }}
           role="tab"
           aria-selected={activeCategory === cat}
           onClick={() => onFilter(cat)}
@@ -36,10 +38,14 @@ export function ProjectFilter({ activeCategory, onFilter }: ProjectFilterProps) 
         >
           {/* Background fill */}
           {activeCategory === cat && (
-            <motion.div 
+            <motion.div
               layoutId="activeFilter"
               className="absolute inset-0 bg-accent"
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0 }
+                  : { type: "spring", bounce: 0.2, duration: 0.6 }
+              }
             />
           )}
           

@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -67,6 +68,13 @@ export default function TestimonialsSection() {
   useGSAP(
     () => {
       const els = sectionRef.current?.querySelectorAll(".testimonial-header-el");
+
+      if (prefersReducedMotion()) {
+        if (els?.length) gsap.set(els, { opacity: 1, y: 0 });
+        gsap.set(lineRef.current, { scaleX: 1 });
+        return;
+      }
+
       if (els?.length) {
         gsap.fromTo(
           els,
@@ -107,6 +115,12 @@ export default function TestimonialsSection() {
 
   const switchTo = (idx: number) => {
     if (isAnimating.current || idx === active) return;
+
+    if (prefersReducedMotion()) {
+      setActive(idx);
+      return;
+    }
+
     isAnimating.current = true;
 
     const tl = gsap.timeline({

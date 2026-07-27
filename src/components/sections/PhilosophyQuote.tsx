@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,6 +25,20 @@ export default function PhilosophyQuote() {
   useGSAP(
     () => {
       if (!sectionRef.current) return;
+
+      if (prefersReducedMotion()) {
+        // Neutralize the label (also held at opacity: 0 via inline style in
+        // JSX), the word-by-word quote reveal, and the red accent line to
+        // their final visible state. The decorative ghost-numeral parallax
+        // has no hidden state — it just drifts — so it's simply skipped.
+        if (labelRef.current) gsap.set(labelRef.current, { opacity: 1, y: 0 });
+        if (quoteRef.current) {
+          const words = Array.from(quoteRef.current.querySelectorAll(".q-word"));
+          if (words.length) gsap.set(words, { yPercent: 0, opacity: 1 });
+        }
+        if (lineRef.current) gsap.set(lineRef.current, { scaleX: 1 });
+        return;
+      }
 
       // Label fades in
       if (labelRef.current) {

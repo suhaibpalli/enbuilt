@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Project } from "./types";
 
@@ -14,14 +14,17 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, dataIndex }: ProjectCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  // Subtle parallax effect for the image inside the card
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  // Subtle parallax effect for the image inside the card.
+  // For reduced motion, pin the image at rest instead of tying it to scroll position.
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const y = shouldReduceMotion ? "0%" : parallaxY;
 
   return (
     <div

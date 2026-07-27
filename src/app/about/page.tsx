@@ -1,5 +1,4 @@
-"use client";
-
+import type { Metadata } from "next";
 import AboutHero from "@/components/sections/AboutHero";
 import HorizontalPhilosophy from "@/components/sections/HorizontalPhilosophy";
 import TeamSection from "@/components/sections/TeamSection";
@@ -7,6 +6,11 @@ import AwardsStrip from "@/components/sections/AwardsStrip";
 import ValuesSection from "@/components/sections/ValuesSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "The Firm",
+  description: "Established 2012 in Chennai. We build at the intersection of monolithic structural integrity and the visceral human experience of space.",
+};
 
 export default function AboutPage() {
   return (

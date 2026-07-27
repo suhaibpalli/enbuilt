@@ -45,6 +45,9 @@ next-env.d.ts
 .opencode
 .kilocode
 
+# personal Claude Code overrides — .claude/settings.json (project-shared) stays tracked
+.claude/settings.local.json
+
 collect_codes.py
 all_files_combined.txt
 wireframe/

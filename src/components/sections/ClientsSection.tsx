@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,6 +43,13 @@ function ClientMarquee({
   useGSAP(
     () => {
       if (!innerRef.current) return;
+
+      if (prefersReducedMotion()) {
+        // Static row — no infinite loop.
+        gsap.set(innerRef.current, { xPercent: 0 });
+        return;
+      }
+
       gsap.to(innerRef.current, {
         xPercent: -50 * direction,
         ease: "none",
@@ -86,6 +94,19 @@ export default function ClientsSection() {
   useGSAP(
     () => {
       const els = headerRef.current?.querySelectorAll(".clients-el");
+      const counters = sectionRef.current?.querySelectorAll(".clients-counter");
+
+      if (prefersReducedMotion()) {
+        if (els?.length) {
+          gsap.set(els, { opacity: 1, y: 0 });
+        }
+        counters?.forEach((el) => {
+          const target = parseInt(el.getAttribute("data-target") ?? "0", 10);
+          el.textContent = target.toString();
+        });
+        return;
+      }
+
       if (!els?.length) return;
 
       gsap.fromTo(
@@ -106,7 +127,6 @@ export default function ClientsSection() {
       );
 
       // Stats count up
-      const counters = sectionRef.current?.querySelectorAll(".clients-counter");
       counters?.forEach((el) => {
         const target = parseInt(el.getAttribute("data-target") ?? "0", 10);
         ScrollTrigger.create({

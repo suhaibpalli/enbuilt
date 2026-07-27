@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Logo from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,6 +53,9 @@ function FooterMarquee() {
     () => {
       const inner = marqueeRef.current?.querySelector(".footer-marquee-inner");
       if (!inner) return;
+      // Decorative, perpetual (repeat: -1) loop — no hidden "from" state to
+      // neutralize, just skip the infinite scroll for reduced-motion users.
+      if (prefersReducedMotion()) return;
       gsap.to(inner, {
         xPercent: -50,
         ease: "none",
@@ -110,6 +114,17 @@ export default function Footer() {
   useGSAP(
     () => {
       if (!footerRef.current) return;
+
+      if (prefersReducedMotion()) {
+        // Neutralize every hidden "from" state so the footer is fully
+        // visible immediately, without waiting on scroll.
+        gsap.set(redLineRef.current, { scaleX: 1 });
+        gsap.set(logoRef.current, { clipPath: "inset(0 0% 0 0)", opacity: 1 });
+        const cols = colsRef.current?.querySelectorAll(".footer-col");
+        if (cols?.length) gsap.set(cols, { y: 0, opacity: 1 });
+        gsap.set(bottomRef.current, { y: 0, opacity: 1 });
+        return;
+      }
 
       // ── 1. Red horizontal line grows from left ──────────────────────────
       gsap.fromTo(

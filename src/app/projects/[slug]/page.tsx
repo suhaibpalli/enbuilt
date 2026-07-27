@@ -1,6 +1,4 @@
-"use client";
-
-import { use } from "react";
+import type { Metadata } from "next";
 import { PROJECTS_DATA } from "@/lib/projects-data";
 import ProjectHero from "@/components/sections/ProjectHero";
 import ProjectNarrative from "@/components/sections/ProjectNarrative";
@@ -12,8 +10,29 @@ interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = use(params);
+export function generateStaticParams() {
+  return Object.keys(PROJECTS_DATA).map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = PROJECTS_DATA[slug];
+
+  if (!project) {
+    return { title: "Project Not Found" };
+  }
+
+  return {
+    title: project.title,
+    description: `${project.subtitle} — ${project.typology} in ${project.location}, ${project.year}. ${project.area}.`,
+    openGraph: {
+      images: [project.heroImage],
+    },
+  };
+}
+
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
   const project = PROJECTS_DATA[slug];
 
   if (!project) {

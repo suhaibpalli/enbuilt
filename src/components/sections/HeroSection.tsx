@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -105,6 +106,34 @@ export default function HeroSection({
       const metaRight = wrapperRef.current.querySelector(".hero-meta-right");
 
       const charArray = Array.from(chars);
+
+      if (prefersReducedMotion()) {
+        // Neutralize every hidden "from" state so the hero, the pinned
+        // reveal, and the stats/project-tag content are all visible
+        // immediately — no scroll-scrubbed pin, no fade-out, no count-up.
+        if (charArray.length) gsap.set(charArray, { yPercent: 0, opacity: 1 });
+        gsap.set(
+          [taglineEl, descriptorEl, ctaEl, metaLeft, metaRight, scrollCueRef.current].filter(Boolean) as Element[],
+          { opacity: 1, y: 0 }
+        );
+        if (redLineRef.current) gsap.set(redLineRef.current, { scaleX: 1 });
+        if (heroRef.current) gsap.set(heroRef.current, { opacity: 1, y: 0 });
+        if (clipRef.current) gsap.set(clipRef.current, { clipPath: "inset(0 0% 0 0)" });
+        if (imageRef.current) gsap.set(imageRef.current, { scale: 1, yPercent: 0 });
+        if (statsRef.current) {
+          gsap.set(statsRef.current, { opacity: 1, x: 0 });
+          gsap.set(statsRef.current.querySelectorAll(".stat-item"), { opacity: 1, y: 0 });
+        }
+        if (projectTagRef.current) gsap.set(projectTagRef.current, { opacity: 1, x: 0 });
+
+        // Counters: land on the final value directly, no count-up tween.
+        counterRefs.current.forEach((el, i) => {
+          if (!el) return;
+          el.textContent = String(stats[i]?.value ?? "0");
+        });
+
+        return;
+      }
 
       // Set initial hidden state
       if (charArray.length) gsap.set(charArray, { yPercent: 110, opacity: 0 });

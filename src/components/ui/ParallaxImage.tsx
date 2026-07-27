@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,6 +50,7 @@ export default function ParallaxImage({
   useGSAP(
     () => {
       if (!containerRef.current || !imageRef.current) return;
+      if (prefersReducedMotion()) return;
 
       gsap.to(imageRef.current, {
         yPercent: speed,
@@ -67,7 +69,7 @@ export default function ParallaxImage({
   return (
     <div
       ref={containerRef}
-      className={cn("relative overflow-hidden", containerClassName)}
+      className={cn("relative aspect-[4/3] overflow-hidden", containerClassName)}
     >
       <div
         ref={imageRef}

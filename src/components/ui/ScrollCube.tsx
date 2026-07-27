@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,6 +54,23 @@ export default function ScrollCube({
   useGSAP(
     () => {
       if (!sectionRef.current || !cubeRef.current) return;
+
+      if (prefersReducedMotion()) {
+        // Static cube — lock to the front face, no scroll-driven rotation.
+        gsap.set(cubeRef.current, {
+          opacity: 1,
+          scale: 1,
+          rotationX: 0,
+          rotationY: 0,
+        });
+        if (labelRef.current) {
+          gsap.set(labelRef.current.querySelectorAll(".label-el"), {
+            opacity: 1,
+            y: 0,
+          });
+        }
+        return;
+      }
 
       // Initial cube entrance
       gsap.fromTo(

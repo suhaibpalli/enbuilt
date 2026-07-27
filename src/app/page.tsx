@@ -1,11 +1,15 @@
-"use client";
-
+import type { Metadata } from "next";
 import HeroSection from "@/components/sections/HeroSection";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import StatsSection from "@/components/sections/StatsSection";
 import PhilosophyQuote from "@/components/sections/PhilosophyQuote";
 import ClientsSection from "@/components/sections/ClientsSection";
 import ScrollCube from "@/components/ui/ScrollCube";
+
+export const metadata: Metadata = {
+  title: "Spatial & Structural Design",
+  description: "Architectural landmarks built for permanence. Monolithic form meeting technical precision — 47 structures across 8 metropolitan cities.",
+};
 
 export default function Home() {
   return (

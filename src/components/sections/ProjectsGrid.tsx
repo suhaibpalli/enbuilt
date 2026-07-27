@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // Modular sub-components
@@ -27,6 +27,7 @@ export default function ProjectsGrid({
 }: ProjectsGridProps) {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>("All");
   const sectionRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   
   // Filtered list
   const filtered = projects.filter(
@@ -77,25 +78,25 @@ export default function ProjectsGrid({
               // Create an asymmetric architectural layout
               // We use md:col-span values that sum up to 12 across rows for structured asymmetry
               const gridConfig = [
-                "md:col-span-7 md:aspect-[16/10]",         // Row 1, Col 1-7: Large
-                "md:col-span-5 md:mt-32 md:aspect-[4/5]",  // Row 1, Col 8-12: Tall (offset down)
-                "md:col-span-5 md:-mt-16 md:aspect-[1/1]", // Row 2, Col 1-5: Square (offset up)
-                "md:col-span-7 md:aspect-[16/9]",          // Row 2, Col 6-12: Wide
-                "md:col-span-8 md:aspect-[16/10]",         // Row 3, Col 1-8: Wide main
-                "md:col-span-4 md:mt-20 md:aspect-[4/5]",  // Row 3, Col 9-12: Tall end
+                "aspect-[4/3] md:col-span-7 md:aspect-[16/10]",         // Row 1, Col 1-7: Large
+                "aspect-[4/5] md:col-span-5 md:mt-32 md:aspect-[4/5]",  // Row 1, Col 8-12: Tall (offset down)
+                "aspect-[4/5] md:col-span-5 md:-mt-16 md:aspect-[1/1]", // Row 2, Col 1-5: Square (offset up)
+                "aspect-[4/3] md:col-span-7 md:aspect-[16/9]",          // Row 2, Col 6-12: Wide
+                "aspect-[4/3] md:col-span-8 md:aspect-[16/10]",         // Row 3, Col 1-8: Wide main
+                "aspect-[4/5] md:col-span-4 md:mt-20 md:aspect-[4/5]",  // Row 3, Col 9-12: Tall end
               ][i % 6];
 
               return (
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ 
-                    duration: 0.8, 
+                  exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.8,
                     ease: [0.215, 0.61, 0.355, 1],
-                    delay: (i % 3) * 0.1 
+                    delay: shouldReduceMotion ? 0 : (i % 3) * 0.1
                   }}
                   viewport={{ once: true, margin: "-100px" }}
                   className={cn("relative group", gridConfig)}

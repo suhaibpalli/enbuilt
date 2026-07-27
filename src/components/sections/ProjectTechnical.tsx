@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { TechnicalSpec } from "@/lib/projects-data";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,6 +22,19 @@ export default function ProjectTechnical({ blueprintSrc, specs }: ProjectTechnic
 
   useGSAP(
     () => {
+      const specChildren = specsRef.current?.children ? Array.from(specsRef.current.children) : [];
+
+      if (prefersReducedMotion()) {
+        if (blueprintRef.current) {
+          gsap.set(blueprintRef.current, {
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          });
+        }
+        if (specChildren.length) gsap.set(specChildren, { x: 0, opacity: 1 });
+        gsap.set(".blueprint-marker", { scale: 1, opacity: 1 });
+        return;
+      }
+
       // Blueprint reveal: clip-path geometric wipe
       if (blueprintRef.current) {
         gsap.fromTo(
@@ -40,7 +54,6 @@ export default function ProjectTechnical({ blueprintSrc, specs }: ProjectTechnic
       }
 
       // Specs animation
-      const specChildren = specsRef.current?.children ? Array.from(specsRef.current.children) : [];
       if (specChildren.length) {
         gsap.from(specChildren, {
           x: 30,

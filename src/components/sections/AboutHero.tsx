@@ -8,8 +8,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
+
+const HERO_QUOTE =
+  '"We build at the intersection of monolithic structural integrity and the visceral human experience of space."';
 
 export default function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,6 +29,19 @@ export default function AboutHero() {
       const chars = titleRef.current?.querySelectorAll(".split-char");
       const charArray = chars ? Array.from(chars) : [];
       const statsChildren = statsRef.current?.children ? Array.from(statsRef.current.children) : [];
+
+      if (prefersReducedMotion()) {
+        // Neutralize the split-char title and stats row to their final,
+        // visible position; skip the parallax zoom, the scroll fade-out,
+        // and the cursor's perpetual blink loop. The scramble is a single
+        // one-shot reveal, not a scroll-scrubbed effect, so we just land the
+        // text on its final string instantly instead of animating it.
+        if (charArray.length) gsap.set(charArray, { yPercent: 0, opacity: 1 });
+        if (statsChildren.length) gsap.set(statsChildren, { y: 0, opacity: 1 });
+        if (scrambleRef.current) scrambleRef.current.textContent = HERO_QUOTE;
+        if (cursorRef.current) gsap.set(cursorRef.current, { opacity: 0 });
+        return;
+      }
 
       // Initial states
       if (charArray.length) gsap.set(charArray, { yPercent: 110, opacity: 0 });
@@ -59,23 +76,19 @@ export default function AboutHero() {
       }
 
       // Scramble Text Animation
-      tl.fromTo(scrambleRef.current, 
-        { 
-          text: "",
+      tl.to(scrambleRef.current, {
+        scrambleText: {
+          text: HERO_QUOTE,
+          chars: "ABCDEFGHIJKLMN0123456789!@#$%^&*",
+          speed: 1.2,
+          revealDelay: 0.1
         },
-        {
-          scrambleText: {
-            text: '"We build at the intersection of monolithic structural integrity and the visceral human experience of space."',
-            chars: "ABCDEFGHIJKLMN0123456789!@#$%^&*",
-            speed: 1.2,
-            revealDelay: 0.1
-          },
-          duration: 3.5,
-          ease: "none",
-          onComplete: () => {
-            gsap.to(cursorRef.current, { opacity: 0, duration: 0.5 });
-          }
-        }, 0.5);
+        duration: 3.5,
+        ease: "none",
+        onComplete: () => {
+          gsap.to(cursorRef.current, { opacity: 0, duration: 0.5 });
+        }
+      }, 0.5);
 
       // Cursor blinking
       gsap.to(cursorRef.current, {
@@ -151,7 +164,7 @@ export default function AboutHero() {
             <SplitText text="THE FIRM" />
           </h1>
           <p className="mt-6 font-editorial text-2xl italic text-text-secondary md:text-5xl max-w-4xl leading-tight">
-            <span className="sr-only">"We build at the intersection of monolithic structural integrity and the visceral human experience of space."</span>
+            <span className="sr-only">{HERO_QUOTE}</span>
             <span aria-hidden="true" className="relative group/scramble">
               <span ref={scrambleRef}></span>
               <span ref={cursorRef} className="ml-1 inline-block h-[0.9em] w-[0.1em] translate-y-[0.1em] bg-current opacity-70"></span>

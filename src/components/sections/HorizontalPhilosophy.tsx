@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,12 +45,33 @@ export default function HorizontalPhilosophy() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Render-time layout flag — set in an effect (never as a useState
+  // initializer) so the server-rendered markup and the first client render
+  // match; the reduced-motion layout is applied on the very next paint.
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(prefersReducedMotion());
+  }, []);
+
   useGSAP(
     () => {
       if (!sectionRef.current || !containerRef.current) return;
 
       const panels = containerRef.current.querySelectorAll(".philosophy-panel");
       if (!panels.length) return;
+
+      if (prefersReducedMotion()) {
+        // Vertical-stack layout (see JSX below) — every panel is already
+        // reachable via normal scroll, so just make sure nothing is left in
+        // its hidden "from" state and skip the pin/scrub entirely.
+        const revealTargets = containerRef.current.querySelectorAll(
+          ".panel-title, .panel-desc, .panel-image"
+        );
+        gsap.set(revealTargets, { opacity: 1, y: 0 });
+        gsap.set(containerRef.current, { clearProps: "transform" });
+        return;
+      }
 
       // ── Main horizontal scroll tween ──────────────────────────────────────
       const horizontalTween = gsap.to(containerRef.current, {
@@ -128,10 +150,18 @@ export default function HorizontalPhilosophy() {
 
       <div
         ref={containerRef}
-        className="flex h-screen w-max items-center"
+        className={cn(
+          "flex items-center",
+          reducedMotion ? "flex-col w-full items-stretch" : "h-screen w-max"
+        )}
       >
         {/* Intro Panel */}
-        <div className="flex h-full w-screen flex-shrink-0 flex-col justify-center px-6 md:px-20">
+        <div
+          className={cn(
+            "flex flex-col justify-center px-6 md:px-20",
+            reducedMotion ? "w-full py-20" : "h-full w-screen flex-shrink-0"
+          )}
+        >
           <span className="font-condensed text-accent text-[12px] uppercase tracking-[0.5em] font-bold mb-6">
             — Our Manifesto
           </span>
@@ -141,7 +171,7 @@ export default function HorizontalPhilosophy() {
           <div className="mt-12 flex items-center gap-6">
             <div className="h-px w-24 bg-accent" />
             <span className="font-condensed text-[10px] text-text-tertiary uppercase tracking-widest">
-              Scroll horizontally to explore
+              {reducedMotion ? "Scroll to explore" : "Scroll horizontally to explore"}
             </span>
           </div>
         </div>
@@ -150,7 +180,12 @@ export default function HorizontalPhilosophy() {
         {PHILOSOPHY_PANELS.map((panel, idx) => (
           <div
             key={panel.id}
-            className="philosophy-panel relative flex h-full w-[80vw] flex-shrink-0 items-center px-10 md:px-24 border-l border-white/5"
+            className={cn(
+              "philosophy-panel relative flex items-center px-6 md:px-24",
+              reducedMotion
+                ? "w-full flex-col py-16 border-t border-white/5"
+                : "h-full w-[80vw] flex-shrink-0 px-10 border-l border-white/5"
+            )}
           >
             <div className="flex flex-col md:flex-row items-center gap-16 w-full">
               {/* Image side */}
@@ -186,8 +221,9 @@ export default function HorizontalPhilosophy() {
           </div>
         ))}
 
-        {/* Outro Buffer */}
-        <div className="w-[20vw] h-full" />
+        {/* Outro Buffer — only needed as scroll-distance padding for the
+            horizontal pin; not relevant to the stacked reduced-motion layout */}
+        {!reducedMotion && <div className="w-[20vw] h-full" />}
       </div>
     </section>
   );

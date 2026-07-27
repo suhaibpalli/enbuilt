@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
@@ -17,6 +17,8 @@ const ITEMS = [
 ];
 
 export function MarqueeStrip() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div
       className="mt-32 overflow-hidden border-y border-border/50 py-8"
@@ -24,10 +26,10 @@ export function MarqueeStrip() {
     >
       <div className="flex whitespace-nowrap">
         <motion.div
-          animate={{ x: "-50%" }}
+          animate={{ x: shouldReduceMotion ? "0%" : "-50%" }}
           transition={{
-            duration: 30,
-            repeat: Infinity,
+            duration: shouldReduceMotion ? 0 : 30,
+            repeat: shouldReduceMotion ? 0 : Infinity,
             ease: "linear",
           }}
           className="flex gap-16 pr-16"

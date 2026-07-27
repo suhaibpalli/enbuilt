@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import { PROJECTS_DATA } from "@/lib/projects-data";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -109,6 +110,12 @@ function SplitView({ projects }: { projects: ProjectEntry[] }) {
     () => {
       const rows = containerRef.current?.querySelectorAll(".split-row");
       if (!rows?.length) return;
+
+      if (prefersReducedMotion()) {
+        gsap.set(rows, { opacity: 1, x: 0 });
+        return;
+      }
+
       gsap.fromTo(
         rows,
         { opacity: 0, x: -30 },
@@ -221,6 +228,12 @@ function GridView({ projects }: { projects: ProjectEntry[] }) {
     () => {
       const cards = gridRef.current?.querySelectorAll(".grid-card");
       if (!cards?.length) return;
+
+      if (prefersReducedMotion()) {
+        gsap.set(cards, { clipPath: "inset(0% 0 0 0)", opacity: 1 });
+        return;
+      }
+
       gsap.fromTo(
         cards,
         { clipPath: "inset(100% 0 0 0)", opacity: 0 },
@@ -315,6 +328,12 @@ function TableView({ projects }: { projects: ProjectEntry[] }) {
     () => {
       const rows = tableRef.current?.querySelectorAll(".table-row");
       if (!rows?.length) return;
+
+      if (prefersReducedMotion()) {
+        gsap.set(rows, { opacity: 1, y: 0 });
+        return;
+      }
+
       gsap.fromTo(
         rows,
         { opacity: 0, y: 10 },
@@ -443,6 +462,11 @@ export default function ProjectsListPage() {
   // Header entrance
   useGSAP(
     () => {
+      if (prefersReducedMotion()) {
+        gsap.set(".header-el", { opacity: 1, y: 0 });
+        return;
+      }
+
       gsap.fromTo(
         ".header-el",
         { opacity: 0, y: 20 },

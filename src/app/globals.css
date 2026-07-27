@@ -181,3 +181,21 @@ html.lenis, html.lenis body {
 .overflow-clip {
   overflow: clip;
 }
+
+/* ─── Reduced Motion ─────────────────────────────────────────────────────────── */
+
+/* CSS-driven motion only — Lenis, GSAP tweens, and framer-motion write inline
+   styles that this can't reach. Their own prefers-reduced-motion checks live
+   in src/lib/motion.ts (GSAP call sites) and framer-motion's useReducedMotion
+   hook (framer call sites). This block covers the remaining plain CSS
+   transitions/animations so nothing slips through either path. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

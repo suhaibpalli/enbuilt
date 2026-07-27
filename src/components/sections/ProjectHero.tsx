@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,7 +40,14 @@ export default function ProjectHero({
       const chars = titleRef.current?.querySelectorAll(".split-char");
       const charArray = chars ? Array.from(chars) : [];
       const metaChildren = metaRef.current?.children ? Array.from(metaRef.current.children) : [];
-      
+
+      if (prefersReducedMotion()) {
+        if (charArray.length) gsap.set(charArray, { yPercent: 0, opacity: 1 });
+        if (metaChildren.length) gsap.set(metaChildren, { y: 0, opacity: 1 });
+        // No parallax/scroll-fade tweens created below — image and content stay static & visible.
+        return;
+      }
+
       // Initial states
       if (charArray.length) gsap.set(charArray, { yPercent: 110, opacity: 0 });
       if (metaChildren.length) gsap.set(metaChildren, { y: 20, opacity: 0 });

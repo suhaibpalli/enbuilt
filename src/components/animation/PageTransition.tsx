@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
+import { prefersReducedMotion } from "@/lib/motion";
 
 /**
  * PageTransition
@@ -23,6 +24,13 @@ export default function PageTransition() {
     }
 
     if (!wipeRef.current) return;
+
+    // Skip the wipe — just make sure it's parked off-screen, never left
+    // covering the viewport.
+    if (prefersReducedMotion()) {
+      gsap.set(wipeRef.current, { xPercent: -100 });
+      return;
+    }
 
     const tl = gsap.timeline();
 

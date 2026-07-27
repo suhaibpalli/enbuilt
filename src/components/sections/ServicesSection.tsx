@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -80,6 +81,19 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[0]; index: n
 
   const toggle = contextSafe(() => {
     if (!bodyRef.current) return;
+
+    if (prefersReducedMotion()) {
+      if (!isOpen) {
+        setIsOpen(true);
+        gsap.set(bodyRef.current, { height: "auto", opacity: 1 });
+        gsap.set(lineRef.current, { scaleX: 1 });
+      } else {
+        gsap.set(bodyRef.current, { height: 0, opacity: 0 });
+        gsap.set(lineRef.current, { scaleX: 0 });
+        setIsOpen(false);
+      }
+      return;
+    }
 
     if (!isOpen) {
       setIsOpen(true);
@@ -215,6 +229,14 @@ export default function ServicesSection() {
       const chars = headerRef.current?.querySelectorAll(".service-char");
       const label = headerRef.current?.querySelector(".service-label");
       const sub   = headerRef.current?.querySelector(".service-sub");
+      const cards = sectionRef.current?.querySelectorAll(".service-card");
+
+      if (prefersReducedMotion()) {
+        if (chars?.length) gsap.set(Array.from(chars), { yPercent: 0, opacity: 1 });
+        gsap.set([label, sub].filter(Boolean) as Element[], { opacity: 1, y: 0 });
+        if (cards?.length) gsap.set(cards, { opacity: 1, y: 0 });
+        return;
+      }
 
       if (chars?.length) gsap.set(Array.from(chars), { yPercent: 110, opacity: 0 });
       gsap.set([label, sub].filter(Boolean) as Element[], { opacity: 0, y: 16 });
@@ -240,7 +262,6 @@ export default function ServicesSection() {
       });
 
       // Service cards stagger in
-      const cards = sectionRef.current?.querySelectorAll(".service-card");
       if (cards?.length) {
         gsap.fromTo(
           cards,

@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { prefersReducedMotion } from "@/lib/motion";
 
 interface NavbarProps {
   showLogo?: boolean;
@@ -59,6 +60,25 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
 
     overlay.style.display = "flex";
 
+    if (prefersReducedMotion()) {
+      // Skip the clip-path wipe, burger→X rotation, and link stagger-slide —
+      // the menu still needs to visibly open, so land everything on its
+      // final state immediately and use a quick opacity fade (not a
+      // teleport) so the transition still registers as feedback.
+      gsap.set(overlay, { clipPath: "inset(0 0 0% 0)" });
+      const links = overlay.querySelectorAll(".mobile-link");
+      if (links.length) gsap.set(links, { yPercent: 0, opacity: 1 });
+      const meta = overlay.querySelector(".mobile-meta");
+      if (meta) gsap.set(meta, { opacity: 1, y: 0 });
+      if (burgerTopRef.current && burgerMidRef.current && burgerBotRef.current) {
+        gsap.set(burgerTopRef.current, { y: 7, rotate: 45 });
+        gsap.set(burgerMidRef.current, { opacity: 0, scaleX: 0 });
+        gsap.set(burgerBotRef.current, { y: -7, rotate: -45 });
+      }
+      gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
+      return;
+    }
+
     const tl = gsap.timeline();
 
     // Animate overlay in
@@ -92,6 +112,26 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
   const closeMenu = contextSafe(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
+
+    if (prefersReducedMotion()) {
+      gsap.to(overlay, {
+        opacity: 0,
+        duration: 0.15,
+        ease: "none",
+        onComplete: () => {
+          setIsOpen(false);
+          overlay.style.display = "none";
+          // Reset to the closed state so the next open starts clean.
+          gsap.set(overlay, { opacity: 1, clipPath: "inset(0 0 100% 0)" });
+          if (burgerTopRef.current && burgerMidRef.current && burgerBotRef.current) {
+            gsap.set(burgerTopRef.current, { y: 0, rotate: 0 });
+            gsap.set(burgerMidRef.current, { opacity: 1, scaleX: 1 });
+            gsap.set(burgerBotRef.current, { y: 0, rotate: 0 });
+          }
+        },
+      });
+      return;
+    }
 
     const tl = gsap.timeline({ onComplete: () => {
       setIsOpen(false);

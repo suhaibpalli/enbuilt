@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,8 +44,19 @@ export default function ValuesSection() {
 
   useGSAP(
     () => {
-      // Values items stagger in
       const items = valuesRef.current?.querySelectorAll(".value-item");
+      const founderEls = founderRef.current?.querySelectorAll(".founder-el");
+
+      if (prefersReducedMotion()) {
+        if (items?.length) gsap.set(items, { opacity: 1, x: 0 });
+        if (imageRef.current) {
+          gsap.set(imageRef.current, { clipPath: "inset(0% 0% 0% 0%)" });
+        }
+        if (founderEls?.length) gsap.set(founderEls, { opacity: 1, y: 0 });
+        return;
+      }
+
+      // Values items stagger in
       if (items?.length) {
         gsap.fromTo(
           items,
@@ -83,7 +95,6 @@ export default function ValuesSection() {
       }
 
       // Founder text
-      const founderEls = founderRef.current?.querySelectorAll(".founder-el");
       if (founderEls?.length) {
         gsap.fromTo(
           founderEls,

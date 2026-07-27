@@ -6,6 +6,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 interface NextProjectProps {
   title: string;
@@ -20,6 +21,18 @@ export default function NextProject({ title, slug, imageSrc }: NextProjectProps)
   const { contextSafe } = useGSAP({ scope: containerRef });
 
   const onMouseEnter = contextSafe(() => {
+    if (prefersReducedMotion()) {
+      // Drop the lift + rotation (large motion); keep a simple scale/opacity reveal
+      // since scale is needed for the card to be visible at all (base scale is 0).
+      gsap.to(previewRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      return;
+    }
+
     gsap.to(previewRef.current, {
       opacity: 1,
       scale: 1,
@@ -31,6 +44,16 @@ export default function NextProject({ title, slug, imageSrc }: NextProjectProps)
   });
 
   const onMouseLeave = contextSafe(() => {
+    if (prefersReducedMotion()) {
+      gsap.to(previewRef.current, {
+        opacity: 0,
+        scale: 0,
+        duration: 0.2,
+        ease: "power2.in",
+      });
+      return;
+    }
+
     gsap.to(previewRef.current, {
       opacity: 0,
       scale: 0,

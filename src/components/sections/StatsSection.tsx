@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +36,23 @@ export default function StatsSection() {
     () => {
       if (!sectionRef.current) return;
 
+      const statItems = sectionRef.current.querySelectorAll(".stat-block");
+
+      if (prefersReducedMotion()) {
+        if (lineRef.current) {
+          gsap.set(lineRef.current, { scaleX: 1 });
+        }
+        if (statItems.length) {
+          gsap.set(statItems, { y: 0, opacity: 1 });
+        }
+        counterRefs.current.forEach((el, i) => {
+          if (!el) return;
+          const target = STATS[i]?.value ?? 0;
+          el.textContent = target.toString();
+        });
+        return;
+      }
+
       // Red accent line grows from left on enter
       if (lineRef.current) {
         gsap.fromTo(
@@ -55,7 +73,6 @@ export default function StatsSection() {
       }
 
       // Stat items reveal from bottom
-      const statItems = sectionRef.current.querySelectorAll(".stat-block");
       if (statItems.length) {
         gsap.fromTo(
           statItems,

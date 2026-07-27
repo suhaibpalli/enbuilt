@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -131,6 +132,20 @@ export default function TeamSection() {
   useGSAP(
     () => {
       const cards = containerRef.current?.querySelectorAll(".team-card-wrapper");
+      const label = headerRef.current?.querySelector(".team-label");
+      const title = headerRef.current?.querySelector(".team-title");
+      const desc  = headerRef.current?.querySelector(".team-desc");
+
+      if (prefersReducedMotion()) {
+        if (cards?.length) {
+          gsap.set(cards, { y: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)" });
+        }
+        if (label && title && desc) {
+          gsap.set([label, title, desc], { y: 0, opacity: 1 });
+        }
+        return;
+      }
+
       if (!cards?.length) return;
 
       gsap.fromTo(
@@ -152,10 +167,6 @@ export default function TeamSection() {
       );
 
       // Header reveal
-      const label = headerRef.current?.querySelector(".team-label");
-      const title = headerRef.current?.querySelector(".team-title");
-      const desc  = headerRef.current?.querySelector(".team-desc");
-
       if (label && title && desc) {
         gsap.fromTo(
           [label, title, desc],

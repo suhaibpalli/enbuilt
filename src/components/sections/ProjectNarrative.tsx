@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import type { ProjectSection } from "@/lib/projects-data";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,30 @@ export default function ProjectNarrative({ sections }: ProjectNarrativeProps) {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) {
+        // Skip the pinned scroll-scrubbed narrative (desktop) and the
+        // fade-in-on-scroll (mobile) entirely — neutralize every hidden
+        // "from" state so all sections render fully visible, in normal
+        // document flow, reachable by ordinary scrolling.
+        const triggers = containerRef.current?.querySelectorAll(".narrative-section");
+        triggers?.forEach((section) => {
+          const text = section.querySelector(".section-text");
+          const imageContainer = section.querySelector(".image-container");
+          const images = imageContainer?.querySelectorAll(".project-image");
+
+          if (text) gsap.set(text, { opacity: 1, y: 0 });
+          if (imageContainer) gsap.set(imageContainer, { opacity: 1, y: 0 });
+          if (images?.length) {
+            gsap.set(Array.from(images), { scale: 1, clipPath: "inset(0 0 0 0)" });
+            images.forEach((img) => {
+              const imageEl = img.querySelector("img");
+              if (imageEl) gsap.set(imageEl, { yPercent: 0, scale: 1 });
+            });
+          }
+        });
+        return;
+      }
+
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {

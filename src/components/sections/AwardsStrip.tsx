@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 const AWARDS = [
   "AIA Firm of the Year 2023",
@@ -22,6 +23,14 @@ export default function AwardsStrip() {
     () => {
       const inner = containerRef.current?.querySelector(".awards-inner");
       if (!inner) return;
+
+      if (prefersReducedMotion()) {
+        // Static row — no infinite loop. The tripled content set overflows
+        // off-screen (clipped by the section's overflow-hidden), so it
+        // doesn't read as visibly duplicated.
+        gsap.set(inner, { xPercent: 0 });
+        return;
+      }
 
       gsap.to(inner, {
         xPercent: -50,

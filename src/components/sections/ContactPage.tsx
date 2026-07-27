@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TextPlugin } from "gsap/TextPlugin";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -127,6 +128,10 @@ function SuccessMessage() {
     () => {
       const els = ref.current?.querySelectorAll(".success-el");
       if (!els?.length) return;
+      if (prefersReducedMotion()) {
+        gsap.set(Array.from(els), { y: 0, opacity: 1 });
+        return;
+      }
       gsap.fromTo(
         Array.from(els),
         { y: 30, opacity: 0 },
@@ -200,6 +205,21 @@ export default function ContactPage() {
 
       const chars = headingRef.current?.querySelectorAll(".contact-char");
       const label = headingRef.current?.querySelector(".contact-label");
+
+      if (prefersReducedMotion()) {
+        // Neutralize every hidden "from" state — heading chars, label, the
+        // form (also held at opacity: 0 via inline style in JSX), and the
+        // info column — so the whole page is visible immediately. The
+        // submit-button text-swap timeline above is left untouched: it's a
+        // brief, functional state-change ("Send Message" → "Sending..." →
+        // "Sent!"), not a large-amplitude scroll reveal.
+        if (chars?.length) gsap.set(Array.from(chars), { yPercent: 0, opacity: 1 });
+        if (label) gsap.set(label, { opacity: 1, y: 0 });
+        if (formRef.current) gsap.set(formRef.current, { y: 0, opacity: 1 });
+        const infoItems = infoRef.current?.querySelectorAll(".info-item");
+        if (infoItems?.length) gsap.set(Array.from(infoItems), { y: 0, opacity: 1 });
+        return;
+      }
 
       if (chars?.length) gsap.set(Array.from(chars), { yPercent: 110, opacity: 0 });
       if (label) gsap.set(label, { opacity: 0, y: 16 });
