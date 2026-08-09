@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
+import Logo from "@/components/ui/Logo";
 import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,11 +32,16 @@ interface HeroSectionProps {
   /** The two-line split headline */
   headlineTop?: string;
   headlineBottom?: string;
+  /** Optional bold statement shown above the descriptor paragraph */
+  descriptorHeading?: string;
   /** Short descriptor under the headline */
   descriptor?: string;
   /** Hero background image URL. Replace with your project image. */
   imageSrc?: string;
   imageAlt?: string;
+  /** Optional background image behind the main EN/BUILT headline (Section 1) */
+  heroBgImageSrc?: string;
+  heroBgImageAlt?: string;
   /** Stats shown during the scrollytelling pin */
   stats?: HeroStat[];
   /** Featured project shown in the lower-left during pin */
@@ -68,9 +74,12 @@ export default function HeroSection({
   tagline = "Spatial & Structural Design",
   headlineTop = "BUILT",
   headlineBottom = "FOR FOREVER",
+  descriptorHeading,
   descriptor = "Monolithic architecture crafted at the intersection of\ntechnical precision and enduring human experience.",
   imageSrc = "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=85&auto=format",
   imageAlt = "Architectural structure — ENBUILT portfolio",
+  heroBgImageSrc,
+  heroBgImageAlt = "Hero background — ENBUILT",
   stats = DEFAULT_STATS,
   featuredProject = DEFAULT_PROJECT,
   scrollLabel = "Scroll to explore",
@@ -374,9 +383,31 @@ export default function HeroSection({
       {/* ── Section 1: Initial Hero ───────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative flex min-h-screen flex-col items-start justify-end px-6 pb-20 pt-32 md:px-16 md:pb-24"
+        className="relative flex min-h-screen flex-col items-start justify-end overflow-hidden px-6 pb-20 pt-32 md:px-16 md:pb-24"
         aria-label="Hero"
       >
+        {heroBgImageSrc && (
+          <div className="absolute inset-0">
+            <Image
+              src={heroBgImageSrc}
+              alt={heroBgImageAlt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+              draggable={false}
+            />
+            {/* Dark scrim so the headline stays legible over the photo */}
+            <div className="absolute inset-0 bg-bg-primary/70" />
+            <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-bg-primary/40 to-bg-primary/10" />
+
+            {/* Watermark logo, blended into the image */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+              <Logo className="w-[65%] max-w-2xl h-auto text-white opacity-30 mix-blend-screen" />
+            </div>
+          </div>
+        )}
+
         {/* Drafting grid overlay */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.04]"
@@ -413,13 +444,20 @@ export default function HeroSection({
           aria-hidden="true"
         />
 
-        {/* Descriptor + CTA row */}
-        <div className="hero-descriptor flex max-w-3xl flex-col gap-8 md:flex-row md:items-end md:gap-16">
-          <p className="max-w-sm whitespace-pre-line font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
-            {descriptor}
-          </p>
+        {/* Descriptor + CTA — stacked, left-aligned under the headline */}
+        <div className="hero-descriptor flex max-w-xl flex-col gap-8">
+          <div className="flex max-w-sm flex-col gap-4">
+            {descriptorHeading && (
+              <p className="font-condensed text-lg font-bold uppercase tracking-wide text-text-primary md:text-xl">
+                {descriptorHeading}
+              </p>
+            )}
+            <p className="whitespace-pre-line font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
+              {descriptor}
+            </p>
+          </div>
 
-          <div className="hero-cta flex shrink-0 flex-col gap-4 sm:flex-row md:flex-col md:gap-3">
+          <div className="hero-cta flex shrink-0 flex-col gap-4 sm:flex-row sm:items-center">
             <button
               onClick={onExploreClick}
               className="group relative overflow-hidden bg-accent px-8 py-4 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-transform hover:scale-[1.03] active:scale-95"
