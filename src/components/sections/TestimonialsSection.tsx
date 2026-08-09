@@ -100,7 +100,7 @@ export default function TestimonialsSection() {
         { scaleX: 0 },
         {
           scaleX: 1,
-          duration: 1.2,
+          duration: 0.75,
           ease: "expo.out",
           scrollTrigger: {
             trigger: sectionRef.current,

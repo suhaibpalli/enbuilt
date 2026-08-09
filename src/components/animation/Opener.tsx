@@ -26,7 +26,7 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
       onComplete: () => {
         onComplete();
       },
-      defaults: { ease: "power4.inOut", duration: 1.5 }
+      defaults: { ease: "power4.inOut", duration: 0.7 }
     });
 
     // 1. Initial State - Setup logo for "sketch" effect
@@ -48,21 +48,21 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
       }
 
       // 2. Sketch Animation (Drawing the logo)
-      tl.to(logoPathArray, { 
-        strokeDashoffset: 0, 
-        stagger: { amount: 1.2, from: "start" }, 
-        duration: 1.8, 
-        ease: "power2.inOut" 
+      tl.to(logoPathArray, {
+        strokeDashoffset: 0,
+        stagger: { amount: 0.6, from: "start" },
+        duration: 0.8,
+        ease: "power2.inOut"
       })
-      .to(logoPathArray, { 
-        fillOpacity: 1, 
-        strokeOpacity: 0, 
-        duration: 1, 
-        ease: "power1.inOut" 
-      }, "-=0.6");
+      .to(logoPathArray, {
+        fillOpacity: 1,
+        strokeOpacity: 0,
+        duration: 0.45,
+        ease: "power1.inOut"
+      }, "-=0.25");
     } else if (logoRef.current) {
       // Fallback if paths can't be found
-      tl.to(logoRef.current, { autoAlpha: 1, duration: 1 });
+      tl.to(logoRef.current, { autoAlpha: 1, duration: 0.7 });
     }
 
     // 3. Entrance Sequence based on variant
@@ -71,8 +71,8 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
     if (variant === "lift") {
       const panels = [leftPanelRef.current, rightPanelRef.current].filter(Boolean) as Element[];
       if (panels.length === 2) {
-        tl.to(leftPanelRef.current, { xPercent: -100, duration: 1.2 }, "+=0.2")
-          .to(rightPanelRef.current, { xPercent: 100, duration: 1.2 }, "<");
+        tl.to(leftPanelRef.current, { xPercent: -100, duration: 0.8 }, "+=0.2")
+          .to(rightPanelRef.current, { xPercent: 100, duration: 0.8 }, "<");
       }
       
       if (moveLogoAction) tl.add(moveLogoAction, "<");
@@ -80,9 +80,9 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
     else if (variant === "blur") {
       tl.set(containerRef.current, { backdropFilter: "blur(40px)", backgroundColor: "rgba(0,0,0,0.8)" })
         .to(containerRef.current, { 
-          backdropFilter: "blur(0px)", 
-          backgroundColor: "rgba(0,0,0,0)", 
-          duration: 1.5 
+          backdropFilter: "blur(0px)",
+          backgroundColor: "rgba(0,0,0,0)",
+          duration: 0.8
         }, "+=0.3");
       
       if (moveLogoAction) tl.add(moveLogoAction, "<");
@@ -94,8 +94,8 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
         tl.to(tileArray, { 
           scale: 0, 
           opacity: 0, 
-          stagger: { amount: 0.8, from: "center", grid: [5, 5] },
-          duration: 1
+          stagger: { amount: 0.5, from: "center", grid: [5, 5] },
+          duration: 0.7
         }, "+=0.5");
       }
       
@@ -103,8 +103,8 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
     }
     else if (variant === "glow") {
       if (glowRef.current) {
-        tl.to(glowRef.current, { opacity: 0.5, scale: 2, duration: 2 }, "-=1")
-          .to(glowRef.current, { opacity: 0, scale: 4, duration: 1.5 }, "+=0.2");
+        tl.to(glowRef.current, { opacity: 0.5, scale: 2, duration: 0.8 }, "-=0.4")
+          .to(glowRef.current, { opacity: 0, scale: 4, duration: 0.6 }, "+=0.15");
       }
       
       if (moveLogoAction) tl.add(moveLogoAction, "<");
@@ -136,15 +136,15 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
         x: deltaX,
         y: deltaY,
         scale: targetScale,
-        duration: 1.4,
+        duration: 0.8,
         ease: "expo.inOut",
         filter: "brightness(1.5) blur(0.5px)",
       })
       .to(logoRef.current, {
         filter: "brightness(1) blur(0px)",
-        duration: 0.6,
+        duration: 0.35,
         ease: "power2.out"
-      }, "-=0.6");
+      }, "-=0.3");
 
       return logoTl;
     }

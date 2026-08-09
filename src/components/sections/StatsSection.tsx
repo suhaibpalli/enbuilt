@@ -59,7 +59,7 @@ export default function StatsSection() {
           { scaleX: 0 },
           {
             scaleX: 1,
-            duration: 1.6,
+            duration: 0.75,
             ease: "expo.out",
             transformOrigin: "left center",
             scrollTrigger: {
@@ -80,7 +80,7 @@ export default function StatsSection() {
             y: 0,
             opacity: 1,
             stagger: 0.12,
-            duration: 1,
+            duration: 0.8,
             ease: "power4.out",
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -105,7 +105,7 @@ export default function StatsSection() {
               { textContent: 0 },
               {
                 textContent: target,
-                duration: 1.8,
+                duration: 0.8,
                 ease: "power2.out",
                 delay: i * 0.15,
                 snap: { textContent: 1 },

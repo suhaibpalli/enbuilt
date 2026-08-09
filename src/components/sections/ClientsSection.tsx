@@ -139,7 +139,7 @@ export default function ClientsSection() {
               { textContent: 0 },
               {
                 textContent: target,
-                duration: 1.6,
+                duration: 0.8,
                 ease: "power2.out",
                 snap: { textContent: 1 },
                 onUpdate() {

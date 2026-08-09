@@ -180,7 +180,7 @@ export default function ContactPage() {
         const btn = submitBtnRef.current.querySelector(".btn-text");
         btnTl.current = gsap.timeline({ paused: true })
           .to(btn, {
-            duration: 1,
+            duration: 0.8,
             text: {
               value: 'Sending...',
               type: 'diff'
@@ -236,7 +236,7 @@ export default function ContactPage() {
           {
             yPercent: 0,
             opacity: 1,
-            duration: 1,
+            duration: 0.8,
             ease: "power4.out",
             stagger: { amount: 0.4 },
           },
@@ -252,7 +252,7 @@ export default function ContactPage() {
           {
             y: 0,
             opacity: 1,
-            duration: 0.9,
+            duration: 0.75,
             ease: "power3.out",
             delay: 0.6,
           }
@@ -444,33 +444,11 @@ export default function ContactPage() {
               </div>
 
               {/* Budget */}
-              <div className="flex flex-col gap-4">
-                <p className="font-condensed text-[10px] font-bold uppercase tracking-[0.4em] text-text-tertiary">
-                  Approximate Budget
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    "Under ₹50L",
-                    "₹50L – ₹2Cr",
-                    "₹2Cr – ₹10Cr",
-                    "₹10Cr+",
-                    "Not Sure Yet",
-                  ].map((b) => (
-                    <label
-                      key={b}
-                      className="group flex cursor-pointer items-center gap-2 border border-border px-4 py-2 font-condensed text-[10px] font-bold uppercase tracking-[0.25em] text-text-secondary transition-colors has-[input:checked]:border-accent/50 has-[input:checked]:bg-accent/5 has-[input:checked]:text-accent hover:border-border hover:text-text-primary"
-                    >
-                      <input
-                        type="radio"
-                        name="budget"
-                        value={b}
-                        className="sr-only"
-                      />
-                      {b}
-                    </label>
-                  ))}
-                </div>
-              </div>
+              <Field
+                label="Approximate Budget (SAR)"
+                name="budget"
+                placeholder="e.g. 500,000 – 1,000,000"
+              />
 
               {/* Message */}
               <Field

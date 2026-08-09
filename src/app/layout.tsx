@@ -1,13 +1,7 @@
-import { Bebas_Neue, Barlow_Condensed, DM_Sans, Cormorant_Garamond } from "next/font/google";
+import { Barlow_Condensed, DM_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/layout/ClientLayout";
 import { metadata } from "./metadata";
-
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  variable: "--font-bebas",
-  subsets: ["latin"],
-});
 
 const barlowCondensed = Barlow_Condensed({
   weight: ["300", "400", "500", "600"],
@@ -22,8 +16,8 @@ const dmSans = DM_Sans({
 });
 
 const cormorantGaramond = Cormorant_Garamond({
-  weight: ["300", "400"],
-  style: ["italic"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-cormorant",
   subsets: ["latin"],
 });
@@ -36,16 +30,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${barlowCondensed.variable} ${dmSans.variable} ${cormorantGaramond.variable}`}
+    >
+      {/*
+        Font variable classes live on <html> (the :root element), not on a
+        descendant wrapper. Theme tokens like --font-display: var(--font-cormorant)
+        are declared at :root — nested var() references inside a custom
+        property resolve using the scope where THAT property is defined, not
+        the final consumer's. If --font-cormorant were only defined lower in
+        the tree, --font-display would compute as invalid at :root and that
+        invalidity would inherit everywhere, no matter what redefines it below.
+      */}
       <body className="antialiased">
-        <ClientLayout
-          bebasVariable={bebasNeue.variable}
-          barlowVariable={barlowCondensed.variable}
-          dmSansVariable={dmSans.variable}
-          cormorantVariable={cormorantGaramond.variable}
-        >
-          {children}
-        </ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -56,7 +56,7 @@ export default function IntroductionSection() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.9,
+            duration: 0.75,
             ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -75,9 +75,9 @@ export default function IntroductionSection() {
           gsap.to(words, {
             yPercent: 0,
             opacity: 1,
-            duration: 1.1,
+            duration: 0.8,
             ease: "power4.out",
-            stagger: { amount: 0.6, from: "start" },
+            stagger: { amount: 0.4, from: "start" },
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 70%",
@@ -93,7 +93,7 @@ export default function IntroductionSection() {
         gsap.to(paragraphs, {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.75,
           ease: "power3.out",
           stagger: 0.15,
           scrollTrigger: {
@@ -111,7 +111,7 @@ export default function IntroductionSection() {
           { scaleX: 0 },
           {
             scaleX: 1,
-            duration: 1.4,
+            duration: 0.75,
             ease: "expo.out",
             transformOrigin: "center center",
             scrollTrigger: {
@@ -182,7 +182,7 @@ export default function IntroductionSection() {
 
         {/* Animated heading */}
         <h2 ref={headingRef} className="overflow-hidden">
-          <span className="block font-editorial text-3xl italic leading-relaxed text-text-primary md:text-5xl md:leading-tight lg:text-6xl lg:leading-[1.1]">
+          <span className="block font-editorial text-3xl leading-relaxed text-text-primary md:text-5xl md:leading-tight lg:text-6xl lg:leading-[1.1]">
             {words.map((word, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <span className="h-word inline-block">

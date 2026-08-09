@@ -171,7 +171,7 @@ export default function Navbar({ showLogo = false }: NavbarProps) {
             )}
           >
             <Link href="/" className="block group">
-              <Logo className="w-36 h-auto text-accent transition-all duration-300 opacity-90 group-hover:opacity-100 group-hover:scale-105" />
+              <Logo className="w-36 h-auto text-text-primary transition-all duration-300 opacity-90 group-hover:opacity-100 group-hover:scale-105" />
             </Link>
           </div>
 
@@ -193,9 +193,9 @@ export default function Navbar({ showLogo = false }: NavbarProps) {
               {/* Desktop CTA */}
               <Link
                 href="/contact"
-                className="hidden md:inline-flex px-6 py-2.5 rounded-full border border-accent bg-accent/5 hover:bg-accent hover:text-white text-accent font-condensed text-[11px] font-bold tracking-widest uppercase transition-all"
+                className="hidden md:inline-flex px-6 py-2.5 border border-text-primary/30 hover:bg-text-primary hover:text-bg-primary text-text-primary font-condensed text-[11px] font-bold tracking-widest uppercase transition-all"
               >
-                Inquire
+                Start a Project
               </Link>
 
               {/* Mobile Hamburger */}
@@ -272,7 +272,7 @@ export default function Navbar({ showLogo = false }: NavbarProps) {
             onClick={closeMenu}
             className="mt-4 inline-flex self-start items-center gap-3 px-8 py-4 bg-accent font-condensed text-[11px] font-bold tracking-[0.3em] uppercase text-white"
           >
-            Inquire Now
+            Start a Project
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>

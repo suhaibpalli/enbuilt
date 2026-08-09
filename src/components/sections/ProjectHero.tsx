@@ -59,7 +59,7 @@ export default function ProjectHero({
         tl.to(charArray, {
           yPercent: 0,
           opacity: 1,
-          duration: 1.2,
+          duration: 0.8,
           ease: "power4.out",
           stagger: { amount: 0.5 },
         });
@@ -75,7 +75,7 @@ export default function ProjectHero({
             ease: "power3.out",
             stagger: 0.1,
           },
-          "-=0.6"
+          "-=0.4"
         );
       }
 

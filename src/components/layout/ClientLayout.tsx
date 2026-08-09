@@ -19,16 +19,8 @@ if (typeof window !== "undefined") {
 
 export default function ClientLayout({
   children,
-  bebasVariable,
-  barlowVariable,
-  dmSansVariable,
-  cormorantVariable,
 }: {
   children: React.ReactNode;
-  bebasVariable: string;
-  barlowVariable: string;
-  dmSansVariable: string;
-  cormorantVariable: string;
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [openerVariant, setOpenerVariant] = useState<OpenerVariant>("lift");
@@ -78,7 +70,7 @@ export default function ClientLayout({
   }, []);
 
   return (
-    <div className={`${bebasVariable} ${barlowVariable} ${dmSansVariable} ${cormorantVariable} min-h-full flex flex-col`}>
+    <div className="min-h-full flex flex-col">
       <Navbar showLogo={isLoaded} />
 
       {!isLoaded && (

@@ -121,7 +121,7 @@ export default function ValuesSection() {
           { clipPath: "inset(0 100% 0 0)" },
           {
             clipPath: "inset(0 0% 0 0)",
-            duration: 1.3,
+            duration: 0.75,
             stagger: 0.15,
             ease: "power4.inOut",
             scrollTrigger: {

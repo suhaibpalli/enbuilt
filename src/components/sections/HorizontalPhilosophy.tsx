@@ -103,7 +103,7 @@ export default function HorizontalPhilosophy() {
             y: 0,
             opacity: 1,
             stagger: 0.1,
-            duration: 1,
+            duration: 0.8,
             ease: "power3.out",
             scrollTrigger: {
               trigger: panel,

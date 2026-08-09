@@ -270,12 +270,12 @@ export default function ServicesSection() {
             tl.to(Array.from(chars), {
               yPercent: 0,
               opacity: 1,
-              duration: 1,
+              duration: 0.8,
               ease: "power4.out",
               stagger: { amount: 0.35 },
             }, "-=0.4");
           }
-          if (sub) tl.to(sub, { opacity: 1, y: 0, duration: 0.7 }, "-=0.5");
+          if (sub) tl.to(sub, { opacity: 1, y: 0, duration: 0.7 }, "-=0.4");
         },
       });
 

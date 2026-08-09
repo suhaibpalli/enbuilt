@@ -55,7 +55,7 @@ export default function AboutHero() {
         tl.to(charArray, {
           yPercent: 0,
           opacity: 1,
-          duration: 1.2,
+          duration: 0.8,
           ease: "power4.out",
           stagger: { amount: 0.5 },
         });
@@ -71,11 +71,16 @@ export default function AboutHero() {
             ease: "power3.out",
             stagger: 0.1,
           },
-          "-=0.6"
+          "-=0.4"
         );
       }
 
       // Scramble Text Animation
+      // Duration is content-length-dependent (scrambles the full ~115-char
+      // quote), not a simple reveal — the 0.4-0.8s spec targets typical UI
+      // transitions. At 0.8s each character would get ~7ms, reading as an
+      // unreadable flicker rather than a legible scramble. Tightened from
+      // the original 3.5s but kept long enough to stay legible.
       tl.to(scrambleRef.current, {
         scrambleText: {
           text: HERO_QUOTE,
@@ -83,7 +88,7 @@ export default function AboutHero() {
           speed: 1.2,
           revealDelay: 0.1
         },
-        duration: 3.5,
+        duration: 1.4,
         ease: "none",
         onComplete: () => {
           gsap.to(cursorRef.current, { opacity: 0, duration: 0.5 });

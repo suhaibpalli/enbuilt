@@ -19,14 +19,14 @@ export default function Home() {
           - Entrance: SplitText + Red Line
           - Scroll: Blueprint reveal + Parallax
       */}
-      <HeroSection 
+      <HeroSection
         headlineTop="EN"
         headlineBottom="BUILT"
         tagline="Engineering Production & Services"
         descriptorHeading="Designed with Purpose. Built with Precision."
         descriptor={"Enbuilt is a Saudi-based architecture, interior design, and turnkey contracting company delivering thoughtfully designed, expertly executed spaces across Saudi Arabia.\n\nFrom initial concept to final handover, we bring design, construction, and project delivery together under one roof."}
-        heroBgImageSrc="https://images.unsplash.com/photo-1663900108404-a05e8bf82cda?w=1800&q=85&auto=format"
-        heroBgImageAlt="Riyadh skyline at night, featuring the Kingdom Centre Tower — ENBUILT"
+        heroBgImageSrc="https://images.unsplash.com/photo-1778846266217-6a7783e6eabd?w=1800&q=85&auto=format"
+        heroBgImageAlt="Aerial view of Riyadh skyline at golden hour, featuring the Kingdom Centre Tower — ENBUILT"
         stats={[
           { value: "47", label: "Structures Defined" },
           { value: "12", label: "Years of Practice" },

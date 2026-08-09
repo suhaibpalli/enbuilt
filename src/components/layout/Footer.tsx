@@ -128,7 +128,7 @@ export default function Footer() {
         { scaleX: 0 },
         {
           scaleX: 1,
-          duration: 1.4,
+          duration: 0.75,
           ease: "expo.out",
           transformOrigin: "left center",
           scrollTrigger: {
@@ -146,7 +146,7 @@ export default function Footer() {
         {
           clipPath: "inset(0 0% 0 0)",
           opacity: 1,
-          duration: 1.2,
+          duration: 0.7,
           ease: "power4.inOut",
           scrollTrigger: {
             trigger: footerRef.current,

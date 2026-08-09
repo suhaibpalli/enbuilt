@@ -42,7 +42,7 @@ export default function ProjectTechnical({ blueprintSrc, specs }: ProjectTechnic
           { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" },
           {
             clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-            duration: 1.5,
+            duration: 0.8,
             ease: "expo.inOut",
             scrollTrigger: {
               trigger: containerRef.current,

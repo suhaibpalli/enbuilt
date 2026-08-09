@@ -7,7 +7,6 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/SplitText";
-import Logo from "@/components/ui/Logo";
 import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -163,7 +162,7 @@ export default function HeroSection({
           {
             yPercent: 0,
             opacity: 1,
-            duration: 1.1,
+            duration: 0.8,
             ease: "power4.out",
             stagger: { amount: 0.5, from: "start" },
           },
@@ -174,13 +173,13 @@ export default function HeroSection({
       if (descriptorEl) {
         entryTl.to(
           descriptorEl,
-          { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
-          "-=0.5"
+          { opacity: 1, y: 0, duration: 0.75, ease: "power3.out" },
+          "-=0.35"
         );
       }
 
       if (ctaEl) {
-        entryTl.to(ctaEl, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6");
+        entryTl.to(ctaEl, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
       }
 
       const metaEls = [metaLeft, metaRight].filter(Boolean) as Element[];
@@ -201,7 +200,7 @@ export default function HeroSection({
         entryTl.fromTo(
           redLineRef.current,
           { scaleX: 0 },
-          { scaleX: 1, duration: 1.2, ease: "expo.out", transformOrigin: "left center" },
+          { scaleX: 1, duration: 0.75, ease: "expo.out", transformOrigin: "left center" },
           0.6
         );
       }
@@ -359,7 +358,7 @@ export default function HeroSection({
               { textContent: 0 },
               {
                 textContent: target,
-                duration: 1.5,
+                duration: 0.8,
                 ease: "power2.out",
                 delay: i * 0.12,
                 snap: { textContent: 1 },
@@ -399,11 +398,6 @@ export default function HeroSection({
             {/* Dark scrim so the headline stays legible over the photo */}
             <div className="absolute inset-0 bg-bg-primary/70" />
             <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-bg-primary/40 to-bg-primary/10" />
-
-            {/* Watermark logo, blended into the image */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-              <Logo className="w-[65%] max-w-2xl h-auto text-white opacity-30 mix-blend-screen" />
-            </div>
           </div>
         )}
 
