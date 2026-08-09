@@ -337,32 +337,23 @@ export default function ContactPage() {
               Direct Contact
             </p>
             <a
-              href="mailto:studio@enbuilt.com"
+              href="mailto:info@enbuiltdesign.com"
               className="font-body text-sm text-text-primary underline-offset-4 transition-colors hover:text-accent hover:underline"
             >
-              studio@enbuilt.com
+              info@enbuiltdesign.com
             </a>
-          </div>
-
-          {/* Studio hours */}
-          <div className="info-item flex flex-col gap-3">
-            <p className="font-condensed text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
-              Studio Hours
-            </p>
-            <div className="flex flex-col gap-1 font-condensed text-[11px] uppercase tracking-[0.25em] text-text-secondary">
-              <div className="flex justify-between gap-8">
-                <span>Mon – Fri</span>
-                <span className="text-text-primary">09:00 – 19:00</span>
-              </div>
-              <div className="flex justify-between gap-8">
-                <span>Saturday</span>
-                <span className="text-text-primary">10:00 – 14:00</span>
-              </div>
-              <div className="flex justify-between gap-8">
-                <span>Sunday</span>
-                <span>Closed</span>
-              </div>
-            </div>
+            <a
+              href="tel:+966567785234"
+              className="font-body text-sm text-text-secondary underline-offset-4 transition-colors hover:text-text-primary hover:underline"
+            >
+              +966 56 778 5234
+            </a>
+            <a
+              href="tel:+966551821080"
+              className="font-body text-sm text-text-secondary underline-offset-4 transition-colors hover:text-text-primary hover:underline"
+            >
+              +966 55 182 1080
+            </a>
           </div>
 
           {/* Vertical accent line + note */}

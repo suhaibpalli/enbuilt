@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import AboutHero from "@/components/sections/AboutHero";
+import AboutStory from "@/components/sections/AboutStory";
 import HorizontalPhilosophy from "@/components/sections/HorizontalPhilosophy";
-import TeamSection from "@/components/sections/TeamSection";
 import ValuesSection from "@/components/sections/ValuesSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "The Firm",
-  description: "Established 2012 in Chennai. We build at the intersection of monolithic structural integrity and the visceral human experience of space.",
+  description: "Enbuilt is an architecture-led design and build firm based in Jeddah, Saudi Arabia, delivering purposeful spaces from concept to handover.",
 };
 
 export default function AboutPage() {
@@ -17,17 +17,17 @@ export default function AboutPage() {
       {/* ── 01: Hero ── */}
       <AboutHero />
 
-      {/* ── 02: Core Values & Principal ── */}
+      {/* ── 02: Company Story, Approach, Fabrication, Mission & Vision ── */}
+      <AboutStory />
+
+      {/* ── 03: Core Values & Principal ── */}
       <ValuesSection />
 
-      {/* ── 03: Philosophy (Horizontal Scroll) ── */}
+      {/* ── 04: Philosophy (Horizontal Scroll) ── */}
       <HorizontalPhilosophy />
 
-      {/* ── 04: Client Testimonials ── */}
+      {/* ── 05: Client Testimonials ── */}
       <TestimonialsSection />
-
-      {/* ── 05: Team Grid ── */}
-      <TeamSection />
 
       {/* ── 06: Final CTA ── */}
       <section className="relative py-40 md:py-60 px-6 md:px-20 text-center bg-bg-secondary border-t border-white/5">

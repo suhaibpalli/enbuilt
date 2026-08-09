@@ -147,7 +147,7 @@ export default function IntroductionSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-40 px-6 border-y border-border bg-bg-secondary/40 md:py-60"
+      className="relative overflow-hidden py-40 px-6 border-y border-border bg-bg-primary md:py-60"
       aria-label="Introduction"
     >
       {/* Decorative large ghost numeral */}

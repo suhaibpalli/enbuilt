@@ -31,7 +31,6 @@ export default function ClientLayout({
   cormorantVariable: string;
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [openerVariant, setOpenerVariant] = useState<OpenerVariant>("lift");
 
   // Reduced-motion: skip the opener entirely and show content immediately.
@@ -69,11 +68,6 @@ export default function ClientLayout({
     };
   }, []);
 
-  // Theme Sync
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
   // URL Variant Preview
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -83,18 +77,10 @@ export default function ClientLayout({
     }
   }, []);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
   return (
     <div className={`${bebasVariable} ${barlowVariable} ${dmSansVariable} ${cormorantVariable} min-h-full flex flex-col`}>
-      <Navbar 
-        showLogo={isLoaded} 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
-      />
-      
+      <Navbar showLogo={isLoaded} />
+
       {!isLoaded && (
         <Opener 
           variant={openerVariant} 

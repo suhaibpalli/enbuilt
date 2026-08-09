@@ -249,10 +249,10 @@ export default function Footer() {
                 Global Inquiry
               </p>
               <a
-                href="mailto:studio@enbuilt.com"
+                href="mailto:info@enbuiltdesign.com"
                 className="font-condensed text-sm font-medium text-text-primary underline-offset-4 transition-colors hover:text-accent hover:underline"
               >
-                studio@enbuilt.com
+                info@enbuiltdesign.com
               </a>
             </div>
           </div>

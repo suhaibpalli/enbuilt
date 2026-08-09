@@ -4,15 +4,12 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Logo from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
-import { Moon, Sun } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { prefersReducedMotion } from "@/lib/motion";
 
 interface NavbarProps {
   showLogo?: boolean;
-  theme: "dark" | "light";
-  toggleTheme: () => void;
 }
 
 const NAV_LINKS = [
@@ -23,7 +20,7 @@ const NAV_LINKS = [
   { label: "Contact",    href: "/contact" },
 ];
 
-export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarProps) {
+export default function Navbar({ showLogo = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const overlayRef   = useRef<HTMLDivElement>(null);
@@ -193,15 +190,6 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full border border-border bg-bg-secondary/50 hover:bg-bg-tertiary transition-all text-text-primary"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-              </button>
-
               {/* Desktop CTA */}
               <Link
                 href="/contact"
@@ -274,10 +262,10 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
             ENBUILT Studio · Est. 2012
           </p>
           <a
-            href="mailto:studio@enbuilt.com"
+            href="mailto:info@enbuiltdesign.com"
             className="font-condensed text-sm font-medium text-text-secondary hover:text-accent transition-colors"
           >
-            studio@enbuilt.com
+            info@enbuiltdesign.com
           </a>
           <Link
             href="/contact"
