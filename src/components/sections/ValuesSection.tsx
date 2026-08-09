@@ -220,11 +220,10 @@ export default function ValuesSection() {
               He holds an M.Arch from ETH Zürich and a B.Arch from CEPT Ahmedabad. He has been a visiting critic at NID and has lectured at institutions across the Gulf region on the ethics of architectural practice.
             </p>
 
-            <div className="founder-el grid grid-cols-3 gap-6 border-t border-border pt-8">
+            <div className="founder-el grid grid-cols-2 gap-6 border-t border-border pt-8">
               {[
                 { value: "18+", label: "Years Experience" },
                 { value: "M.Arch", label: "ETH Zürich" },
-                { value: "3", label: "Awards" },
               ].map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-2xl text-text-primary">{stat.value}</p>

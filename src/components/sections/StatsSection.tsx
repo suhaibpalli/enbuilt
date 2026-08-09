@@ -19,7 +19,6 @@ const STATS: Stat[] = [
   { value: 47, suffix: "+", label: "Structures", sublabel: "Completed & Built" },
   { value: 12, suffix: "", label: "Years",       sublabel: "In Practice" },
   { value: 8,  suffix: "",  label: "Cities",     sublabel: "Across India & UAE" },
-  { value: 3,  suffix: "",  label: "Awards",     sublabel: "International Recognition" },
 ];
 
 /**
@@ -149,12 +148,12 @@ export default function StatsSection() {
       />
 
       <div className="mx-auto max-w-[1800px] px-6 md:px-20">
-        <div className="grid grid-cols-2 gap-0 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-0 sm:grid-cols-3">
           {STATS.map((stat, i) => (
             <div
               key={stat.label}
               className={`stat-block group relative flex flex-col justify-center gap-3 py-16 px-6 md:py-24 md:px-10 ${
-                i < STATS.length - 1 ? "border-r border-border/50" : ""
+                i < STATS.length - 1 ? "border-b sm:border-b-0 sm:border-r border-border/50" : ""
               }`}
             >
               {/* Hover fill */}

@@ -314,12 +314,20 @@ export default function ContactPage() {
               Studio Address
             </p>
             <p className="font-body text-sm font-light leading-relaxed text-text-secondary">
-              12, Adyar Bridge Road<br />
-              Adyar, Chennai 600 020<br />
-              Tamil Nadu, India
+              Al Hada Centre, King Abdullah Branch Rd<br />
+              Al Sharafeyah, Jeddah 21482<br />
+              Saudi Arabia
             </p>
-            <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
-              13.0827° N, 80.2707° E
+            <a
+              href="https://share.google/gHQMUicPBZjSgxOEt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary transition-colors hover:text-accent"
+            >
+              View on Map
+            </a>
+            <p className="font-body text-xs font-light leading-relaxed text-text-tertiary">
+              Also operating in Riyadh and Dammam, and all other parts of Saudi Arabia.
             </p>
           </div>
 
@@ -333,12 +341,6 @@ export default function ContactPage() {
               className="font-body text-sm text-text-primary underline-offset-4 transition-colors hover:text-accent hover:underline"
             >
               studio@enbuilt.com
-            </a>
-            <a
-              href="tel:+914442244224"
-              className="font-body text-sm text-text-secondary underline-offset-4 transition-colors hover:text-text-primary hover:underline"
-            >
-              +91 44 4224 4224
             </a>
           </div>
 

@@ -58,7 +58,6 @@ const DEFAULT_STATS: HeroStat[] = [
   { value: "47", label: "Projects Built" },
   { value: "12", label: "Years of Practice" },
   { value: "8", label: "Cities" },
-  { value: "3", label: "Awards" },
 ];
 
 const DEFAULT_PROJECT: HeroProject = {

@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import HeroSection from "@/components/sections/HeroSection";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import StatsSection from "@/components/sections/StatsSection";
-import PhilosophyQuote from "@/components/sections/PhilosophyQuote";
+import IntroductionSection from "@/components/sections/IntroductionSection";
 import ClientsSection from "@/components/sections/ClientsSection";
-import ScrollCube from "@/components/ui/ScrollCube";
 
 export const metadata: Metadata = {
   title: "Spatial & Structural Design",
@@ -32,7 +31,6 @@ export default function Home() {
           { value: "47", label: "Structures Defined" },
           { value: "12", label: "Years of Practice" },
           { value: "08", label: "Metropolitan Cities" },
-          { value: "03", label: "Design Awards" },
         ]}
         featuredProject={{
           index: "01",
@@ -42,17 +40,14 @@ export default function Home() {
         }}
       />
 
-      {/* Cinematic Philosophy Quote */}
-      <PhilosophyQuote />
+      {/* Introduction */}
+      <IntroductionSection />
 
       {/* Studio Statistics Counter */}
       <StatsSection />
 
       {/* ENBUILT Architectural Portfolio Grid */}
       <ProjectsGrid />
-
-      {/* Interactive Architectural Showcase */}
-      <ScrollCube />
 
       {/* Global Client Marquee */}
       <ClientsSection />

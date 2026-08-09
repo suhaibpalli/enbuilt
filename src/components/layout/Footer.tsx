@@ -29,20 +29,16 @@ const SOCIAL_LINKS = [
 
 const OFFICE_LOCATIONS = [
   {
-    city: "Chennai",
-    country: "India",
-    address: "12, Adyar Bridge Road,\nAdyar, Chennai 600 020",
-    coords: "13.0827° N, 80.2707° E",
+    city: "Jeddah",
+    country: "Saudi Arabia",
+    address: "Al Hada Centre, King Abdullah Branch Rd,\nAl Sharafeyah, Jeddah 21482",
+    mapUrl: "https://share.google/gHQMUicPBZjSgxOEt",
     primary: true,
   },
-  {
-    city: "Dubai",
-    country: "UAE",
-    address: "Level 22, Boulevard Plaza,\nDowntown Dubai, UAE",
-    coords: "25.2048° N, 55.2708° E",
-    primary: false,
-  },
 ];
+
+// Areas served beyond the HQ office, shown under the office list.
+const SERVICE_AREA_NOTE = "Also operating in Riyadh and Dammam, and all other parts of Saudi Arabia.";
 
 // ─── Marquee line ─────────────────────────────────────────────────────────────
 
@@ -182,6 +178,10 @@ export default function Footer() {
       }
 
       // ── 4. Bottom bar slides up ─────────────────────────────────────────
+      // Triggered off colsRef (not its own position) — as the last element
+      // on the page, there's often no scroll distance left for its own top
+      // to ever reach a threshold near the bottom of the viewport, which
+      // would leave it permanently stuck at opacity: 0.
       gsap.fromTo(
         bottomRef.current,
         { y: 20, opacity: 0 },
@@ -191,8 +191,8 @@ export default function Footer() {
           duration: 0.7,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: bottomRef.current,
-            start: "top 95%",
+            trigger: colsRef.current,
+            start: "top 80%",
             once: true,
           },
         }
@@ -333,12 +333,20 @@ export default function Footer() {
                   <p className="whitespace-pre-line font-body text-sm font-light leading-relaxed text-text-secondary">
                     {office.address}
                   </p>
-                  <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
-                    {office.coords}
-                  </p>
+                  <a
+                    href={office.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary transition-colors hover:text-accent"
+                  >
+                    View on Map
+                  </a>
                 </div>
               ))}
             </div>
+            <p className="font-body text-xs font-light leading-relaxed text-text-tertiary">
+              {SERVICE_AREA_NOTE}
+            </p>
           </div>
         </div>
 
