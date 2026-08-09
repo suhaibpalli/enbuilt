@@ -15,57 +15,75 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     index: "01",
-    title: "Architecture Design",
-    short: "From concept to permit-ready drawings.",
+    title: "Architecture & Interior Design",
+    short: "Design shaped around your vision.",
     description:
-      "Comprehensive architectural design from initial concept through schematic, design development, and construction documentation. We work across residential, commercial, and cultural typologies with equal rigour.",
-    tags: ["Concept Design", "Schematic Design", "Construction Documents", "Permit Drawings"],
+      "Creative, functional, and carefully considered design solutions shaped around the client's vision, brand, and operational requirements.",
+    tags: ["Concept Design", "Interior Design", "Space Planning", "Brand-Led Design"],
     icon: "A",
   },
   {
     index: "02",
-    title: "Interior Architecture",
-    short: "Spatial experiences built from the inside out.",
+    title: "Design Consultation",
+    short: "Guidance before the first brick is laid.",
     description:
-      "Interior architecture that is inseparable from the building itself — not applied decoration, but an extension of structural logic. Material palettes, lighting choreography, and spatial sequences designed in concert.",
-    tags: ["Space Planning", "Material Specification", "Lighting Design", "FF&E"],
-    icon: "I",
+      "Professional guidance on space planning, materials, finishes, feasibility, budgets, and design direction before construction begins.",
+    tags: ["Space Planning", "Material Selection", "Feasibility", "Budgeting"],
+    icon: "D",
   },
   {
     index: "03",
-    title: "Urban & Master Planning",
-    short: "Designing at the scale of communities.",
+    title: "Turnkey Fit-Out",
+    short: "One team, start to handover.",
     description:
-      "Urban design and master planning that responds to existing fabric, infrastructure, and civic ambition. From site feasibility through phased development strategies for mixed-use, residential, and institutional clients.",
-    tags: ["Site Analysis", "Land Use Planning", "Phasing Strategy", "Civic Design"],
-    icon: "U",
+      "Complete project delivery covering planning, approvals, procurement, construction, finishing, installation, and final handover.",
+    tags: ["Planning & Approvals", "Procurement", "Construction", "Final Handover"],
+    icon: "T",
   },
   {
     index: "04",
-    title: "BIM Coordination",
-    short: "Precision-led digital delivery.",
+    title: "In-House Furniture & Custom Fabrication",
+    short: "Manufactured in-house, matched to design.",
     description:
-      "BIM Level 400 coordination across all building systems — structural, MEP, façade, and fit-out. We lead clash detection, model management, and 4D/5D integration to reduce on-site risk and cost.",
-    tags: ["BIM Level 400", "Clash Detection", "4D Scheduling", "As-Built Models"],
-    icon: "B",
-  },
-  {
-    index: "05",
-    title: "Façade Engineering",
-    short: "The skin that defines the building.",
-    description:
-      "Façade design and engineering as a discipline in its own right — thermal performance, solar shading, material weathering, and visual identity resolved simultaneously. We work with specialist subcontractors from concept through installation.",
-    tags: ["Thermal Modelling", "Solar Shading", "Material Testing", "Shop Drawing Review"],
+      "Enbuilt operates its own fabrication facility, allowing us to manufacture custom furniture, joinery, fixtures, display units, counters, and other project-specific elements in-house. This gives us greater control over quality, detailing, customization, cost, and production timelines—while ensuring every fabricated element aligns perfectly with the approved design.",
+    tags: ["Custom Furniture", "Joinery", "Fixtures & Display Units", "In-House Fabrication"],
     icon: "F",
   },
   {
-    index: "06",
-    title: "Project Management",
-    short: "From groundbreaking to handover.",
+    index: "05",
+    title: "Civil & Construction Works",
+    short: "Built right, from the ground up.",
     description:
-      "Owner's representative and project management services across all project phases. We protect your interests through procurement, contractor selection, programme management, and quality oversight — on site, every week.",
-    tags: ["Procurement", "Contractor Oversight", "Programme Management", "Cost Control"],
-    icon: "P",
+      "Reliable civil and construction services delivered with close attention to structural requirements, workmanship, safety, and quality.",
+    tags: ["Structural Works", "Workmanship", "Safety Compliance", "Quality Control"],
+    icon: "C",
+  },
+  {
+    index: "06",
+    title: "Renovation & Demolition",
+    short: "Transforming what's already there.",
+    description:
+      "Controlled demolition and renovation solutions that transform existing properties into modern, efficient, and purposeful spaces.",
+    tags: ["Controlled Demolition", "Renovation", "Space Transformation", "Efficiency Upgrades"],
+    icon: "R",
+  },
+  {
+    index: "07",
+    title: "Exterior & Façade Works",
+    short: "The face your building presents.",
+    description:
+      "Distinctive exterior and façade solutions that strengthen architectural identity, improve functionality, and create a lasting first impression.",
+    tags: ["Façade Design", "Architectural Identity", "Exterior Systems", "Weathering & Finish"],
+    icon: "E",
+  },
+  {
+    index: "08",
+    title: "AMC & Maintenance",
+    short: "Protecting what we've built.",
+    description:
+      "Planned and responsive maintenance services that protect the quality, functionality, and long-term value of completed spaces.",
+    tags: ["Planned Maintenance", "Responsive Support", "Asset Protection", "Long-Term Value"],
+    icon: "M",
   },
 ];
 
