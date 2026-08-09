@@ -16,6 +16,7 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
+  { label: "Home",        href: "/" },
   { label: "Projects",   href: "/projects" },
   { label: "Services",   href: "/services" },
   { label: "The Firm",   href: "/about" },
@@ -164,20 +165,7 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
         )}
       >
         <div className="mx-auto flex max-w-[1800px] items-center justify-between px-6 md:px-20">
-          {/* Left: Architectural metadata (desktop only) */}
-          <div className="hidden lg:flex items-center gap-6 font-condensed text-[10px] text-text-secondary uppercase tracking-[0.3em]">
-            <div className="flex flex-col">
-              <span className="text-accent font-bold">Project No.</span>
-              <span className="text-text-primary">22-04 / EB</span>
-            </div>
-            <div className="w-px h-8 bg-border" />
-            <div className="flex flex-col">
-              <span className="text-accent font-bold">Location</span>
-              <span className="text-text-primary">25.2048° N, 55.2708° E</span>
-            </div>
-          </div>
-
-          {/* Center: Logo */}
+          {/* Left: Logo */}
           <div
             id="navbar-logo"
             className={cn(
@@ -186,7 +174,7 @@ export default function Navbar({ showLogo = false, theme, toggleTheme }: NavbarP
             )}
           >
             <Link href="/" className="block group">
-              <Logo className="w-32 h-auto text-accent transition-all duration-300 opacity-90 group-hover:opacity-100 group-hover:scale-105" />
+              <Logo className="w-36 h-auto text-accent transition-all duration-300 opacity-90 group-hover:opacity-100 group-hover:scale-105" />
             </Link>
           </div>
 

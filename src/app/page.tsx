@@ -23,7 +23,7 @@ export default function Home() {
       <HeroSection 
         headlineTop="EN"
         headlineBottom="BUILT"
-        tagline="Architectural Evolution · Structural Precision"
+        tagline="Engineering Production & Services"
         descriptor="We define the intersection of monolithic form and human experience. Crafting architectural landmarks with absolute technical precision and a commitment to permanence."
         stats={[
           { value: "47", label: "Structures Defined" },

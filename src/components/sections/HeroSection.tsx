@@ -387,19 +387,6 @@ export default function HeroSection({
           }}
         />
 
-        {/* Top-right architectural coords */}
-        <div className="hero-meta-right absolute right-6 top-28 hidden text-right md:block md:right-16">
-          <p className="font-condensed text-[10px] uppercase tracking-[0.4em] text-accent">
-            Lat / Long
-          </p>
-          <p className="font-condensed text-[11px] text-text-primary">
-            13.0827° N
-          </p>
-          <p className="font-condensed text-[11px] text-text-primary">
-            80.2707° E
-          </p>
-        </div>
-
         {/* Tagline */}
         <p className="hero-tagline mb-6 font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent md:text-[12px]">
           — {tagline}
