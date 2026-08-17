@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
+import Logo from "@/components/ui/Logo";
 import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -180,12 +181,12 @@ export default function AboutStory() {
 
       {/* ── Closing statement ───────────────────────────────────────────── */}
       <div className="story-block relative overflow-hidden py-32 px-6 text-center md:py-48 md:px-16">
-        <span
-          className="pointer-events-none absolute inset-x-0 top-0 select-none text-center font-display text-[24vw] leading-none text-white/[0.02] md:text-[16vw]"
+        <div
+          className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.03]"
           aria-hidden="true"
         >
-          EB
-        </span>
+          <Logo className="h-auto w-[85%] max-w-4xl text-white" />
+        </div>
         <div className="relative mx-auto max-w-4xl">
           <p className="font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent">
             — Closing Section

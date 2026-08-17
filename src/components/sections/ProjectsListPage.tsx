@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type ViewMode = "split" | "grid" | "table";
+type ViewMode = "split" | "grid" | "table" | "overview";
 type FilterCategory = "All" | "Residential" | "Commercial" | "Cultural" | "Interiors";
 
 interface ProjectEntry {
@@ -78,6 +78,17 @@ const TableIcon = () => (
     <rect x="1" y="5.5" width="16" height="2" rx="0.5" fill="currentColor" opacity="0.5"/>
     <rect x="1" y="9.5" width="16" height="2" rx="0.5" fill="currentColor" opacity="0.5"/>
     <rect x="1" y="13.5" width="16" height="2" rx="0.5" fill="currentColor" opacity="0.5"/>
+  </svg>
+);
+
+const OverviewIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <rect x="1" y="1" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
+    <rect x="6.75" y="1" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
+    <rect x="12.5" y="1" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
+    <rect x="1" y="6.75" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
+    <rect x="6.75" y="6.75" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
+    <rect x="12.5" y="6.75" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
   </svg>
 );
 
@@ -448,16 +459,100 @@ function TableView({ projects }: { projects: ProjectEntry[] }) {
   );
 }
 
+// ─── Overview View (all projects on one screen, no scroll on md+) ────────────
+
+function OverviewView({ projects, availableHeight }: { projects: ProjectEntry[]; availableHeight: number | null }) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const cards = gridRef.current?.querySelectorAll(".overview-card");
+      if (!cards?.length) return;
+
+      if (prefersReducedMotion()) {
+        gsap.set(cards, { opacity: 1, scale: 1 });
+        return;
+      }
+
+      gsap.fromTo(
+        cards,
+        { opacity: 0, scale: 0.96 },
+        { opacity: 1, scale: 1, stagger: 0.05, duration: 0.6, ease: "power3.out" }
+      );
+    },
+    { scope: gridRef, dependencies: [projects.length] }
+  );
+
+  return (
+    <div
+      ref={gridRef}
+      style={{ "--overview-h": availableHeight ? `${availableHeight}px` : "auto" } as React.CSSProperties}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-6 py-4 md:px-10 md:h-[var(--overview-h)] md:overflow-hidden"
+    >
+      {projects.map((project) => (
+        <Link
+          key={project.slug}
+          href={`/projects/${project.slug}`}
+          className="overview-card group relative block min-h-[220px] overflow-hidden border border-border bg-bg-secondary md:min-h-0"
+        >
+          <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+            <Image
+              src={project.heroImage}
+              alt={project.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/85 via-bg-primary/10 to-transparent" />
+          <div className="absolute inset-0 bg-bg-primary/0 group-hover:bg-bg-primary/25 transition-colors duration-500" />
+
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <p className="mb-1 font-condensed text-[9px] font-bold uppercase tracking-[0.35em] text-accent">
+              {project.year}
+            </p>
+            <h3 className="font-display text-lg uppercase leading-tight text-text-primary md:text-xl">
+              {project.title}
+            </h3>
+            <p className="mt-0.5 font-condensed text-[9px] uppercase tracking-[0.25em] text-text-secondary">
+              {project.typology} · {project.location}
+            </p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function ProjectsListPage() {
   const [view, setView] = useState<ViewMode>("split");
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("All");
+  const [availableHeight, setAvailableHeight] = useState<number | null>(null);
   const pageRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   const filtered = ALL_PROJECTS.filter(
     (p) => activeCategory === "All" || p.category === activeCategory
   );
+
+  // Measure the sticky header so Overview can fill exactly the remaining viewport
+  useEffect(() => {
+    const recompute = () => {
+      if (headerRef.current) {
+        setAvailableHeight(window.innerHeight - headerRef.current.offsetHeight);
+      }
+    };
+    recompute();
+    window.addEventListener("resize", recompute);
+    const ro = new ResizeObserver(recompute);
+    if (headerRef.current) ro.observe(headerRef.current);
+    return () => {
+      window.removeEventListener("resize", recompute);
+      ro.disconnect();
+    };
+  }, []);
 
   // Header entrance
   useGSAP(
@@ -479,7 +574,7 @@ export default function ProjectsListPage() {
   return (
     <div ref={pageRef} className="min-h-screen w-full bg-bg-primary text-text-primary">
       {/* ── Page Header ──────────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-30 flex flex-col gap-0 bg-bg-primary/95 backdrop-blur-md border-b border-border">
+      <div ref={headerRef} className="sticky top-0 z-30 flex flex-col gap-0 bg-bg-primary/95 backdrop-blur-md border-b border-border">
         {/* Title row */}
         <div className="flex items-end justify-between px-6 pt-24 pb-5 md:px-10">
           <div className="header-el">
@@ -493,7 +588,7 @@ export default function ProjectsListPage() {
 
           {/* View mode toggles */}
           <div className="header-el flex items-center gap-1 border border-border p-1">
-            {(["split", "grid", "table"] as ViewMode[]).map((v) => (
+            {(["split", "grid", "table", "overview"] as ViewMode[]).map((v) => (
               <button
                 key={v}
                 onClick={() => setView(v)}
@@ -506,6 +601,7 @@ export default function ProjectsListPage() {
                 {v === "split" && <SplitIcon />}
                 {v === "grid" && <GridIcon />}
                 {v === "table" && <TableIcon />}
+                {v === "overview" && <OverviewIcon />}
               </button>
             ))}
           </div>
@@ -541,9 +637,10 @@ export default function ProjectsListPage() {
 
       {/* ── Views ──────────────────────────────────────────────────────── */}
       <div className="min-h-screen">
-        {view === "split" && <SplitView projects={filtered} />}
-        {view === "grid"  && <GridView  projects={filtered} />}
-        {view === "table" && <TableView projects={filtered} />}
+        {view === "split"    && <SplitView    projects={filtered} />}
+        {view === "grid"     && <GridView     projects={filtered} />}
+        {view === "table"    && <TableView    projects={filtered} />}
+        {view === "overview" && <OverviewView projects={filtered} availableHeight={availableHeight} />}
       </div>
     </div>
   );
