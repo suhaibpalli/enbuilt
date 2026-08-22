@@ -542,9 +542,16 @@ export default function HeroSection({
               ))}
             </h1>
 
-            <p className="hero-descriptor max-w-sm font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
-              Architecture, interiors, construction and in-house fabrication — under one roof.
-            </p>
+            <div className="hero-descriptor flex max-w-sm flex-col gap-4">
+              {descriptorHeading && (
+                <p className="font-condensed text-lg font-bold uppercase tracking-wide text-text-primary md:text-xl">
+                  {descriptorHeading}
+                </p>
+              )}
+              <p className="whitespace-pre-line font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
+                {descriptor}
+              </p>
+            </div>
 
             <p className="font-condensed text-[11px] font-bold uppercase tracking-[0.4em] text-text-tertiary">
               Jeddah · Saudi Arabia

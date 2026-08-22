@@ -6,13 +6,18 @@ import { useGSAP } from "@gsap/react";
 import Logo from "@/components/ui/Logo";
 
 type OpenerVariant = "lift" | "blur" | "tiles" | "glow";
+type LandTarget = "navbar" | "center";
 
 interface OpenerProps {
   onComplete: () => void;
   variant?: OpenerVariant;
+  /** Where the logo animates to before fading out. "navbar" lands it on the
+   * navbar's logo slot (seamless handoff); "center" lands it at the
+   * horizontal center of the screen instead — used on the homepage. */
+  landTarget?: LandTarget;
 }
 
-export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
+export default function Opener({ onComplete, variant = "lift", landTarget = "navbar" }: OpenerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);
@@ -118,8 +123,12 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
       const navRect = navbarLogo.getBoundingClientRect();
       const logoRect = logoRef.current.getBoundingClientRect();
 
-      // Calculate the transform needed
-      const deltaX = navRect.left + navRect.width / 2 - (logoRect.left + logoRect.width / 2);
+      // Calculate the transform needed. "center" keeps the same landing
+      // height/scale as the navbar slot but lands at the horizontal center
+      // of the screen instead of the navbar's (left-aligned) logo position.
+      const targetX =
+        landTarget === "center" ? window.innerWidth / 2 : navRect.left + navRect.width / 2;
+      const deltaX = targetX - (logoRect.left + logoRect.width / 2);
       const deltaY = navRect.top + navRect.height / 2 - (logoRect.top + logoRect.height / 2);
       const targetScale = navRect.width / logoRect.width;
 
@@ -149,7 +158,7 @@ export default function Opener({ onComplete, variant = "lift" }: OpenerProps) {
       return logoTl;
     }
 
-  }, { scope: containerRef, dependencies: [variant] });
+  }, { scope: containerRef, dependencies: [variant, landTarget] });
 
   return (
     <div 

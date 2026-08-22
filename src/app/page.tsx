@@ -27,6 +27,8 @@ export default function Home() {
         descriptor={"Enbuilt is a Saudi-based architecture, interior design, and turnkey contracting company delivering thoughtfully designed, expertly executed spaces across Saudi Arabia.\n\nFrom initial concept to final handover, we bring design, construction, and project delivery together under one roof."}
         heroBgImageSrc="https://images.unsplash.com/photo-1778846266217-6a7783e6eabd?w=1800&q=85&auto=format"
         heroBgImageAlt="Aerial view of Riyadh skyline at golden hour, featuring the Kingdom Centre Tower — ENBUILT"
+        imageSrc="https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1800&q=85&auto=format"
+        imageAlt="Aerial helicopter view of Downtown Dubai at dusk, featuring the Burj Khalifa — ENBUILT featured project"
         stats={[
           { value: "47", label: "Structures Defined" },
           { value: "12", label: "Years of Practice" },

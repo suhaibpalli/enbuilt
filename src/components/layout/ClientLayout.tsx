@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Opener from "@/components/animation/Opener";
@@ -24,6 +25,8 @@ export default function ClientLayout({
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [openerVariant, setOpenerVariant] = useState<OpenerVariant>("lift");
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   // Reduced-motion: skip the opener entirely and show content immediately.
   // Set from an effect (not a useState initializer) so the server-rendered
@@ -74,9 +77,10 @@ export default function ClientLayout({
       <Navbar showLogo={isLoaded} />
 
       {!isLoaded && (
-        <Opener 
-          variant={openerVariant} 
-          onComplete={() => setIsLoaded(true)} 
+        <Opener
+          variant={openerVariant}
+          landTarget={isHome ? "center" : "navbar"}
+          onComplete={() => setIsLoaded(true)}
         />
       )}
 
