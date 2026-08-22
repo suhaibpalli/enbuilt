@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -83,6 +84,9 @@ export default function HeroSection({
   scrollLabel = "Scroll to explore",
   onExploreClick,
 }: HeroSectionProps) {
+  // ─── View toggle (Standard EN/BUILT headline vs an alternate without it) ──────
+  const [heroView, setHeroView] = useState<"standard" | "alternate">("standard");
+
   // ─── Refs ────────────────────────────────────────────────────────────────────
   const wrapperRef    = useRef<HTMLDivElement>(null);
   const heroRef       = useRef<HTMLDivElement>(null);
@@ -378,130 +382,207 @@ export default function HeroSection({
   // ─── Render ───────────────────────────────────────────────────────────────────
   return (
     <div ref={wrapperRef} className="relative w-full overflow-x-hidden">
-      {/* ── Section 1: Initial Hero ───────────────────────────────────────── */}
-      <section
-        ref={heroRef}
-        className="relative flex min-h-screen flex-col items-start justify-end overflow-hidden px-6 pb-20 pt-32 md:px-16 md:pb-24"
-        aria-label="Hero"
-      >
-        {heroBgImageSrc && (
-          <div className="absolute inset-0">
-            <Image
-              src={heroBgImageSrc}
-              alt={heroBgImageAlt}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center"
-              draggable={false}
-            />
-            {/* Dark scrim so the headline stays legible over the photo */}
-            <div className="absolute inset-0 bg-bg-primary/70" />
-            <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-bg-primary/40 to-bg-primary/10" />
-          </div>
-        )}
-
-        {/* Drafting grid overlay */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right,rgba(240,242,245,1) 1px,transparent 1px),linear-gradient(to bottom,rgba(240,242,245,1) 1px,transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        />
-
-        {/* Tagline */}
-        <p className="hero-tagline mb-6 font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent md:text-[12px]">
-          — {tagline}
-        </p>
-
-        {/* Massive headline — each character split for GSAP */}
-        <div className="overflow-hidden" aria-label={`${headlineTop} ${headlineBottom}`}>
-          <h1 className="font-display text-[22vw] uppercase leading-[0.82] tracking-[-0.02em] text-text-primary md:text-[17vw] lg:text-[14vw]">
-            {/* Line 1 — characters split individually */}
-            <span className="block overflow-hidden">
-              <SplitText text={headlineTop} />
-            </span>
-            {/* Line 2 — offset right for asymmetric composition */}
-            <span className="block overflow-hidden pl-[5vw] md:pl-[8vw]">
-              <SplitText text={headlineBottom} />
-            </span>
-          </h1>
-        </div>
-
-        {/* Red accent line */}
-        <div
-          ref={redLineRef}
-          className="my-8 h-[2px] w-32 origin-left bg-accent md:my-10 md:w-48"
-          aria-hidden="true"
-        />
-
-        {/* Descriptor + CTA — stacked, left-aligned under the headline */}
-        <div className="hero-descriptor flex max-w-xl flex-col gap-8">
-          <div className="flex max-w-sm flex-col gap-4">
-            {descriptorHeading && (
-              <p className="font-condensed text-lg font-bold uppercase tracking-wide text-text-primary md:text-xl">
-                {descriptorHeading}
-              </p>
+      {/* Floating hero view toggle */}
+      <div className="fixed top-24 right-6 z-40 flex items-center gap-1 border border-border bg-bg-primary/90 p-1 backdrop-blur-md md:right-16">
+        {(["standard", "alternate"] as const).map((v) => (
+          <button
+            key={v}
+            onClick={() => setHeroView(v)}
+            className={cn(
+              "px-4 py-2 font-condensed text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-200",
+              heroView === v ? "bg-accent text-white" : "text-text-tertiary hover:text-text-primary"
             )}
-            <p className="whitespace-pre-line font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
-              {descriptor}
+          >
+            {v}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Section 1: Initial Hero ───────────────────────────────────────── */}
+      {heroView === "standard" ? (
+        <section
+          ref={heroRef}
+          className="relative flex min-h-screen flex-col items-start justify-end overflow-hidden px-6 pb-20 pt-32 md:px-16 md:pb-24"
+          aria-label="Hero"
+        >
+          {heroBgImageSrc && (
+            <div className="absolute inset-0">
+              <Image
+                src={heroBgImageSrc}
+                alt={heroBgImageAlt}
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center"
+                draggable={false}
+              />
+              {/* Dark scrim so the headline stays legible over the photo */}
+              <div className="absolute inset-0 bg-bg-primary/70" />
+              <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-bg-primary/40 to-bg-primary/10" />
+            </div>
+          )}
+
+          {/* Drafting grid overlay */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right,rgba(240,242,245,1) 1px,transparent 1px),linear-gradient(to bottom,rgba(240,242,245,1) 1px,transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+
+          {/* Tagline */}
+          <p className="hero-tagline mb-6 font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent md:text-[12px]">
+            — {tagline}
+          </p>
+
+          {/* Massive headline — each character split for GSAP */}
+          <div className="overflow-hidden" aria-label={`${headlineTop} ${headlineBottom}`}>
+            <h1 className="font-display text-[22vw] uppercase leading-[0.82] tracking-[-0.02em] text-text-primary md:text-[17vw] lg:text-[14vw]">
+              {/* Line 1 — characters split individually */}
+              <span className="block overflow-hidden">
+                <SplitText text={headlineTop} />
+              </span>
+              {/* Line 2 — offset right for asymmetric composition */}
+              <span className="block overflow-hidden pl-[5vw] md:pl-[8vw]">
+                <SplitText text={headlineBottom} />
+              </span>
+            </h1>
+          </div>
+
+          {/* Red accent line */}
+          <div
+            ref={redLineRef}
+            className="my-8 h-[2px] w-32 origin-left bg-accent md:my-10 md:w-48"
+            aria-hidden="true"
+          />
+
+          {/* Descriptor + CTA — stacked, left-aligned under the headline */}
+          <div className="hero-descriptor flex max-w-xl flex-col gap-8">
+            <div className="flex max-w-sm flex-col gap-4">
+              {descriptorHeading && (
+                <p className="font-condensed text-lg font-bold uppercase tracking-wide text-text-primary md:text-xl">
+                  {descriptorHeading}
+                </p>
+              )}
+              <p className="whitespace-pre-line font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
+                {descriptor}
+              </p>
+            </div>
+
+            <div className="hero-cta flex shrink-0 flex-col gap-4 sm:flex-row sm:items-center">
+              <button
+                onClick={onExploreClick}
+                className="group relative overflow-hidden bg-accent px-8 py-4 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-transform hover:scale-[1.03] active:scale-95"
+              >
+                <span className="relative z-10">View Our Work</span>
+                {/* Shimmer on hover */}
+                <span className="absolute inset-0 -translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
+              </button>
+
+              <button className="group flex items-center gap-3 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-text-primary">
+                <span>Our Philosophy</span>
+                <div className="h-px w-8 bg-accent/40 transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom-left architectural metadata */}
+          <div className="hero-meta-left absolute bottom-8 left-6 md:left-16">
+            <p className="font-condensed text-[10px] uppercase tracking-[0.4em] text-text-tertiary">
+              Est. 2012 · Chennai, India
             </p>
           </div>
 
-          <div className="hero-cta flex shrink-0 flex-col gap-4 sm:flex-row sm:items-center">
-            <button
-              onClick={onExploreClick}
-              className="group relative overflow-hidden bg-accent px-8 py-4 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-transform hover:scale-[1.03] active:scale-95"
-            >
-              <span className="relative z-10">View Our Work</span>
-              {/* Shimmer on hover */}
-              <span className="absolute inset-0 -translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
-            </button>
-
-            <button className="group flex items-center gap-3 font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-text-primary">
-              <span>Our Philosophy</span>
-              <div className="h-px w-8 bg-accent/40 transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
-            </button>
-          </div>
-        </div>
-
-        {/* Bottom-left architectural metadata */}
-        <div className="hero-meta-left absolute bottom-8 left-6 md:left-16">
-          <p className="font-condensed text-[10px] uppercase tracking-[0.4em] text-text-tertiary">
-            Est. 2012 · Chennai, India
-          </p>
-        </div>
-
-        {/* Scroll cue */}
-        <div
-          ref={scrollCueRef}
-          className="absolute bottom-8 right-6 flex flex-col items-center gap-2 md:right-16"
-          aria-hidden="true"
-        >
-          <p className="font-condensed text-[9px] uppercase tracking-[0.4em] text-text-tertiary">
-            {scrollLabel}
-          </p>
-          {/* Animated arrow */}
-          <svg
-            className="scroll-arrow text-accent"
-            width="16"
-            height="24"
-            viewBox="0 0 16 24"
-            fill="none"
+          {/* Scroll cue */}
+          <div
+            ref={scrollCueRef}
+            className="absolute bottom-8 right-6 flex flex-col items-center gap-2 md:right-16"
+            aria-hidden="true"
           >
-            <line x1="8" y1="0" x2="8" y2="18" stroke="currentColor" strokeWidth="1.5" />
-            <polyline
-              points="3,13 8,19 13,13"
+            <p className="font-condensed text-[9px] uppercase tracking-[0.4em] text-text-tertiary">
+              {scrollLabel}
+            </p>
+            {/* Animated arrow */}
+            <svg
+              className="scroll-arrow text-accent"
+              width="16"
+              height="24"
+              viewBox="0 0 16 24"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      </section>
+            >
+              <line x1="8" y1="0" x2="8" y2="18" stroke="currentColor" strokeWidth="1.5" />
+              <polyline
+                points="3,13 8,19 13,13"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </section>
+      ) : (
+        // Alternate — page-15 reference: 2-column split, left dark text
+        // panel, right full-height bright photo with no scrim/watermark.
+        <section
+          ref={heroRef}
+          className="relative flex min-h-screen w-full flex-col md:flex-row"
+          aria-label="Hero"
+        >
+          <div className="relative flex w-full flex-col justify-center gap-8 bg-bg-primary px-6 py-24 md:w-[42%] md:px-16">
+            <div className="h-[2px] w-10 origin-left bg-accent" aria-hidden="true" />
+
+            <h1 className="font-display text-5xl uppercase leading-[1.05] text-text-primary md:text-6xl lg:text-7xl">
+              {["Design.", "Build.", "Deliver."].map((line, i) => (
+                <span key={i} className="block overflow-hidden">
+                  <SplitText text={line} />
+                </span>
+              ))}
+            </h1>
+
+            <p className="hero-descriptor max-w-sm font-body text-base font-light leading-relaxed text-text-secondary md:text-lg">
+              Architecture, interiors, construction and in-house fabrication — under one roof.
+            </p>
+
+            <p className="font-condensed text-[11px] font-bold uppercase tracking-[0.4em] text-text-tertiary">
+              Jeddah · Saudi Arabia
+            </p>
+
+            <div className="hero-cta flex shrink-0 flex-col gap-4 sm:flex-row sm:items-center">
+              <Link
+                href="/projects"
+                className="group relative overflow-hidden bg-accent px-8 py-4 text-center font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-transform hover:scale-[1.03] active:scale-95"
+              >
+                <span className="relative z-10">View Projects</span>
+                <span className="absolute inset-0 -translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
+              </Link>
+
+              <Link
+                href="/contact"
+                className="border border-text-primary/30 px-8 py-4 text-center font-condensed text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary transition-colors hover:bg-text-primary hover:text-bg-primary"
+              >
+                Start a Project
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative h-[50vh] w-full md:h-auto md:min-h-screen md:w-[58%]">
+            {heroBgImageSrc && (
+              <Image
+                src={heroBgImageSrc}
+                alt={heroBgImageAlt}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 58vw"
+                className="object-cover object-center"
+                draggable={false}
+              />
+            )}
+          </div>
+        </section>
+      )}
 
       {/* ── Section 2: Scrollytelling Pin ─────────────────────────────────── */}
       <section
