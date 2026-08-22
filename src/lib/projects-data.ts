@@ -9,6 +9,11 @@ export interface ProjectSection {
   images: string[];
 }
 
+export interface MaterialSwatch {
+  name: string;
+  hex: string;
+}
+
 export interface ProjectData {
   id: string;
   slug: string;
@@ -22,6 +27,7 @@ export interface ProjectData {
   blueprintImage: string;
   narrative: ProjectSection[];
   technicalSpecs: TechnicalSpec[];
+  materialPalette: MaterialSwatch[];
   nextProjectSlug: string;
 }
 
@@ -61,6 +67,11 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
       { label: "Material Efficiency", value: "92%" },
       { label: "LEED Rating", value: "Platinum" }
     ],
+    materialPalette: [
+      { name: "Exposed Concrete", hex: "#8C8880" },
+      { name: "Basalt Stone", hex: "#3B3B3D" },
+      { name: "High-Performance Glass", hex: "#B9C4C8" }
+    ],
     nextProjectSlug: "casa-volta"
   },
   "casa-volta": {
@@ -97,6 +108,11 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
       { label: "Natural Light", value: "85% Daylit" },
       { label: "Rainwater Harvest", value: "10k Liters" },
       { label: "Local Materials", value: "82%" }
+    ],
+    materialPalette: [
+      { name: "Board-Formed Concrete", hex: "#A9A29A" },
+      { name: "Local Timber", hex: "#7C5A3C" },
+      { name: "Natural Stone", hex: "#C9BFAE" }
     ],
     nextProjectSlug: "lattice-pavilion"
   },
@@ -135,6 +151,11 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
       { label: "Carbon Reduction", value: "61%" },
       { label: "Acoustic Performance", value: "NRC 0.8" }
     ],
+    materialPalette: [
+      { name: "Cast Iron", hex: "#2E2E30" },
+      { name: "Reclaimed Timber", hex: "#8A6240" },
+      { name: "Terracotta", hex: "#B5502E" }
+    ],
     nextProjectSlug: "void-house"
   },
   "void-house": {
@@ -171,6 +192,11 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
       { label: "Thermal Mass", value: "High / Passive" },
       { label: "Interior Temp Δ", value: "8°C Below Ambient" },
       { label: "Local Labour", value: "100%" }
+    ],
+    materialPalette: [
+      { name: "Limestone Ashlar", hex: "#D8CFC0" },
+      { name: "Lime Plaster", hex: "#E9E4D8" },
+      { name: "Teak", hex: "#6B4A30" }
     ],
     nextProjectSlug: "forum-one"
   },
@@ -209,6 +235,11 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
       { label: "Green Cover", value: "3,200 m²" },
       { label: "GRIHA Rating", value: "5 Star" }
     ],
+    materialPalette: [
+      { name: "Precast Concrete", hex: "#9A968D" },
+      { name: "Aluminium Shading Fins", hex: "#5C6066" },
+      { name: "Low-E Glass", hex: "#A7C4CB" }
+    ],
     nextProjectSlug: "studio-nave"
   },
   "studio-nave": {
@@ -245,6 +276,12 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
       { label: "Heritage Retention", value: "94%" },
       { label: "Adaptive Reuse", value: "Full Shell" },
       { label: "Natural Ventilation", value: "Cross-Flow" }
+    ],
+    materialPalette: [
+      { name: "Kiln-Fired Brick", hex: "#8C4A34" },
+      { name: "Raw Steel", hex: "#4A4B4D" },
+      { name: "Aged Teak", hex: "#5E4128" },
+      { name: "Kadappa Stone", hex: "#2B2B28" }
     ],
     nextProjectSlug: "meridian-tower"
   }

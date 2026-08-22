@@ -7,8 +7,9 @@ import ProjectHero from "@/components/sections/ProjectHero";
 import ProjectNarrative from "@/components/sections/ProjectNarrative";
 import ProjectTechnical from "@/components/sections/ProjectTechnical";
 import ProjectBriefOverview from "@/components/sections/ProjectBriefOverview";
+import ProjectDetailedView from "@/components/sections/ProjectDetailedView";
 
-type ViewMode = "standard" | "overview";
+type ViewMode = "standard" | "overview" | "detailed";
 
 interface ProjectViewSwitcherProps {
   project: ProjectData;
@@ -21,7 +22,7 @@ export default function ProjectViewSwitcher({ project }: ProjectViewSwitcherProp
     <>
       {/* Floating view toggle */}
       <div className="fixed bottom-8 right-6 z-40 flex items-center gap-1 border border-border bg-bg-primary/90 p-1 backdrop-blur-md md:right-16">
-        {(["standard", "overview"] as ViewMode[]).map((v) => (
+        {(["standard", "overview", "detailed"] as ViewMode[]).map((v) => (
           <button
             key={v}
             onClick={() => setView(v)}
@@ -35,22 +36,31 @@ export default function ProjectViewSwitcher({ project }: ProjectViewSwitcherProp
         ))}
       </div>
 
-      {/* First screen differs by view; the full story below is shared either way */}
-      {view === "standard" ? (
-        <ProjectHero
-          title={project.title}
-          subtitle={project.subtitle}
-          location={project.location}
-          year={project.year}
-          area={project.area}
-          typology={project.typology}
-          imageSrc={project.heroImage}
-        />
+      {view === "detailed" ? (
+        // Self-contained, single-screen view: hero+card, Brief/Approach, and
+        // the Material Palette/Floor Plan/Fabrication/Delivery strip all fit
+        // one viewport at md+ — no separate Narrative/Technical after it.
+        <ProjectDetailedView project={project} />
       ) : (
-        <ProjectBriefOverview project={project} />
+        <>
+          {/* First screen differs by view; the full story below is shared either way */}
+          {view === "standard" ? (
+            <ProjectHero
+              title={project.title}
+              subtitle={project.subtitle}
+              location={project.location}
+              year={project.year}
+              area={project.area}
+              typology={project.typology}
+              imageSrc={project.heroImage}
+            />
+          ) : (
+            <ProjectBriefOverview project={project} />
+          )}
+          <ProjectNarrative sections={project.narrative} />
+          <ProjectTechnical blueprintSrc={project.blueprintImage} specs={project.technicalSpecs} />
+        </>
       )}
-      <ProjectNarrative sections={project.narrative} />
-      <ProjectTechnical blueprintSrc={project.blueprintImage} specs={project.technicalSpecs} />
     </>
   );
 }
