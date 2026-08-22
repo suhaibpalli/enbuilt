@@ -15,7 +15,7 @@ interface ProjectViewSwitcherProps {
 }
 
 export default function ProjectViewSwitcher({ project }: ProjectViewSwitcherProps) {
-  const [view, setView] = useState<ViewMode>("standard");
+  const [view, setView] = useState<ViewMode>("overview");
 
   return (
     <>
