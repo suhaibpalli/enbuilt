@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cn } from "@/lib/utils";
 import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,7 +20,7 @@ const SERVICES = [
     description:
       "Creative, functional, and carefully considered design solutions shaped around the client's vision, brand, and operational requirements.",
     tags: ["Concept Design", "Interior Design", "Space Planning", "Brand-Led Design"],
-    icon: "A",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80&auto=format",
   },
   {
     index: "02",
@@ -29,7 +29,7 @@ const SERVICES = [
     description:
       "Professional guidance on space planning, materials, finishes, feasibility, budgets, and design direction before construction begins.",
     tags: ["Space Planning", "Material Selection", "Feasibility", "Budgeting"],
-    icon: "D",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80&auto=format",
   },
   {
     index: "03",
@@ -38,16 +38,16 @@ const SERVICES = [
     description:
       "Complete project delivery covering planning, approvals, procurement, construction, finishing, installation, and final handover.",
     tags: ["Planning & Approvals", "Procurement", "Construction", "Final Handover"],
-    icon: "T",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80&auto=format",
   },
   {
     index: "04",
     title: "In-House Furniture & Custom Fabrication",
     short: "Manufactured in-house, matched to design.",
     description:
-      "Enbuilt operates its own fabrication facility, allowing us to manufacture custom furniture, joinery, fixtures, display units, counters, and other project-specific elements in-house. This gives us greater control over quality, detailing, customization, cost, and production timelines—while ensuring every fabricated element aligns perfectly with the approved design.",
+      "Enbuilt operates its own fabrication facility, allowing us to manufacture custom furniture, joinery, fixtures, display units, counters, and other project-specific elements in-house — giving us direct control over quality, detailing, customization, cost, and production timelines.",
     tags: ["Custom Furniture", "Joinery", "Fixtures & Display Units", "In-House Fabrication"],
-    icon: "F",
+    image: "https://images.unsplash.com/photo-1631396326646-c06a935ff3a6?w=900&q=80&auto=format",
   },
   {
     index: "05",
@@ -56,7 +56,7 @@ const SERVICES = [
     description:
       "Reliable civil and construction services delivered with close attention to structural requirements, workmanship, safety, and quality.",
     tags: ["Structural Works", "Workmanship", "Safety Compliance", "Quality Control"],
-    icon: "C",
+    image: "https://images.unsplash.com/photo-1694521787162-5373b598945c?w=900&q=80&auto=format",
   },
   {
     index: "06",
@@ -65,7 +65,7 @@ const SERVICES = [
     description:
       "Controlled demolition and renovation solutions that transform existing properties into modern, efficient, and purposeful spaces.",
     tags: ["Controlled Demolition", "Renovation", "Space Transformation", "Efficiency Upgrades"],
-    icon: "R",
+    image: "https://images.unsplash.com/photo-1731871688430-a3e509d9227e?w=900&q=80&auto=format",
   },
   {
     index: "07",
@@ -74,7 +74,7 @@ const SERVICES = [
     description:
       "Distinctive exterior and façade solutions that strengthen architectural identity, improve functionality, and create a lasting first impression.",
     tags: ["Façade Design", "Architectural Identity", "Exterior Systems", "Weathering & Finish"],
-    icon: "E",
+    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80&auto=format",
   },
   {
     index: "08",
@@ -83,155 +83,66 @@ const SERVICES = [
     description:
       "Planned and responsive maintenance services that protect the quality, functionality, and long-term value of completed spaces.",
     tags: ["Planned Maintenance", "Responsive Support", "Asset Protection", "Long-Term Value"],
-    icon: "M",
+    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=80&auto=format",
   },
 ];
 
 // ─── Single Service Card ──────────────────────────────────────────────────────
 
-function ServiceCard({ service, index }: { service: typeof SERVICES[0]; index: number }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const bodyRef  = useRef<HTMLDivElement>(null);
-  const cardRef  = useRef<HTMLDivElement>(null);
-  const lineRef  = useRef<HTMLDivElement>(null);
-
-  const { contextSafe } = useGSAP({ scope: cardRef });
-
-  const toggle = contextSafe(() => {
-    if (!bodyRef.current) return;
-
-    if (prefersReducedMotion()) {
-      if (!isOpen) {
-        setIsOpen(true);
-        gsap.set(bodyRef.current, { height: "auto", opacity: 1 });
-        gsap.set(lineRef.current, { scaleX: 1 });
-      } else {
-        gsap.set(bodyRef.current, { height: 0, opacity: 0 });
-        gsap.set(lineRef.current, { scaleX: 0 });
-        setIsOpen(false);
-      }
-      return;
-    }
-
-    if (!isOpen) {
-      setIsOpen(true);
-      gsap.fromTo(
-        bodyRef.current,
-        { height: 0, opacity: 0 },
-        { height: "auto", opacity: 1, duration: 0.5, ease: "power3.out" }
-      );
-      gsap.to(lineRef.current, { scaleX: 1, duration: 0.4, ease: "expo.out" });
-    } else {
-      gsap.to(bodyRef.current, {
-        height: 0,
-        opacity: 0,
-        duration: 0.35,
-        ease: "power2.in",
-        onComplete: () => setIsOpen(false),
-      });
-      gsap.to(lineRef.current, { scaleX: 0, duration: 0.3, ease: "power2.in" });
-    }
-  });
-
+function ServiceCard({ service }: { service: typeof SERVICES[0] }) {
   return (
-    <div
-      ref={cardRef}
-      className={cn(
-        "service-card border-b border-border transition-colors duration-300",
-        isOpen ? "bg-bg-secondary/50" : "hover:bg-bg-secondary/30"
-      )}
+    <Link
+      href="/contact"
+      className="service-image-card group relative block aspect-[4/5] overflow-hidden border border-border"
     >
-      {/* Header row — clickable */}
-      <button
-        onClick={toggle}
-        className="w-full flex items-center gap-6 px-6 py-7 text-left md:px-10 md:py-8 group"
-        aria-expanded={isOpen}
-      >
-        {/* Index */}
-        <span className="font-condensed text-[10px] font-bold uppercase tracking-[0.4em] text-text-tertiary w-8 shrink-0">
-          {service.index}
-        </span>
+      <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+        <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/50 via-transparent to-transparent" />
 
-        {/* Icon circle */}
-        <div
-          className={cn(
-            "h-10 w-10 shrink-0 rounded-full border flex items-center justify-center font-display text-sm transition-all duration-300",
-            isOpen
-              ? "border-accent bg-accent text-white"
-              : "border-border text-text-tertiary group-hover:border-accent/50"
-          )}
-        >
-          {service.icon}
-        </div>
-
-        {/* Title + short */}
-        <div className="flex-1 min-w-0">
-          <h3 className="font-display text-2xl uppercase leading-none text-text-primary md:text-3xl">
-            {service.title}
-          </h3>
-          <p className="mt-1.5 font-condensed text-[11px] uppercase tracking-[0.3em] text-text-secondary">
-            {service.short}
-          </p>
-        </div>
-
-        {/* Expand icon */}
-        <div
-          className={cn(
-            "shrink-0 h-8 w-8 border border-border flex items-center justify-center transition-all duration-300",
-            isOpen ? "border-accent bg-accent text-white rotate-45" : "text-text-tertiary group-hover:border-accent/40"
-          )}
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <line x1="6" y1="0" x2="6" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="0" y1="6" x2="12" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </div>
-      </button>
-
-      {/* Red accent line */}
+      {/* Beige panel — compact by default, expands to cover the image on hover */}
       <div
-        ref={lineRef}
-        className="mx-6 h-[1px] origin-left bg-accent md:mx-10"
-        style={{ transform: "scaleX(0)" }}
-        aria-hidden="true"
-      />
-
-      {/* Expanded body */}
-      <div
-        ref={bodyRef}
-        className="overflow-hidden"
-        style={{ height: 0, opacity: 0 }}
+        className="absolute inset-x-0 bottom-0 overflow-hidden bg-bg-light transition-all duration-500 ease-out h-[86px] group-hover:h-[72%]"
       >
-        <div className="grid grid-cols-1 gap-8 px-6 py-8 md:grid-cols-[1fr_auto] md:gap-16 md:px-10 md:py-10">
+        <div className="flex h-full flex-col justify-between p-5 md:p-6">
+          <div className="flex items-center justify-between">
+            <span className="font-condensed text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
+              {service.index}
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              className="text-text-on-light transition-transform duration-500 group-hover:rotate-45"
+            >
+              <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
           <div>
-            <p className="font-body text-base font-light leading-relaxed text-text-secondary md:text-lg max-w-2xl">
+            <h3 className="font-display text-xl uppercase leading-tight text-text-on-light md:text-2xl">
+              {service.title}
+            </h3>
+            <p className="mt-2 font-condensed text-[10px] uppercase tracking-[0.25em] text-text-on-light/60 opacity-0 transition-opacity duration-300 delay-100 group-hover:opacity-100">
+              {service.short}
+            </p>
+            <p className="mt-3 hidden max-w-[92%] font-body text-sm leading-relaxed text-text-on-light/80 opacity-0 transition-opacity duration-300 delay-150 group-hover:opacity-100 md:block">
               {service.description}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {service.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="border border-border px-3 py-1 font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="shrink-0">
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent font-condensed text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-accent hover:text-white transition-all duration-300"
-            >
-              Enquire
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="transition-transform group-hover:translate-x-1">
-                <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
+            <p className="mt-3 hidden font-condensed text-[9px] uppercase tracking-[0.2em] text-text-on-light/50 opacity-0 transition-opacity duration-300 delay-200 group-hover:opacity-100 lg:block">
+              {service.tags.join(" · ")}
+            </p>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -247,7 +158,7 @@ export default function ServicesSection() {
       const chars = headerRef.current?.querySelectorAll(".service-char");
       const label = headerRef.current?.querySelector(".service-label");
       const sub   = headerRef.current?.querySelector(".service-sub");
-      const cards = sectionRef.current?.querySelectorAll(".service-card");
+      const cards = sectionRef.current?.querySelectorAll(".service-image-card");
 
       if (prefersReducedMotion()) {
         if (chars?.length) gsap.set(Array.from(chars), { yPercent: 0, opacity: 1 });
@@ -325,10 +236,10 @@ export default function ServicesSection() {
         </p>
       </div>
 
-      {/* Services accordion list */}
-      <div className="services-list border-t border-border">
-        {SERVICES.map((service, i) => (
-          <ServiceCard key={service.index} service={service} index={i} />
+      {/* Services image grid */}
+      <div className="services-list grid grid-cols-1 gap-4 px-6 sm:grid-cols-2 md:gap-5 md:px-10 lg:grid-cols-4">
+        {SERVICES.map((service) => (
+          <ServiceCard key={service.index} service={service} />
         ))}
       </div>
 

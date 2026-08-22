@@ -527,7 +527,7 @@ function OverviewView({ projects, availableHeight }: { projects: ProjectEntry[];
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function ProjectsListPage() {
-  const [view, setView] = useState<ViewMode>("split");
+  const [view, setView] = useState<ViewMode>("overview");
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("All");
   const [availableHeight, setAvailableHeight] = useState<number | null>(null);
   const pageRef = useRef<HTMLDivElement>(null);

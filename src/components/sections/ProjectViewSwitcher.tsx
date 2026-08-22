@@ -7,6 +7,7 @@ import ProjectHero from "@/components/sections/ProjectHero";
 import ProjectNarrative from "@/components/sections/ProjectNarrative";
 import ProjectTechnical from "@/components/sections/ProjectTechnical";
 import ProjectBriefOverview from "@/components/sections/ProjectBriefOverview";
+import ProjectBriefBand from "@/components/sections/ProjectBriefBand";
 
 type ViewMode = "standard" | "overview";
 
@@ -15,7 +16,7 @@ interface ProjectViewSwitcherProps {
 }
 
 export default function ProjectViewSwitcher({ project }: ProjectViewSwitcherProps) {
-  const [view, setView] = useState<ViewMode>("standard");
+  const [view, setView] = useState<ViewMode>("overview");
 
   return (
     <>
@@ -49,6 +50,7 @@ export default function ProjectViewSwitcher({ project }: ProjectViewSwitcherProp
       ) : (
         <ProjectBriefOverview project={project} />
       )}
+      <ProjectBriefBand project={project} />
       <ProjectNarrative sections={project.narrative} />
       <ProjectTechnical blueprintSrc={project.blueprintImage} specs={project.technicalSpecs} />
     </>

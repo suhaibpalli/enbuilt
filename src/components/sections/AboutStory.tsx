@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -15,6 +16,7 @@ interface Chapter {
   label: string;
   heading: string;
   paragraphs: string[];
+  image?: string;
 }
 
 const CHAPTERS: Chapter[] = [
@@ -25,6 +27,7 @@ const CHAPTERS: Chapter[] = [
     paragraphs: [
       "Enbuilt is an architecture-led design and build firm based in Jeddah, Saudi Arabia. We create purposeful spaces and deliver them with the technical expertise, craftsmanship, and attention to detail required to turn strong ideas into built reality.",
     ],
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=85&auto=format",
   },
   {
     index: "02",
@@ -115,46 +118,85 @@ export default function AboutStory() {
   return (
     <section ref={sectionRef} className="relative w-full bg-bg-primary" aria-label="About Enbuilt">
       {/* ── Chapters ─────────────────────────────────────────────────────── */}
-      {CHAPTERS.map((chapter, i) => (
-        <div
-          key={chapter.index}
-          className={cn(
-            "story-block relative overflow-hidden border-b border-border py-24 px-6 md:py-32 md:px-16",
-            i % 2 === 1 && "bg-bg-secondary/40"
-          )}
-        >
-          {/* Ghost index numeral */}
-          <span
-            className="pointer-events-none absolute -right-4 -top-10 select-none font-display text-[32vw] leading-none text-white/[0.025] md:-top-16 md:text-[22vw]"
-            aria-hidden="true"
+      {CHAPTERS.map((chapter, i) =>
+        chapter.image ? (
+          // Opening chapter — beige split panel, mirrors the reference site's
+          // "Design-led. Built in-house." band: dark hero above, bright
+          // contrast band below.
+          <div
+            key={chapter.index}
+            className="story-block relative overflow-hidden border-b border-border-on-light bg-bg-light"
           >
-            {chapter.index}
-          </span>
-
-          <div className="relative mx-auto max-w-7xl grid grid-cols-1 gap-10 md:grid-cols-[1fr_1.5fr] md:gap-20 md:items-start">
-            <div className="md:sticky md:top-32">
-              <p className="font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent">
-                — {chapter.label}
-              </p>
-              <h2 className="mt-4 font-display text-3xl uppercase leading-tight text-text-primary md:text-4xl">
-                {chapter.heading}
-              </h2>
-              <div className="mt-6 h-[2px] w-16 bg-accent" aria-hidden="true" />
-            </div>
-
-            <div className="flex flex-col gap-6">
-              {chapter.paragraphs.map((p, pi) => (
-                <p
-                  key={pi}
-                  className="font-body text-base font-light leading-relaxed text-text-secondary md:text-lg"
-                >
-                  {p}
+            <div className="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2">
+              <div className="flex flex-col justify-center gap-6 px-6 py-24 md:px-16 md:py-32">
+                <p className="font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent">
+                  — {chapter.label}
                 </p>
-              ))}
+                <h2 className="font-display text-4xl uppercase leading-tight text-text-on-light md:text-5xl">
+                  {chapter.heading}
+                </h2>
+                <div className="h-[2px] w-16 bg-accent" aria-hidden="true" />
+                {chapter.paragraphs.map((p, pi) => (
+                  <p
+                    key={pi}
+                    className="max-w-lg font-body text-base leading-relaxed text-text-on-light/70 md:text-lg"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
+              <div className="relative h-[45vh] md:h-auto">
+                <Image
+                  src={chapter.image}
+                  alt={chapter.heading}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ) : (
+          <div
+            key={chapter.index}
+            className={cn(
+              "story-block relative overflow-hidden border-b border-border py-24 px-6 md:py-32 md:px-16",
+              i % 2 === 1 && "bg-bg-secondary/40"
+            )}
+          >
+            {/* Ghost index numeral */}
+            <span
+              className="pointer-events-none absolute -right-4 -top-10 select-none font-display text-[32vw] leading-none text-white/[0.025] md:-top-16 md:text-[22vw]"
+              aria-hidden="true"
+            >
+              {chapter.index}
+            </span>
+
+            <div className="relative mx-auto max-w-7xl grid grid-cols-1 gap-10 md:grid-cols-[1fr_1.5fr] md:gap-20 md:items-start">
+              <div className="md:sticky md:top-32">
+                <p className="font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent">
+                  — {chapter.label}
+                </p>
+                <h2 className="mt-4 font-display text-3xl uppercase leading-tight text-text-primary md:text-4xl">
+                  {chapter.heading}
+                </h2>
+                <div className="mt-6 h-[2px] w-16 bg-accent" aria-hidden="true" />
+              </div>
+
+              <div className="flex flex-col gap-6">
+                {chapter.paragraphs.map((p, pi) => (
+                  <p
+                    key={pi}
+                    className="font-body text-base font-light leading-relaxed text-text-secondary md:text-lg"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      )}
 
       {/* ── Mission / Vision highlight panel ────────────────────────────── */}
       <div className="story-block relative overflow-hidden border-b border-border bg-bg-secondary/60 py-24 px-6 md:py-32 md:px-16">
