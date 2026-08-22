@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type ViewMode = "split" | "grid" | "table" | "overview";
+type ViewMode = "split" | "grid" | "table" | "overview" | "showcase";
 type FilterCategory = "All" | "Residential" | "Commercial" | "Cultural" | "Interiors";
 
 interface ProjectEntry {
@@ -89,6 +89,13 @@ const OverviewIcon = () => (
     <rect x="1" y="6.75" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
     <rect x="6.75" y="6.75" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
     <rect x="12.5" y="6.75" width="4.5" height="4.5" rx="0.5" fill="currentColor" opacity="0.9"/>
+  </svg>
+);
+
+const ShowcaseIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <rect x="1" y="1" width="16" height="9" rx="1" fill="currentColor" opacity="0.4"/>
+    <rect x="1" y="11.5" width="16" height="5.5" rx="1" fill="currentColor" opacity="0.9"/>
   </svg>
 );
 
@@ -524,6 +531,98 @@ function OverviewView({ projects, availableHeight }: { projects: ProjectEntry[];
   );
 }
 
+// ─── Showcase View (page-19 reference: beige bar grows on hover) ─────────────
+
+function ShowcaseView({ projects }: { projects: ProjectEntry[] }) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const cards = gridRef.current?.querySelectorAll(".showcase-card");
+      if (!cards?.length) return;
+
+      if (prefersReducedMotion()) {
+        gsap.set(cards, { opacity: 1, y: 0 });
+        return;
+      }
+
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, stagger: 0.08, duration: 0.7, ease: "power3.out" }
+      );
+    },
+    { scope: gridRef, dependencies: [projects.length] }
+  );
+
+  return (
+    <div ref={gridRef} className="grid grid-cols-1 gap-4 px-6 py-8 md:grid-cols-2 md:gap-5 md:px-10">
+      {projects.map((project, i) => {
+        // Every 4th card gets a folded top-left corner — a decorative echo
+        // of the reference grid's one-off "folder tab" card.
+        const folded = i % 4 === 3;
+
+        return (
+          <Link
+            key={project.slug}
+            href={`/projects/${project.slug}`}
+            className="showcase-card group relative block aspect-[16/11] overflow-hidden bg-bg-secondary"
+          >
+            <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+              <Image
+                src={project.heroImage}
+                alt={project.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+
+            {/* Beige bar — compact by default, grows to cover the image on hover */}
+            <div
+              style={
+                folded
+                  ? { clipPath: "polygon(28px 0, 100% 0, 100% 100%, 0 100%, 0 28px)" }
+                  : undefined
+              }
+              className="absolute inset-x-0 bottom-0 overflow-hidden bg-bg-light transition-all duration-500 ease-out h-[64px] group-hover:h-[55%]"
+            >
+              <div className="flex h-full flex-col justify-between p-5 md:p-6">
+                <div className="flex items-center justify-between">
+                  <span className="font-condensed text-sm font-bold text-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-condensed text-[11px] font-bold uppercase tracking-[0.25em] text-text-on-light">
+                    {project.typology}
+                  </span>
+                  <span className="flex items-center gap-2 font-condensed text-[10px] font-bold uppercase tracking-[0.25em] text-accent">
+                    View Project
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
+                      <path d="M1 6H11M11 6L6.5 1.5M11 6L6.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+
+                <div className="opacity-0 transition-opacity duration-300 delay-100 group-hover:opacity-100">
+                  <h3 className="font-display text-2xl uppercase leading-tight text-text-on-light md:text-3xl">
+                    {project.title}
+                  </h3>
+                  <p className="mt-1 font-condensed text-[10px] uppercase tracking-[0.25em] text-text-on-light/60">
+                    {project.location} · {project.year}
+                  </p>
+                  <p className="mt-2 hidden max-w-md font-body text-sm leading-relaxed text-text-on-light/80 md:block">
+                    {project.subtitle}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function ProjectsListPage() {
@@ -588,7 +687,7 @@ export default function ProjectsListPage() {
 
           {/* View mode toggles */}
           <div className="header-el flex items-center gap-1 border border-border p-1">
-            {(["split", "grid", "table", "overview"] as ViewMode[]).map((v) => (
+            {(["split", "grid", "table", "overview", "showcase"] as ViewMode[]).map((v) => (
               <button
                 key={v}
                 onClick={() => setView(v)}
@@ -602,6 +701,7 @@ export default function ProjectsListPage() {
                 {v === "grid" && <GridIcon />}
                 {v === "table" && <TableIcon />}
                 {v === "overview" && <OverviewIcon />}
+                {v === "showcase" && <ShowcaseIcon />}
               </button>
             ))}
           </div>
@@ -641,6 +741,7 @@ export default function ProjectsListPage() {
         {view === "grid"     && <GridView     projects={filtered} />}
         {view === "table"    && <TableView    projects={filtered} />}
         {view === "overview" && <OverviewView projects={filtered} availableHeight={availableHeight} />}
+        {view === "showcase" && <ShowcaseView projects={filtered} />}
       </div>
     </div>
   );
