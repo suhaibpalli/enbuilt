@@ -28,8 +28,9 @@ interface HeroProject {
 interface HeroSectionProps {
   /** Firm tagline shown above the massive heading */
   tagline?: string;
-  /** Stacked headline lines, each rendered as its own split-text row */
-  headlineLines?: string[];
+  /** The two-line split headline */
+  headlineTop?: string;
+  headlineBottom?: string;
   /** Optional bold statement shown above the descriptor paragraph */
   descriptorHeading?: string;
   /** Short descriptor under the headline */
@@ -37,7 +38,7 @@ interface HeroSectionProps {
   /** Hero background image URL. Replace with your project image. */
   imageSrc?: string;
   imageAlt?: string;
-  /** Optional background image behind the main headline (Section 1) */
+  /** Optional background image behind the main EN/BUILT headline (Section 1) */
   heroBgImageSrc?: string;
   heroBgImageAlt?: string;
   /** Stats shown during the scrollytelling pin */
@@ -69,7 +70,8 @@ const DEFAULT_PROJECT: HeroProject = {
 
 export default function HeroSection({
   tagline = "Spatial & Structural Design",
-  headlineLines = ["Design.", "Build.", "Deliver."],
+  headlineTop = "BUILT",
+  headlineBottom = "FOR FOREVER",
   descriptorHeading,
   descriptor = "Monolithic architecture crafted at the intersection of\ntechnical precision and enduring human experience.",
   imageSrc = "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=85&auto=format",
@@ -399,19 +401,32 @@ export default function HeroSection({
           </div>
         )}
 
+        {/* Drafting grid overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right,rgba(240,242,245,1) 1px,transparent 1px),linear-gradient(to bottom,rgba(240,242,245,1) 1px,transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+
         {/* Tagline */}
         <p className="hero-tagline mb-6 font-condensed text-[11px] font-bold uppercase tracking-[0.5em] text-accent md:text-[12px]">
           — {tagline}
         </p>
 
         {/* Massive headline — each character split for GSAP */}
-        <div className="overflow-hidden" aria-label={headlineLines.join(" ")}>
-          <h1 className="font-display text-[13vw] uppercase leading-[0.92] tracking-[-0.01em] text-text-primary md:text-[9vw] lg:text-[7vw]">
-            {headlineLines.map((line, i) => (
-              <span key={i} className="block overflow-hidden">
-                <SplitText text={line} />
-              </span>
-            ))}
+        <div className="overflow-hidden" aria-label={`${headlineTop} ${headlineBottom}`}>
+          <h1 className="font-display text-[22vw] uppercase leading-[0.82] tracking-[-0.02em] text-text-primary md:text-[17vw] lg:text-[14vw]">
+            {/* Line 1 — characters split individually */}
+            <span className="block overflow-hidden">
+              <SplitText text={headlineTop} />
+            </span>
+            {/* Line 2 — offset right for asymmetric composition */}
+            <span className="block overflow-hidden pl-[5vw] md:pl-[8vw]">
+              <SplitText text={headlineBottom} />
+            </span>
           </h1>
         </div>
 

@@ -155,8 +155,10 @@ export default function Navbar({ showLogo = false }: NavbarProps) {
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 z-40 w-full border-b border-border bg-bg-primary/80 backdrop-blur-xl transition-all duration-500 ease-in-out",
-          isScrolled ? "py-4" : "py-8"
+          "fixed top-0 left-0 z-40 w-full transition-all duration-500 ease-in-out",
+          isScrolled
+            ? "bg-bg-primary/80 py-4 backdrop-blur-xl border-b border-border"
+            : "bg-transparent py-8"
         )}
       >
         <div className="mx-auto flex max-w-[1800px] items-center justify-between px-6 md:px-20">

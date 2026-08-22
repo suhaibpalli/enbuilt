@@ -147,13 +147,13 @@ export default function IntroductionSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-bg-light py-40 px-6 border-y border-border-on-light md:py-60"
+      className="relative overflow-hidden py-40 px-6 border-y border-border bg-bg-primary md:py-60"
       aria-label="Introduction"
     >
       {/* Decorative large ghost numeral */}
       <div
         ref={decorRef}
-        className="pointer-events-none absolute -right-8 top-0 select-none font-display text-[40vw] leading-none text-text-on-light/[0.03]"
+        className="pointer-events-none absolute -right-8 top-0 select-none font-display text-[40vw] leading-none text-white/1.5"
         aria-hidden="true"
       >
         01
@@ -161,10 +161,10 @@ export default function IntroductionSection() {
 
       {/* Subtle background grid */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.035]"
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage:
-            "linear-gradient(to right,rgba(14,16,20,1) 1px,transparent 1px),linear-gradient(to bottom,rgba(14,16,20,1) 1px,transparent 1px)",
+            "linear-gradient(to right,rgba(240,242,245,1) 1px,transparent 1px),linear-gradient(to bottom,rgba(240,242,245,1) 1px,transparent 1px)",
           backgroundSize: "60px 60px",
         }}
         aria-hidden="true"
@@ -182,7 +182,7 @@ export default function IntroductionSection() {
 
         {/* Animated heading */}
         <h2 ref={headingRef} className="overflow-hidden">
-          <span className="block font-editorial text-3xl leading-relaxed text-text-on-light md:text-5xl md:leading-tight lg:text-6xl lg:leading-[1.1]">
+          <span className="block font-editorial text-3xl leading-relaxed text-text-primary md:text-5xl md:leading-tight lg:text-6xl lg:leading-[1.1]">
             {words.map((word, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <span className="h-word inline-block">
@@ -204,16 +204,16 @@ export default function IntroductionSection() {
 
         {/* Introduction copy */}
         <div ref={bodyRef} className="mt-10 flex flex-col gap-6">
-          <p className="intro-paragraph font-body text-base leading-relaxed text-text-on-light/70 md:text-lg">
+          <p className="intro-paragraph font-body text-base leading-relaxed text-text-secondary md:text-lg">
             At Enbuilt, we believe exceptional spaces begin with a clear vision and succeed through precise execution.
           </p>
-          <p className="intro-paragraph font-body text-base leading-relaxed text-text-on-light/70 md:text-lg">
+          <p className="intro-paragraph font-body text-base leading-relaxed text-text-secondary md:text-lg">
             Our multidisciplinary team manages every stage of the project—from architecture and interior design to civil works, fit-out, façade development, renovation, and ongoing maintenance. This integrated approach gives our clients one reliable partner throughout the entire journey.
           </p>
         </div>
 
         {/* Attribution */}
-        <p className="mt-10 font-condensed text-[10px] uppercase tracking-[0.5em] text-text-on-light/50">
+        <p className="mt-10 font-condensed text-[10px] uppercase tracking-[0.5em] text-text-tertiary">
           ENBUILT · Est. 2012
         </p>
       </div>

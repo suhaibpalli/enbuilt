@@ -20,7 +20,8 @@ export default function Home() {
           - Scroll: Blueprint reveal + Parallax
       */}
       <HeroSection
-        headlineLines={["Design.", "Build.", "Deliver."]}
+        headlineTop="EN"
+        headlineBottom="BUILT"
         tagline="Engineering Production & Services"
         descriptorHeading="Designed with Purpose. Built with Precision."
         descriptor={"Enbuilt is a Saudi-based architecture, interior design, and turnkey contracting company delivering thoughtfully designed, expertly executed spaces across Saudi Arabia.\n\nFrom initial concept to final handover, we bring design, construction, and project delivery together under one roof."}

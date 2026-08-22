@@ -337,14 +337,14 @@ export default function Footer() {
                     href={office.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-condensed text-[11px] font-medium uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-accent"
+                    className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary transition-colors hover:text-accent"
                   >
                     View on Map
                   </a>
                 </div>
               ))}
             </div>
-            <p className="font-body text-xs font-light leading-relaxed text-text-secondary">
+            <p className="font-body text-xs font-light leading-relaxed text-text-tertiary">
               {SERVICE_AREA_NOTE}
             </p>
           </div>
@@ -356,11 +356,11 @@ export default function Footer() {
           className="flex flex-col items-start justify-between gap-6 border-t border-border py-8 md:flex-row md:items-center"
         >
           <div className="flex flex-wrap items-center gap-6">
-            <p className="font-condensed text-[11px] font-medium uppercase tracking-[0.3em] text-text-secondary">
+            <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
               © {year} ENBUILT Studio Pvt Ltd
             </p>
             <span className="text-border" aria-hidden="true">|</span>
-            <p className="font-condensed text-[11px] font-medium uppercase tracking-[0.3em] text-text-secondary">
+            <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
               CIN: U74120TN2012PTC086421
             </p>
           </div>
@@ -368,17 +368,17 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-8">
             <Link
               href="/privacy"
-              className="font-condensed text-[11px] font-medium uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-text-primary"
+              className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary transition-colors hover:text-text-secondary"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="font-condensed text-[11px] font-medium uppercase tracking-[0.3em] text-text-secondary transition-colors hover:text-text-primary"
+              className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary transition-colors hover:text-text-secondary"
             >
               Terms
             </Link>
-            <p className="font-condensed text-[11px] font-medium uppercase tracking-[0.3em] text-text-secondary">
+            <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
               Designed & Built by{" "}
               <a
                 href="https://blackquantumlabs.com"
