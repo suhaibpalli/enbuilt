@@ -83,7 +83,7 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
     year: "2023",
     area: "680 m²",
     typology: "Residential / Villa",
-    heroImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1800&q=85&auto=format",
+    heroImage: "/images/reference/enbuilt-residence.png",
     blueprintImage: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=85&auto=format",
     narrative: [
       {
@@ -125,7 +125,7 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
     year: "2023",
     area: "1,900 m²",
     typology: "Cultural / Public",
-    heroImage: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1800&q=85&auto=format",
+    heroImage: "/images/reference/enbuilt-hero.png",
     blueprintImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&q=85&auto=format",
     narrative: [
       {
@@ -209,7 +209,7 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
     year: "2022",
     area: "8,400 m²",
     typology: "Commercial / Campus",
-    heroImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&q=85&auto=format",
+    heroImage: "/images/reference/enbuilt-office.png",
     blueprintImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&q=85&auto=format",
     narrative: [
       {
@@ -251,7 +251,7 @@ export const PROJECTS_DATA: Record<string, ProjectData> = {
     year: "2021",
     area: "290 m²",
     typology: "Interiors / Adaptive Reuse",
-    heroImage: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=85&auto=format",
+    heroImage: "/images/reference/enbuilt-restaurant.png",
     blueprintImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1800&q=85&auto=format",
     narrative: [
       {

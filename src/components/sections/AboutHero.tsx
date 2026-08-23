@@ -149,8 +149,8 @@ export default function AboutHero() {
       {/* Background Image with Parallax */}
       <div ref={imageRef} className="absolute inset-0 h-[120%] w-full">
         <Image
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&q=85&auto=format"
-          alt="Architectural studio - ENBUILT headquarters"
+          src="/images/reference/enbuilt-fabrication.png"
+          alt="ENBUILT in-house fabrication facility"
           fill
           priority
           sizes="100vw"

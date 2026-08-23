@@ -172,17 +172,17 @@ function SplitView({ projects }: { projects: ProjectEntry[] }) {
               >
                 {project.title}
               </h3>
-              <p className="mt-2 font-condensed text-[10px] uppercase tracking-[0.35em] text-text-tertiary">
+              <p className="mt-2 font-condensed text-[10px] font-medium uppercase tracking-[0.35em] text-text-primary/70">
                 {project.typology}
               </p>
             </div>
 
             {/* Right meta */}
             <div className="text-right shrink-0 hidden sm:block">
-              <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-secondary">
+              <p className="font-condensed text-[10px] font-medium uppercase tracking-[0.3em] text-text-primary/70">
                 {project.location}
               </p>
-              <p className="font-condensed text-[10px] uppercase tracking-[0.3em] text-text-tertiary">
+              <p className="font-condensed text-[10px] font-medium uppercase tracking-[0.3em] text-text-primary/60">
                 {project.year}
               </p>
             </div>
@@ -393,7 +393,7 @@ function TableView({ projects }: { projects: ProjectEntry[] }) {
       {/* Header row */}
       <div className="grid grid-cols-[2fr_1.5fr_1fr_1fr_0.5fr] gap-4 border-b border-border pb-4 mb-2">
         {["Project Name", "Typology", "Location", "Area", "Year"].map((h) => (
-          <span key={h} className="font-condensed text-[10px] font-bold uppercase tracking-[0.4em] text-text-tertiary">
+          <span key={h} className="font-condensed text-[10px] font-bold uppercase tracking-[0.4em] text-text-secondary">
             {h}
           </span>
         ))}
@@ -427,22 +427,22 @@ function TableView({ projects }: { projects: ProjectEntry[] }) {
           </div>
 
           {/* Typology */}
-          <span className="font-condensed text-[11px] uppercase tracking-[0.25em] text-text-secondary truncate">
+          <span className="font-condensed text-[11px] font-medium uppercase tracking-[0.25em] text-text-primary/70 truncate">
             {project.typology}
           </span>
 
           {/* Location */}
-          <span className="font-condensed text-[11px] uppercase tracking-[0.25em] text-text-secondary">
+          <span className="font-condensed text-[11px] font-medium uppercase tracking-[0.25em] text-text-primary/70">
             {project.location}
           </span>
 
           {/* Area */}
-          <span className="font-condensed text-[11px] uppercase tracking-[0.25em] text-text-tertiary">
+          <span className="font-condensed text-[11px] font-medium uppercase tracking-[0.25em] text-text-primary/60">
             {project.area}
           </span>
 
           {/* Year */}
-          <span className="font-condensed text-[11px] uppercase tracking-[0.25em] text-text-tertiary">
+          <span className="font-condensed text-[11px] font-medium uppercase tracking-[0.25em] text-text-primary/60">
             {project.year}
           </span>
         </Link>
